@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.produce.mapper.AwProductiontasklistMapper">
+    
+    <resultMap type="AwProductiontasklist" id="AwProductiontasklistResult">
+        <result property="id"    column="id"    />
+        <result property="referred"    column="referred"    />
+        <result property="founder"    column="founder"    />
+        <result property="createTime"    column="createTime"    />
+        <result property="notes"    column="notes"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectAwProductiontasklistVo">
+        select id, referred, founder, createTime, notes, status from aw_ProductionTaskList
+    </sql>
+
+    <select id="selectAwProductiontasklistList" parameterType="AwProductiontasklist" resultMap="AwProductiontasklistResult">
+        <include refid="selectAwProductiontasklistVo"/>
+        <where>  
+            <if test="referred != null  and referred != ''"> and referred = #{referred}</if>
+            <if test="id != null  and id != ''"> and id = #{id}</if>
+            <if test="founder != null  and founder != ''"> and founder = #{founder}</if>
+            <if test="createTime != null "> and createTime = #{createTime}</if>
+            <if test="notes != null  and notes != ''"> and notes = #{notes}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectAwProductiontasklistById" parameterType="Long" resultMap="AwProductiontasklistResult">
+        <include refid="selectAwProductiontasklistVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAwProductiontasklist" parameterType="AwProductiontasklist" useGeneratedKeys="true" keyProperty="id">
+        insert into aw_ProductionTaskList
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="referred != null and referred != ''">referred,</if>
+            <if test="founder != null and founder != ''">founder,</if>
+            <if test="createTime != null">createTime,</if>
+            <if test="notes != null">notes,</if>
+            <if test="status != null and status != ''">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="referred != null and referred != ''">#{referred},</if>
+            <if test="founder != null and founder != ''">#{founder},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="notes != null">#{notes},</if>
+            <if test="status != null and status != ''">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwProductiontasklist" parameterType="AwProductiontasklist">
+        update aw_ProductionTaskList
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="referred != null and referred != ''">referred = #{referred},</if>
+            <if test="founder != null and founder != ''">founder = #{founder},</if>
+            <if test="createTime != null">createTime = #{createTime},</if>
+            <if test="notes != null">notes = #{notes},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAwProductiontasklistById" parameterType="Long">
+        delete from aw_ProductionTaskList where id = #{id}
+    </delete>
+
+    <delete id="deleteAwProductiontasklistByIds" parameterType="String">
+        delete from aw_ProductionTaskList where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

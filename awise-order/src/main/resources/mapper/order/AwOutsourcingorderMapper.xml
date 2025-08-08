@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.order.mapper.AwOutsourcingorderMapper">
+    
+    <resultMap type="AwOutsourcingorder" id="AwOutsourcingorderResult">
+        <result property="outsourcingOrderID"    column="outsourcingOrderID"    />
+        <result property="productionTasksFormID"    column="productionTasksFormID"    />
+        <result property="productionTasksID"    column="productionTasksID"    />
+        <result property="processingprocessID"    column="processingprocessID"    />
+        <result property="outsourcingType"    column="outsourcingType"    />
+        <result property="orderTime"    column="orderTime"    />
+        <result property="notes"    column="notes"    />
+    </resultMap>
+
+    <sql id="selectAwOutsourcingorderVo">
+        select outsourcingOrderID, productionTasksFormID, productionTasksID, processingprocessID, outsourcingType, orderTime, notes from aw_OutsourcingOrder
+    </sql>
+
+    <select id="selectAwOutsourcingorderList" parameterType="AwOutsourcingorder" resultMap="AwOutsourcingorderResult">
+        <include refid="selectAwOutsourcingorderVo"/>
+        <where>  
+            <if test="outsourcingType != null  and outsourcingType != ''"> and outsourcingType = #{outsourcingType}</if>
+            <if test="orderTime != null "> and orderTime = #{orderTime}</if>
+            <if test="notes != null  and notes != ''"> and notes = #{notes}</if>
+        </where>
+    </select>
+    
+    <select id="selectAwOutsourcingorderByOutsourcingOrderID" parameterType="String" resultMap="AwOutsourcingorderResult">
+        <include refid="selectAwOutsourcingorderVo"/>
+        where outsourcingOrderID = #{outsourcingOrderID}
+    </select>
+        
+    <insert id="insertAwOutsourcingorder" parameterType="AwOutsourcingorder">
+        insert into aw_OutsourcingOrder
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="outsourcingOrderID != null">outsourcingOrderID,</if>
+            <if test="productionTasksFormID != null">productionTasksFormID,</if>
+            <if test="productionTasksID != null">productionTasksID,</if>
+            <if test="processingprocessID != null">processingprocessID,</if>
+            <if test="outsourcingType != null and outsourcingType != ''">outsourcingType,</if>
+            <if test="orderTime != null">orderTime,</if>
+            <if test="notes != null">notes,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="outsourcingOrderID != null">#{outsourcingOrderID},</if>
+            <if test="productionTasksFormID != null">#{productionTasksFormID},</if>
+            <if test="productionTasksID != null">#{productionTasksID},</if>
+            <if test="processingprocessID != null">#{processingprocessID},</if>
+            <if test="outsourcingType != null and outsourcingType != ''">#{outsourcingType},</if>
+            <if test="orderTime != null">#{orderTime},</if>
+            <if test="notes != null">#{notes},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwOutsourcingorder" parameterType="AwOutsourcingorder">
+        update aw_OutsourcingOrder
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="productionTasksFormID != null">productionTasksFormID = #{productionTasksFormID},</if>
+            <if test="productionTasksID != null">productionTasksID = #{productionTasksID},</if>
+            <if test="processingprocessID != null">processingprocessID = #{processingprocessID},</if>
+            <if test="outsourcingType != null and outsourcingType != ''">outsourcingType = #{outsourcingType},</if>
+            <if test="orderTime != null">orderTime = #{orderTime},</if>
+            <if test="notes != null">notes = #{notes},</if>
+        </trim>
+        where outsourcingOrderID = #{outsourcingOrderID}
+    </update>
+
+    <delete id="deleteAwOutsourcingorderByOutsourcingOrderID" parameterType="String">
+        delete from aw_OutsourcingOrder where outsourcingOrderID = #{outsourcingOrderID}
+    </delete>
+
+    <delete id="deleteAwOutsourcingorderByOutsourcingOrderIDs" parameterType="String">
+        delete from aw_OutsourcingOrder where outsourcingOrderID in
+        <foreach item="outsourcingOrderID" collection="array" open="(" separator="," close=")">
+            #{outsourcingOrderID}
+        </foreach>
+    </delete>
+</mapper>

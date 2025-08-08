@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.quality.mapper.AwShippinginspectionMapper">
+    
+    <resultMap type="AwShippinginspection" id="AwShippinginspectionResult">
+        <result property="id"    column="id"    />
+        <result property="productID"    column="productID"    />
+        <result property="contractID"    column="contractID"    />
+        <result property="shipmentQuantity"    column="shipmentQuantity"    />
+        <result property="detectionQuantity"    column="detectionQuantity"    />
+        <result property="qualifiedQuantity"    column="qualifiedQuantity"    />
+        <result property="unqualifiedQuantity"    column="unqualifiedQuantity"    />
+        <result property="testDate"    column="testDate"    />
+        <result property="testResult"    column="testResult"    />
+        <result property="testingPersonnel"    column="testingPersonnel"    />
+        <result property="notes"    column="notes"    />
+    </resultMap>
+
+    <sql id="selectAwShippinginspectionVo">
+        select id, productID, contractID, shipmentQuantity, detectionQuantity, qualifiedQuantity, unqualifiedQuantity, testDate, testResult, testingPersonnel, notes from aw_ShippingInspection
+    </sql>
+
+    <select id="selectAwShippinginspectionList" parameterType="AwShippinginspection" resultMap="AwShippinginspectionResult">
+        <include refid="selectAwShippinginspectionVo"/>
+        <where>  
+            <if test="productID != null  and productID != ''"> and productID = #{productID}</if>
+            <if test="contractID != null  and contractID != ''"> and contractID = #{contractID}</if>
+            <if test="shipmentQuantity != null "> and shipmentQuantity = #{shipmentQuantity}</if>
+            <if test="detectionQuantity != null "> and detectionQuantity = #{detectionQuantity}</if>
+            <if test="qualifiedQuantity != null "> and qualifiedQuantity = #{qualifiedQuantity}</if>
+            <if test="unqualifiedQuantity != null "> and unqualifiedQuantity = #{unqualifiedQuantity}</if>
+            <if test="testDate != null "> and testDate = #{testDate}</if>
+            <if test="testResult != null  and testResult != ''"> and testResult = #{testResult}</if>
+            <if test="testingPersonnel != null  and testingPersonnel != ''"> and testingPersonnel = #{testingPersonnel}</if>
+            <if test="notes != null  and notes != ''"> and notes = #{notes}</if>
+        </where>
+    </select>
+    
+    <select id="selectAwShippinginspectionById" parameterType="String" resultMap="AwShippinginspectionResult">
+        <include refid="selectAwShippinginspectionVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAwShippinginspection" parameterType="AwShippinginspection">
+        insert into aw_ShippingInspection
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="productID != null and productID != ''">productID,</if>
+            <if test="contractID != null and contractID != ''">contractID,</if>
+            <if test="shipmentQuantity != null">shipmentQuantity,</if>
+            <if test="detectionQuantity != null">detectionQuantity,</if>
+            <if test="qualifiedQuantity != null">qualifiedQuantity,</if>
+            <if test="unqualifiedQuantity != null">unqualifiedQuantity,</if>
+            <if test="testDate != null">testDate,</if>
+            <if test="testResult != null and testResult != ''">testResult,</if>
+            <if test="testingPersonnel != null and testingPersonnel != ''">testingPersonnel,</if>
+            <if test="notes != null">notes,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="productID != null and productID != ''">#{productID},</if>
+            <if test="contractID != null and contractID != ''">#{contractID},</if>
+            <if test="shipmentQuantity != null">#{shipmentQuantity},</if>
+            <if test="detectionQuantity != null">#{detectionQuantity},</if>
+            <if test="qualifiedQuantity != null">#{qualifiedQuantity},</if>
+            <if test="unqualifiedQuantity != null">#{unqualifiedQuantity},</if>
+            <if test="testDate != null">#{testDate},</if>
+            <if test="testResult != null and testResult != ''">#{testResult},</if>
+            <if test="testingPersonnel != null and testingPersonnel != ''">#{testingPersonnel},</if>
+            <if test="notes != null">#{notes},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwShippinginspection" parameterType="AwShippinginspection">
+        update aw_ShippingInspection
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="productID != null and productID != ''">productID = #{productID},</if>
+            <if test="contractID != null and contractID != ''">contractID = #{contractID},</if>
+            <if test="shipmentQuantity != null">shipmentQuantity = #{shipmentQuantity},</if>
+            <if test="detectionQuantity != null">detectionQuantity = #{detectionQuantity},</if>
+            <if test="qualifiedQuantity != null">qualifiedQuantity = #{qualifiedQuantity},</if>
+            <if test="unqualifiedQuantity != null">unqualifiedQuantity = #{unqualifiedQuantity},</if>
+            <if test="testDate != null">testDate = #{testDate},</if>
+            <if test="testResult != null and testResult != ''">testResult = #{testResult},</if>
+            <if test="testingPersonnel != null and testingPersonnel != ''">testingPersonnel = #{testingPersonnel},</if>
+            <if test="notes != null">notes = #{notes},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAwShippinginspectionById" parameterType="String">
+        delete from aw_ShippingInspection where id = #{id}
+    </delete>
+
+    <delete id="deleteAwShippinginspectionByIds" parameterType="String">
+        delete from aw_ShippingInspection where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

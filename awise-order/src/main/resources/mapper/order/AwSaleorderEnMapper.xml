@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.order.mapper.AwSaleorderEnMapper">
+    
+    <resultMap type="AwSaleorderEn" id="AwSaleorderEnResult">
+        <result property="id"    column="id"    />
+        <result property="createTime"    column="createTime"    />
+        <result property="createUserName"    column="createUserName"    />
+        <result property="orderDate"    column="orderDate"    />
+        <result property="number"    column="number"    />
+        <result property="lotNumber"    column="lotNumber"    />
+        <result property="requiredDeliveryTime"    column="requiredDeliveryTime"    />
+        <result property="customerID"    column="customerID"    />
+        <result property="customername"    column="customername"    />
+        <result property="customernameAbbrevation"    column="customernameAbbrevation"    />
+        <result property="unifiedCreditCode"    column="unifiedCreditCode"    />
+        <result property="productID"    column="productID"    />
+        <result property="productname"    column="productname"    />
+        <result property="productdrawingURL"    column="productdrawingURL"    />
+        <result property="contractID"    column="contractID"    />
+        <result property="contractmoney"    column="contractmoney"    />
+        <result property="contractURL"    column="contractURL"    />
+        <result property="invoiceID"    column="invoiceID"    />
+        <result property="invoiceType"    column="invoiceType"    />
+        <result property="invoiceCreateTime"    column="invoiceCreateTime"    />
+        <result property="invoiceNumer"    column="invoiceNumer"    />
+        <result property="taxRate"    column="taxRate"    />
+        <result property="taxation"    column="taxation"    />
+        <result property="salesUnitPriceExcludingTax"    column="salesUnitPriceExcludingTax"    />
+        <result property="salesUnitPriceIncludingTax"    column="salesUnitPriceIncludingTax"    />
+        <result property="consumptionAmountExcludingTax"    column="consumptionAmountExcludingTax"    />
+        <result property="consumptionAmountIncludingTax"    column="consumptionAmountIncludingTax"    />
+        <result property="reconciliationDate"    column="reconciliationDate"    />
+        <result property="customerReconciliationPersonnel"    column="customerReconciliationPersonnel"    />
+        <result property="iscustomersuppliedmaterials"    column="iscustomersuppliedmaterials"    />
+        <result property="state"    column="state"    />
+        <result property="note"    column="note"    />
+        <result property="isDel"    column="isDel"    />
+    </resultMap>
+
+    <sql id="selectAwSaleorderEnVo">
+        SELECT
+        aw_saleorder.id AS id,
+        aw_saleorder.createTime,
+        aw_saleorder.createUserName,
+        aw_saleorder.orderDate,
+        aw_saleorder.number,
+        aw_saleorder.lotNumber,
+        aw_saleorder.requiredDeliveryTime,
+        aw_saleorder.iscustomersuppliedmaterials,
+        aw_saleorder.note,
+        CASE aw_saleorder.state
+        WHEN 0 THEN
+        "未发布"
+        WHEN 1 THEN
+        "发布"
+        WHEN 2 THEN
+        "暂停"
+        WHEN 3 THEN
+        "完成"
+        WHEN 4 THEN
+        "取消"
+        ELSE
+        "未知类型"
+        END as state,
+        aw_contract.money as contractmoney,
+        aw_contract.contractURL as contractURL,
+        aw_contract.id AS contractid,
+        aw_invoice.invoiceType,
+        aw_invoice.id AS invoiceID,
+        aw_invoice.invoiceCreateTime,
+        aw_invoice.taxRate,
+        aw_invoice.invoiceNumer,
+        aw_invoice.taxation,
+        aw_invoice.salesUnitPriceExcludingTax,
+        aw_invoice.salesUnitPriceIncludingTax,
+        aw_invoice.consumptionAmountExcludingTax,
+        aw_invoice.consumptionAmountIncludingTax,
+        aw_invoice.reconciliationDate,
+        aw_invoice.customerReconciliationPersonnel,
+        aw_product.`name` as productname,
+        aw_product.id AS productID,
+        aw_product.drawingURL as productdrawingURL,
+        aw_partner.id AS customerID,
+        aw_partner.`name` AS customername,
+        aw_partner.nameAbbrevation AS customernameAbbrevation,
+        aw_partner.unifiedCreditCode
+        FROM
+        aw_saleorder
+        LEFT JOIN
+        aw_contract
+        ON
+        aw_saleorder.contractID = aw_contract.id
+        LEFT JOIN
+        aw_invoice
+        ON
+        aw_saleorder.invoiceID = aw_invoice.id
+        LEFT JOIN
+        aw_product
+        ON
+        aw_saleorder.productID = aw_product.id
+
+        LEFT JOIN
+        aw_partner
+        ON
+        aw_saleorder.customerID = aw_partner.id
+    </sql>
+
+    <select id="selectAwSaleorderEnList" parameterType="AwSaleorderEn" resultMap="AwSaleorderEnResult">
+        <include refid="selectAwSaleorderEnVo"/>
+        <where>
+            <if test="createTime != null "> and createTime = #{createTime}</if>
+            <if test="requiredDeliveryTime != null "> and requiredDeliveryTime = #{requiredDeliveryTime}</if>
+            <if test="state != null  and state != ''"> and aw_saleorder.state = #{state}</if>
+        </where>
+    </select>
+    
+    <select id="selectAwSaleorderEnById" parameterType="String" resultMap="AwSaleorderEnResult">
+        <include refid="selectAwSaleorderEnVo"/>
+        where id = #{id}
+    </select>
+</mapper>

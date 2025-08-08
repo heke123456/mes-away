@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.storage.mapper.AwToolinformationMapper">
+
+    <resultMap type="AwToolinformation" id="AwToolinformationResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="typeID"    column="typeID"    />
+        <result property="specificationsID"    column="specificationsID"    />
+        <result property="unitID"    column="unitID"    />
+        <result property="notes"    column="notes"    />
+    </resultMap>
+
+    <sql id="selectAwToolinformationVo">
+        select id, name, typeID, specificationsID, unitID, notes from aw_toolInformation
+    </sql>
+
+    <select id="selectAwToolinformationList" parameterType="AwToolinformation" resultMap="AwToolinformationResult">
+        <include refid="selectAwToolinformationVo"/>
+        <where>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="typeID != null "> and typeID = #{typeID}</if>
+            <if test="specificationsID != null "> and specificationsID = #{specificationsID}</if>
+            <if test="unitID != null "> and unitID = #{unitID}</if>
+            <if test="notes != null  and notes != ''"> and notes = #{notes}</if>
+        </where>
+    </select>
+
+    <select id="selectAwToolinformationById" parameterType="String" resultMap="AwToolinformationResult">
+        <include refid="selectAwToolinformationVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertAwToolinformation" parameterType="AwToolinformation">
+        insert into aw_toolInformation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="typeID != null">typeID,</if>
+            <if test="specificationsID != null">specificationsID,</if>
+            <if test="unitID != null">unitID,</if>
+            <if test="notes != null">notes,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="typeID != null">#{typeID},</if>
+            <if test="specificationsID != null">#{specificationsID},</if>
+            <if test="unitID != null">#{unitID},</if>
+            <if test="notes != null">#{notes},</if>
+        </trim>
+    </insert>
+
+    <update id="updateAwToolinformation" parameterType="AwToolinformation">
+        update aw_toolInformation
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="typeID != null">typeID = #{typeID},</if>
+            <if test="specificationsID != null">specificationsID = #{specificationsID},</if>
+            <if test="unitID != null">unitID = #{unitID},</if>
+            <if test="notes != null">notes = #{notes},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAwToolinformationById" parameterType="String">
+        delete from aw_toolInformation where id = #{id}
+    </delete>
+
+    <delete id="deleteAwToolinformationByIds" parameterType="String">
+        delete from aw_toolInformation where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>away</artifactId>
+        <groupId>com.away</groupId>
+        <version>3.8.5</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>away-framework</artifactId>
+
+    <description>
+        framework框架核心
+    </description>
+
+    <dependencies>
+
+        <!-- SpringBoot Web容器 -->
+         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- SpringBoot 拦截器 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+        <!-- 阿里数据库连接池 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+        </dependency>
+
+        <!-- 验证码 -->
+        <dependency>
+            <groupId>pro.fessional</groupId>
+            <artifactId>kaptcha</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>javax.servlet-api</artifactId>
+                    <groupId>javax.servlet</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- 获取系统信息 -->
+        <dependency>
+            <groupId>com.github.oshi</groupId>
+            <artifactId>oshi-core</artifactId>
+        </dependency>
+
+        <!-- 系统模块-->
+        <dependency>
+            <groupId>com.away</groupId>
+            <artifactId>away-system</artifactId>
+        </dependency>
+
+        <!-- 存储中心-->
+        <dependency>
+            <groupId>com.away</groupId>
+            <artifactId>awise-storage</artifactId>
+        </dependency>
+        <!-- 综合管理-->
+        <dependency>
+            <groupId>com.away</groupId>
+            <artifactId>awise-comprehensive</artifactId>
+        </dependency>
+        <!-- 财务中心-->
+        <dependency>
+            <groupId>com.away</groupId>
+            <artifactId>awise-finance</artifactId>
+        </dependency>
+        <!-- 订单中心-->
+        <dependency>
+            <groupId>com.away</groupId>
+            <artifactId>awise-order</artifactId>
+        </dependency>
+        <!-- 文件系统-->
+        <dependency>
+            <groupId>com.away</groupId>
+            <artifactId>awise-file</artifactId>
+        </dependency>
+        <!-- 生产中心 -->
+        <dependency>
+            <groupId>com.away</groupId>
+            <artifactId>awise-produce</artifactId>
+        </dependency>
+        <!-- 二维码管理 -->
+        <dependency>
+            <groupId>com.away</groupId>
+            <artifactId>awise-qrcode</artifactId>
+        </dependency>
+        <!-- 质量管理 -->
+        <dependency>
+            <groupId>com.away</groupId>
+            <artifactId>awise-quality</artifactId>
+        </dependency>
+
+    </dependencies>
+
+</project>

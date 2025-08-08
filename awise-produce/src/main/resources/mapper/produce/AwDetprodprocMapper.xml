@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.produce.mapper.AwDetprodprocMapper">
+    
+    <resultMap type="AwDetprodproc" id="AwDetprodprocResult">
+        <result property="productionTasksFormID"    column="productionTasksFormID"    />
+        <result property="productionTasksID"    column="productionTasksID"    />
+        <result property="processingTechnologyID"    column="processingTechnologyID"    />
+        <result property="processingprocessID"    column="processingprocessID"    />
+        <result property="number"    column="number"    />
+        <result property="name"    column="name"    />
+        <result property="content"    column="content"    />
+        <result property="diagramURL"    column="diagramURL"    />
+        <result property="usedTooling"    column="usedTooling"    />
+        <result property="preparationHours"    column="preparationHours"    />
+        <result property="taktTime"    column="taktTime"    />
+        <result property="laborCost"    column="laborCost"    />
+        <result property="outsourcing"    column="outsourcing"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectAwDetprodprocVo">
+        select productionTasksFormID, productionTasksID, processingTechnologyID, processingprocessID, number, name, content, diagramURL, usedTooling, preparationHours, taktTime, laborCost, outsourcing, status from aw_detprodproc
+    </sql>
+
+    <select id="selectAwDetprodprocList" parameterType="AwDetprodproc" resultMap="AwDetprodprocResult">
+        <include refid="selectAwDetprodprocVo"/>
+        <where>  
+            <if test="productionTasksID != null "> and productionTasksID = #{productionTasksID}</if>
+            <if test="processingprocessID != null "> and processingprocessID = #{processingprocessID}</if>
+            <if test="number != null "> and number = #{number}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="outsourcing != null  and outsourcing != ''"> and outsourcing = #{outsourcing}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectAwDetprodprocByProductionTasksFormID" parameterType="Long" resultMap="AwDetprodprocResult">
+        <include refid="selectAwDetprodprocVo"/>
+        where productionTasksFormID = #{productionTasksFormID}
+    </select>
+    <select id="selectAwDetprodproc" parameterType="AwDetprodproc" resultMap="AwDetprodprocResult">
+        <include refid="selectAwDetprodprocVo"/>
+        <where>
+            productionTasksFormID = #{productionTasksFormID}
+            and productionTasksID = #{productionTasksID}
+            and processingprocessID = #{processingprocessID}
+        </where>
+    </select>
+
+        
+    <insert id="insertAwDetprodproc" parameterType="AwDetprodproc">
+        insert into aw_detprodproc
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="productionTasksFormID != null">productionTasksFormID,</if>
+            <if test="productionTasksID != null">productionTasksID,</if>
+            <if test="processingTechnologyID != null">processingTechnologyID,</if>
+            <if test="processingprocessID != null">processingprocessID,</if>
+            <if test="number != null">number,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="content != null and content != ''">content,</if>
+            <if test="diagramURL != null">diagramURL,</if>
+            <if test="usedTooling != null and usedTooling != ''">usedTooling,</if>
+            <if test="preparationHours != null and preparationHours != ''">preparationHours,</if>
+            <if test="taktTime != null and taktTime != ''">taktTime,</if>
+            <if test="laborCost != null and laborCost != ''">laborCost,</if>
+            <if test="outsourcing != null and outsourcing != ''">outsourcing,</if>
+            <if test="status != null and status != ''">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="productionTasksFormID != null">#{productionTasksFormID},</if>
+            <if test="productionTasksID != null">#{productionTasksID},</if>
+            <if test="processingTechnologyID != null">#{processingTechnologyID},</if>
+            <if test="processingprocessID != null">#{processingprocessID},</if>
+            <if test="number != null">#{number},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="content != null and content != ''">#{content},</if>
+            <if test="diagramURL != null">#{diagramURL},</if>
+            <if test="usedTooling != null and usedTooling != ''">#{usedTooling},</if>
+            <if test="preparationHours != null and preparationHours != ''">#{preparationHours},</if>
+            <if test="taktTime != null and taktTime != ''">#{taktTime},</if>
+            <if test="laborCost != null and laborCost != ''">#{laborCost},</if>
+            <if test="outsourcing != null and outsourcing != ''">#{outsourcing},</if>
+            <if test="status != null and status != ''">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwDetprodproc" parameterType="AwDetprodproc">
+        update aw_detprodproc
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="productionTasksID != null">productionTasksID = #{productionTasksID},</if>
+            <if test="processingTechnologyID != null">processingTechnologyID = #{processingTechnologyID},</if>
+            <if test="processingprocessID != null">processingprocessID = #{processingprocessID},</if>
+            <if test="number != null">number = #{number},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="content != null and content != ''">content = #{content},</if>
+            <if test="diagramURL != null">diagramURL = #{diagramURL},</if>
+            <if test="usedTooling != null and usedTooling != ''">usedTooling = #{usedTooling},</if>
+            <if test="preparationHours != null and preparationHours != ''">preparationHours = #{preparationHours},</if>
+            <if test="taktTime != null and taktTime != ''">taktTime = #{taktTime},</if>
+            <if test="laborCost != null and laborCost != ''">laborCost = #{laborCost},</if>
+            <if test="outsourcing != null and outsourcing != ''">outsourcing = #{outsourcing},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+        </trim>
+        where productionTasksFormID = #{productionTasksFormID}
+    </update>
+
+    <delete id="deleteAwDetprodprocByProductionTasksFormID" parameterType="Long">
+        delete from aw_detprodproc where productionTasksFormID = #{productionTasksFormID}
+    </delete>
+
+    <delete id="deleteAwDetprodprocByProductionTasksFormIDs" parameterType="String">
+        delete from aw_detprodproc where productionTasksFormID in 
+        <foreach item="productionTasksFormID" collection="array" open="(" separator="," close=")">
+            #{productionTasksFormID}
+        </foreach>
+    </delete>
+</mapper>

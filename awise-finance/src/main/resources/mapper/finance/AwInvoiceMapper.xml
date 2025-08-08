@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.finance.mapper.AwInvoiceMapper">
+    
+    <resultMap type="AwInvoice" id="AwInvoiceResult">
+        <result property="id"    column="id"    />
+        <result property="invoiceType"    column="invoiceType"    />
+        <result property="invoiceCreateTime"    column="invoiceCreateTime"    />
+        <result property="invoiceNumer"    column="invoiceNumer"    />
+        <result property="taxRate"    column="taxRate"    />
+        <result property="taxation"    column="taxation"    />
+        <result property="salesUnitPriceExcludingTax"    column="salesUnitPriceExcludingTax"    />
+        <result property="salesUnitPriceIncludingTax"    column="salesUnitPriceIncludingTax"    />
+        <result property="consumptionAmountExcludingTax"    column="consumptionAmountExcludingTax"    />
+        <result property="consumptionAmountIncludingTax"    column="consumptionAmountIncludingTax"    />
+        <result property="reconciliationDate"    column="reconciliationDate"    />
+        <result property="customerReconciliationPersonnel"    column="customerReconciliationPersonnel"    />
+    </resultMap>
+
+    <sql id="selectAwInvoiceVo">
+        select id, invoiceType, invoiceCreateTime, invoiceNumer, taxRate, taxation, salesUnitPriceExcludingTax, salesUnitPriceIncludingTax, consumptionAmountExcludingTax, consumptionAmountIncludingTax, reconciliationDate, customerReconciliationPersonnel from aw_invoice
+    </sql>
+
+    <select id="selectAwInvoiceList" parameterType="AwInvoice" resultMap="AwInvoiceResult">
+        <include refid="selectAwInvoiceVo"/>
+        <where>  
+            <if test="invoiceType != null  and invoiceType != ''"> and invoiceType = #{invoiceType}</if>
+            <if test="invoiceCreateTime != null "> and invoiceCreateTime = #{invoiceCreateTime}</if>
+            <if test="invoiceNumer != null  and invoiceNumer != ''"> and invoiceNumer = #{invoiceNumer}</if>
+            <if test="reconciliationDate != null "> and reconciliationDate = #{reconciliationDate}</if>
+            <if test="customerReconciliationPersonnel != null  and customerReconciliationPersonnel != ''"> and customerReconciliationPersonnel like concat('%', #{customerReconciliationPersonnel}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectAwInvoiceById" parameterType="String" resultMap="AwInvoiceResult">
+        <include refid="selectAwInvoiceVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAwInvoice" parameterType="AwInvoice">
+        insert into aw_invoice
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="invoiceType != null">invoiceType,</if>
+            <if test="invoiceCreateTime != null">invoiceCreateTime,</if>
+            <if test="invoiceNumer != null">invoiceNumer,</if>
+            <if test="taxRate != null">taxRate,</if>
+            <if test="taxation != null">taxation,</if>
+            <if test="salesUnitPriceExcludingTax != null">salesUnitPriceExcludingTax,</if>
+            <if test="salesUnitPriceIncludingTax != null">salesUnitPriceIncludingTax,</if>
+            <if test="consumptionAmountExcludingTax != null">consumptionAmountExcludingTax,</if>
+            <if test="consumptionAmountIncludingTax != null">consumptionAmountIncludingTax,</if>
+            <if test="reconciliationDate != null">reconciliationDate,</if>
+            <if test="customerReconciliationPersonnel != null">customerReconciliationPersonnel,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="invoiceType != null">#{invoiceType},</if>
+            <if test="invoiceCreateTime != null">#{invoiceCreateTime},</if>
+            <if test="invoiceNumer != null">#{invoiceNumer},</if>
+            <if test="taxRate != null">#{taxRate},</if>
+            <if test="taxation != null">#{taxation},</if>
+            <if test="salesUnitPriceExcludingTax != null">#{salesUnitPriceExcludingTax},</if>
+            <if test="salesUnitPriceIncludingTax != null">#{salesUnitPriceIncludingTax},</if>
+            <if test="consumptionAmountExcludingTax != null">#{consumptionAmountExcludingTax},</if>
+            <if test="consumptionAmountIncludingTax != null">#{consumptionAmountIncludingTax},</if>
+            <if test="reconciliationDate != null">#{reconciliationDate},</if>
+            <if test="customerReconciliationPersonnel != null">#{customerReconciliationPersonnel},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwInvoice" parameterType="AwInvoice">
+        update aw_invoice
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="invoiceType != null">invoiceType = #{invoiceType},</if>
+            <if test="invoiceCreateTime != null">invoiceCreateTime = #{invoiceCreateTime},</if>
+            <if test="invoiceNumer != null">invoiceNumer = #{invoiceNumer},</if>
+            <if test="taxRate != null">taxRate = #{taxRate},</if>
+            <if test="taxation != null">taxation = #{taxation},</if>
+            <if test="salesUnitPriceExcludingTax != null">salesUnitPriceExcludingTax = #{salesUnitPriceExcludingTax},</if>
+            <if test="salesUnitPriceIncludingTax != null">salesUnitPriceIncludingTax = #{salesUnitPriceIncludingTax},</if>
+            <if test="consumptionAmountExcludingTax != null">consumptionAmountExcludingTax = #{consumptionAmountExcludingTax},</if>
+            <if test="consumptionAmountIncludingTax != null">consumptionAmountIncludingTax = #{consumptionAmountIncludingTax},</if>
+            <if test="reconciliationDate != null">reconciliationDate = #{reconciliationDate},</if>
+            <if test="customerReconciliationPersonnel != null">customerReconciliationPersonnel = #{customerReconciliationPersonnel},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAwInvoiceById" parameterType="String">
+        delete from aw_invoice where id = #{id}
+    </delete>
+
+    <delete id="deleteAwInvoiceByIds" parameterType="String">
+        delete from aw_invoice where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

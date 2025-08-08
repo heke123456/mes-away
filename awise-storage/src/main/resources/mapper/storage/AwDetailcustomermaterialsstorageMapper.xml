@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.storage.mapper.AwDetailcustomermaterialsstorageMapper">
+    
+    <resultMap type="AwDetailcustomermaterialsstorage" id="AwDetailcustomermaterialsstorageResult">
+        <result property="id"    column="id"    />
+        <result property="saleorderID"    column="saleorderID"    />
+        <result property="materialID"    column="materialID"    />
+        <result property="warehouseEntryID"    column="warehouseEntryID"    />
+        <result property="receiptQuantity"    column="receiptQuantity"    />
+        <result property="sampleURL"    column="sampleURL"    />
+        <result property="notes"    column="notes"    />
+        <result property="materialName"    column="materialName"    />
+        <result property="typeID"    column="typeID"    />
+        <result property="specificationsID"    column="specificationsID"    />
+        <result property="materialDensity"    column="materialDensity"    />
+        <result property="materialPrice"    column="materialPrice"    />
+        <result property="typeName"    column="typeName"    />
+        <result property="specificationsType"    column="specificationsType"    />
+        <result property="specificationModel"    column="specificationModel"    />
+        <result property="partnerName"    column="partnerName"    />
+    </resultMap>
+
+    <sql id="selectAwDetailcustomermaterialsstorageVo">
+        select id, saleorderID, materialID, warehouseEntryID, receiptQuantity, sampleURL, notes, materialName, typeID, specificationsID, materialDensity, materialPrice, typeName, specificationsType, specificationModel, partnerName from aw_DetailCustomerMaterialsStorage
+    </sql>
+
+    <select id="selectAwDetailcustomermaterialsstorageList" parameterType="AwDetailcustomermaterialsstorage" resultMap="AwDetailcustomermaterialsstorageResult">
+        <include refid="selectAwDetailcustomermaterialsstorageVo"/>
+        <where>  
+            <if test="saleorderID != null  and saleorderID != ''"> and saleorderID = #{saleorderID}</if>
+            <if test="materialID != null  and materialID != ''"> and materialID = #{materialID}</if>
+            <if test="warehouseEntryID != null  and warehouseEntryID != ''"> and warehouseEntryID = #{warehouseEntryID}</if>
+            <if test="receiptQuantity != null  and receiptQuantity != ''"> and receiptQuantity = #{receiptQuantity}</if>
+            <if test="sampleURL != null  and sampleURL != ''"> and sampleURL = #{sampleURL}</if>
+            <if test="notes != null  and notes != ''"> and notes = #{notes}</if>
+            <if test="materialName != null  and materialName != ''"> and materialName like concat('%', #{materialName}, '%')</if>
+            <if test="typeID != null "> and typeID = #{typeID}</if>
+            <if test="specificationsID != null "> and specificationsID = #{specificationsID}</if>
+            <if test="materialDensity != null  and materialDensity != ''"> and materialDensity = #{materialDensity}</if>
+            <if test="materialPrice != null  and materialPrice != ''"> and materialPrice = #{materialPrice}</if>
+            <if test="typeName != null  and typeName != ''"> and typeName like concat('%', #{typeName}, '%')</if>
+            <if test="specificationsType != null  and specificationsType != ''"> and specificationsType = #{specificationsType}</if>
+            <if test="specificationModel != null  and specificationModel != ''"> and specificationModel = #{specificationModel}</if>
+            <if test="partnerName != null  and partnerName != ''"> and partnerName like concat('%', #{partnerName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectAwDetailcustomermaterialsstorageById" parameterType="Long" resultMap="AwDetailcustomermaterialsstorageResult">
+        <include refid="selectAwDetailcustomermaterialsstorageVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAwDetailcustomermaterialsstorage" parameterType="AwDetailcustomermaterialsstorage">
+        insert into aw_DetailCustomerMaterialsStorage
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="saleorderID != null and saleorderID != ''">saleorderID,</if>
+            <if test="materialID != null and materialID != ''">materialID,</if>
+            <if test="warehouseEntryID != null and warehouseEntryID != ''">warehouseEntryID,</if>
+            <if test="receiptQuantity != null">receiptQuantity,</if>
+            <if test="sampleURL != null">sampleURL,</if>
+            <if test="notes != null">notes,</if>
+            <if test="materialName != null and materialName != ''">materialName,</if>
+            <if test="typeID != null">typeID,</if>
+            <if test="specificationsID != null">specificationsID,</if>
+            <if test="materialDensity != null and materialDensity != ''">materialDensity,</if>
+            <if test="materialPrice != null">materialPrice,</if>
+            <if test="typeName != null">typeName,</if>
+            <if test="specificationsType != null">specificationsType,</if>
+            <if test="specificationModel != null">specificationModel,</if>
+            <if test="partnerName != null and partnerName != ''">partnerName,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="saleorderID != null and saleorderID != ''">#{saleorderID},</if>
+            <if test="materialID != null and materialID != ''">#{materialID},</if>
+            <if test="warehouseEntryID != null and warehouseEntryID != ''">#{warehouseEntryID},</if>
+            <if test="receiptQuantity != null">#{receiptQuantity},</if>
+            <if test="sampleURL != null">#{sampleURL},</if>
+            <if test="notes != null">#{notes},</if>
+            <if test="materialName != null and materialName != ''">#{materialName},</if>
+            <if test="typeID != null">#{typeID},</if>
+            <if test="specificationsID != null">#{specificationsID},</if>
+            <if test="materialDensity != null and materialDensity != ''">#{materialDensity},</if>
+            <if test="materialPrice != null">#{materialPrice},</if>
+            <if test="typeName != null">#{typeName},</if>
+            <if test="specificationsType != null">#{specificationsType},</if>
+            <if test="specificationModel != null">#{specificationModel},</if>
+            <if test="partnerName != null and partnerName != ''">#{partnerName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwDetailcustomermaterialsstorage" parameterType="AwDetailcustomermaterialsstorage">
+        update aw_DetailCustomerMaterialsStorage
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="saleorderID != null and saleorderID != ''">saleorderID = #{saleorderID},</if>
+            <if test="materialID != null and materialID != ''">materialID = #{materialID},</if>
+            <if test="warehouseEntryID != null and warehouseEntryID != ''">warehouseEntryID = #{warehouseEntryID},</if>
+            <if test="receiptQuantity != null">receiptQuantity = #{receiptQuantity},</if>
+            <if test="sampleURL != null">sampleURL = #{sampleURL},</if>
+            <if test="notes != null">notes = #{notes},</if>
+            <if test="materialName != null and materialName != ''">materialName = #{materialName},</if>
+            <if test="typeID != null">typeID = #{typeID},</if>
+            <if test="specificationsID != null">specificationsID = #{specificationsID},</if>
+            <if test="materialDensity != null and materialDensity != ''">materialDensity = #{materialDensity},</if>
+            <if test="materialPrice != null">materialPrice = #{materialPrice},</if>
+            <if test="typeName != null">typeName = #{typeName},</if>
+            <if test="specificationsType != null">specificationsType = #{specificationsType},</if>
+            <if test="specificationModel != null">specificationModel = #{specificationModel},</if>
+            <if test="partnerName != null and partnerName != ''">partnerName = #{partnerName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAwDetailcustomermaterialsstorageById" parameterType="Long">
+        delete from aw_DetailCustomerMaterialsStorage where id = #{id}
+    </delete>
+
+    <delete id="deleteAwDetailcustomermaterialsstorageByIds" parameterType="String">
+        delete from aw_DetailCustomerMaterialsStorage where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

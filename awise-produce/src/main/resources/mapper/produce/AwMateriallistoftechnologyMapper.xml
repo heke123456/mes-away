@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.produce.mapper.AwMateriallistoftechnologyMapper">
+    
+    <resultMap type="AwMateriallistoftechnology" id="AwMateriallistoftechnologyResult">
+        <result property="id"    column="id"    />
+        <result property="materialID"    column="materialID"    />
+        <result property="processingTechnologyID"    column="processingTechnologyID"    />
+        <result property="name"    column="name"    />
+        <result property="materialPrice"    column="materialPrice"    />
+        <result property="materialDensity"    column="materialDensity"    />
+        <result property="typeName"    column="typeName"    />
+        <result property="specificationsType"    column="specificationsType"    />
+        <result property="specificationModel"    column="specificationModel"    />
+        <result property="cuttingSize"    column="cuttingSize"    />
+        <result property="numberProducibleParts"    column="numberProducibleParts"    />
+    </resultMap>
+
+    <sql id="selectAwMateriallistoftechnologyVo">
+        select id, materialID, processingTechnologyID, name, materialPrice,materialDensity, typeName, specificationsType, specificationModel, cuttingSize, numberProducibleParts from aw_MaterialListOfTechnology
+    </sql>
+
+    <select id="selectAwMateriallistoftechnologyList" parameterType="AwMateriallistoftechnology" resultMap="AwMateriallistoftechnologyResult">
+        <include refid="selectAwMateriallistoftechnologyVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+            <if test="materialID != null  and materialID != ''"> and materialID = #{materialID}</if>
+            <if test="processingTechnologyID != null  and processingTechnologyID != ''"> and processingTechnologyID = #{processingTechnologyID}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="materialPrice != null  and materialPrice != ''"> and materialPrice like concat('%', #{materialPrice}, '%')</if>
+            <if test="materialDensity != null  and materialDensity != ''"> and materialDensity = #{materialDensity}</if>
+            <if test="typeName != null  and typeName != ''"> and typeName like concat('%', #{typeName}, '%')</if>
+            <if test="specificationsType != null  and specificationsType != ''"> and specificationsType = #{specificationsType}</if>
+            <if test="specificationModel != null  and specificationModel != ''"> and specificationModel = #{specificationModel}</if>
+            <if test="cuttingSize != null "> and cuttingSize = #{cuttingSize}</if>
+            <if test="numberProducibleParts != null  and numberProducibleParts != ''"> and numberProducibleParts = #{numberProducibleParts}</if>
+        </where>
+    </select>
+    
+    <select id="selectAwMateriallistoftechnologyById" parameterType="Long" resultMap="AwMateriallistoftechnologyResult">
+        <include refid="selectAwMateriallistoftechnologyVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAwMateriallistoftechnology" parameterType="AwMateriallistoftechnology">
+        insert into aw_MaterialListOfTechnology
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="materialID != null and materialID != ''">materialID,</if>
+            <if test="processingTechnologyID != null and processingTechnologyID != ''">processingTechnologyID,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="materialPrice != null and materialPrice != ''">materialPrice,</if>
+            <if test="materialDensity != null and materialDensity != ''">materialDensity,</if>
+            <if test="typeName != null">typeName,</if>
+            <if test="specificationsType != null">specificationsType,</if>
+            <if test="specificationModel != null">specificationModel,</if>
+            <if test="cuttingSize != null">cuttingSize,</if>
+            <if test="numberProducibleParts != null and numberProducibleParts != ''">numberProducibleParts,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="materialID != null and materialID != ''">#{materialID},</if>
+            <if test="processingTechnologyID != null and processingTechnologyID != ''">#{processingTechnologyID},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="materialPrice != null and materialPrice != ''">#{materialPrice},</if>
+            <if test="materialDensity != null and materialDensity != ''">#{materialDensity},</if>
+            <if test="typeName != null">#{typeName},</if>
+            <if test="specificationsType != null">#{specificationsType},</if>
+            <if test="specificationModel != null">#{specificationModel},</if>
+            <if test="cuttingSize != null">#{cuttingSize},</if>
+            <if test="numberProducibleParts != null and numberProducibleParts != ''">#{numberProducibleParts},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwMateriallistoftechnology" parameterType="AwMateriallistoftechnology">
+        update aw_MaterialListOfTechnology
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="materialID != null and materialID != ''">materialID = #{materialID},</if>
+            <if test="processingTechnologyID != null and processingTechnologyID != ''">processingTechnologyID = #{processingTechnologyID},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="materialPrice != null and materialPrice != ''">materialPrice = #{materialPrice},</if>
+            <if test="materialDensity != null and materialDensity != ''">materialDensity = #{materialDensity},</if>
+            <if test="typeName != null">typeName = #{typeName},</if>
+            <if test="specificationsType != null">specificationsType = #{specificationsType},</if>
+            <if test="specificationModel != null">specificationModel = #{specificationModel},</if>
+            <if test="cuttingSize != null">cuttingSize = #{cuttingSize},</if>
+            <if test="numberProducibleParts != null and numberProducibleParts != ''">numberProducibleParts = #{numberProducibleParts},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAwMateriallistoftechnologyById" parameterType="Long">
+        delete from aw_MaterialListOfTechnology where id = #{id}
+    </delete>
+
+    <delete id="deleteAwMateriallistoftechnologyByIds" parameterType="String">
+        delete from aw_MaterialListOfTechnology where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

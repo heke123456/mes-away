@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.comprehensive.mapper.AwPartnerEnMapper">
+
+
+    <resultMap type="AwPartnerEn" id="PartnerEnResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="nameAbbrevation"    column="nameAbbrevation"    />
+        <result property="unifiedCreditCode"    column="unifiedCreditCode"    />
+        <result property="certificateURL"    column="certificateURL"    />
+        <result property="city"    column="city"    />
+        <result property="address"    column="address"    />
+        <result property="notes"    column="notes"    />
+    </resultMap>
+
+    <sql id="selectAwPartnerEnVo">
+        SELECT
+            aw_partner.id,
+            aw_partner.name,
+            aw_partner.nameAbbrevation,
+            aw_partner.unifiedCreditCode,
+            aw_partner.certificateURL,
+            aw_partner.address,
+            aw_partner.notes,
+            CONCAT(aw_city.economize,aw_city.city,aw_city.county) as city
+        FROM
+            aw_partner
+                left JOIN aw_city ON aw_partner.cityid = aw_city.id
+    </sql>
+
+
+    <select id="selectAwPartnerEnList" resultType="com.awise.comprehensive.domain.AwPartnerEn">
+        <include refid="selectAwPartnerEnVo"/>
+        <where>
+            isdel = 0
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="nameAbbrevation != null  and nameAbbrevation != ''"> and nameAbbrevation like concat('%', #{nameAbbrevation}, '%')</if>
+            <if test="unifiedCreditCode != null  and unifiedCreditCode != ''"> and unifiedCreditCode like concat('%', #{unifiedCreditCode}, '%')</if>
+            <if test="certificateURL != null  and certificateURL != ''"> and certificateURL = #{certificateURL}</if>
+            <if test="city != null "> and  city = #{city}</if>
+            <if test="address != null  and address != ''"> and address = #{address}</if>
+            <if test="notes != null  and notes != ''"> and notes = #{notes}</if>
+            <if test="type != null  and type != '' "> and  type = #{type}</if>
+        </where>
+    </select>
+
+</mapper>

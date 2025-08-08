@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.storage.mapper.AwCsmtdmtlsstinwMapper">
+    
+    <resultMap type="AwCsmtdmtlsstinw" id="AwCsmtdmtlsstinwResult">
+        <result property="id"    column="id"    />
+        <result property="warehouseEntryID"    column="warehouseEntryID"    />
+        <result property="materialID"    column="materialID"    />
+        <result property="mthd"    column="mthd"    />
+        <result property="furnaceBatchNumber"    column="furnaceBatchNumber"    />
+        <result property="dataType"    column="dataType"    />
+        <result property="dataAttachment"    column="dataAttachment"    />
+        <result property="receiptQuantity"    column="receiptQuantity"    />
+        <result property="productionTasksID"    column="productionTasksID"    />
+        <result property="sampleURL"    column="sampleURL"    />
+        <result property="notes"    column="notes"    />
+    </resultMap>
+
+    <sql id="selectAwCsmtdmtlsstinwVo">
+        select id, warehouseEntryID, materialID, mthd, furnaceBatchNumber, dataType, dataAttachment, receiptQuantity, productionTasksID, sampleURL, notes from aw_csmtdmtlsstinw
+    </sql>
+
+    <select id="selectAwCsmtdmtlsstinwList" parameterType="AwCsmtdmtlsstinw" resultMap="AwCsmtdmtlsstinwResult">
+        <include refid="selectAwCsmtdmtlsstinwVo"/>
+        <where>  
+            <if test="mthd != null  and mthd != ''"> and mthd = #{mthd}</if>
+            <if test="furnaceBatchNumber != null  and furnaceBatchNumber != ''"> and furnaceBatchNumber = #{furnaceBatchNumber}</if>
+            <if test="dataType != null  and dataType != ''"> and dataType = #{dataType}</if>
+            <if test="receiptQuantity != null "> and receiptQuantity = #{receiptQuantity}</if>
+            <if test="productionTasksID != null "> and productionTasksID = #{productionTasksID}</if>
+        </where>
+    </select>
+    
+    <select id="selectAwCsmtdmtlsstinwById" parameterType="Long" resultMap="AwCsmtdmtlsstinwResult">
+        <include refid="selectAwCsmtdmtlsstinwVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAwCsmtdmtlsstinw" parameterType="AwCsmtdmtlsstinw" useGeneratedKeys="true" keyProperty="id">
+        insert into aw_csmtdmtlsstinw
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="warehouseEntryID != null and warehouseEntryID != ''">warehouseEntryID,</if>
+            <if test="materialID != null and materialID != ''">materialID,</if>
+            <if test="mthd != null">mthd,</if>
+            <if test="furnaceBatchNumber != null">furnaceBatchNumber,</if>
+            <if test="dataType != null">dataType,</if>
+            <if test="dataAttachment != null">dataAttachment,</if>
+            <if test="receiptQuantity != null">receiptQuantity,</if>
+            <if test="productionTasksID != null">productionTasksID,</if>
+            <if test="sampleURL != null">sampleURL,</if>
+            <if test="notes != null">notes,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="warehouseEntryID != null and warehouseEntryID != ''">#{warehouseEntryID},</if>
+            <if test="materialID != null and materialID != ''">#{materialID},</if>
+            <if test="mthd != null">#{mthd},</if>
+            <if test="furnaceBatchNumber != null">#{furnaceBatchNumber},</if>
+            <if test="dataType != null">#{dataType},</if>
+            <if test="dataAttachment != null">#{dataAttachment},</if>
+            <if test="receiptQuantity != null">#{receiptQuantity},</if>
+            <if test="productionTasksID != null">#{productionTasksID},</if>
+            <if test="sampleURL != null">#{sampleURL},</if>
+            <if test="notes != null">#{notes},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwCsmtdmtlsstinw" parameterType="AwCsmtdmtlsstinw">
+        update aw_csmtdmtlsstinw
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="warehouseEntryID != null and warehouseEntryID != ''">warehouseEntryID = #{warehouseEntryID},</if>
+            <if test="materialID != null and materialID != ''">materialID = #{materialID},</if>
+            <if test="mthd != null">mthd = #{mthd},</if>
+            <if test="furnaceBatchNumber != null">furnaceBatchNumber = #{furnaceBatchNumber},</if>
+            <if test="dataType != null">dataType = #{dataType},</if>
+            <if test="dataAttachment != null">dataAttachment = #{dataAttachment},</if>
+            <if test="receiptQuantity != null">receiptQuantity = #{receiptQuantity},</if>
+            <if test="productionTasksID != null">productionTasksID = #{productionTasksID},</if>
+            <if test="sampleURL != null">sampleURL = #{sampleURL},</if>
+            <if test="notes != null">notes = #{notes},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAwCsmtdmtlsstinwById" parameterType="Long">
+        delete from aw_csmtdmtlsstinw where id = #{id}
+    </delete>
+
+    <delete id="deleteAwCsmtdmtlsstinwByIds" parameterType="String">
+        delete from aw_csmtdmtlsstinw where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

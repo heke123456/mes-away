@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.storage.mapper.AwDetailsoftooldeliveryMapper">
+    
+    <resultMap type="AwDetailsoftooldelivery" id="AwDetailsoftooldeliveryResult">
+        <result property="id"    column="id"    />
+        <result property="deliveryNoteID"    column="deliveryNoteID"    />
+        <result property="toolInformationID"    column="toolInformationID"    />
+        <result property="outboundQuantity"    column="outboundQuantity"    />
+        <result property="newAndOldTypes"    column="newAndOldTypes"    />
+        <result property="materialRequisition"    column="materialRequisition"    />
+        <result property="notes"    column="notes"    />
+        <result property="name"    column="name"    />
+        <result property="toolPrice"    column="toolPrice"    />
+        <result property="typeName"    column="typeName"    />
+        <result property="specificationsType"    column="specificationsType"    />
+        <result property="specificationModel"    column="specificationModel"    />
+        <result property="uint"    column="uint"    />
+    </resultMap>
+
+    <sql id="selectAwDetailsoftooldeliveryVo">
+        select id, deliveryNoteID, toolInformationID, outboundQuantity, newAndOldTypes, materialRequisition, notes, name, typeName, specificationsType, specificationModel, uint from aw_DetailsOfToolDelivery
+    </sql>
+
+    <select id="selectAwDetailsoftooldeliveryList" parameterType="AwDetailsoftooldelivery" resultMap="AwDetailsoftooldeliveryResult">
+        <include refid="selectAwDetailsoftooldeliveryVo"/>
+        <where>  
+            <if test="deliveryNoteID != null  and deliveryNoteID != ''"> and deliveryNoteID = #{deliveryNoteID}</if>
+            <if test="toolInformationID != null  and toolInformationID != ''"> and toolInformationID = #{toolInformationID}</if>
+            <if test="outboundQuantity != null "> and outboundQuantity = #{outboundQuantity}</if>
+            <if test="newAndOldTypes != null  and newAndOldTypes != ''"> and newAndOldTypes = #{newAndOldTypes}</if>
+            <if test="materialRequisition != null  and materialRequisition != ''"> and materialRequisition = #{materialRequisition}</if>
+            <if test="notes != null  and notes != ''"> and notes = #{notes}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="typeName != null  and typeName != ''"> and typeName like concat('%', #{typeName}, '%')</if>
+            <if test="specificationsType != null  and specificationsType != ''"> and specificationsType = #{specificationsType}</if>
+            <if test="specificationModel != null  and specificationModel != ''"> and specificationModel = #{specificationModel}</if>
+            <if test="uint != null  and uint != ''"> and uint = #{uint}</if>
+        </where>
+    </select>
+    
+    <select id="selectAwDetailsoftooldeliveryById" parameterType="Long" resultMap="AwDetailsoftooldeliveryResult">
+        <include refid="selectAwDetailsoftooldeliveryVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAwDetailsoftooldelivery" parameterType="AwDetailsoftooldelivery">
+        insert into aw_DetailsOfToolDelivery
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="deliveryNoteID != null and deliveryNoteID != ''">deliveryNoteID,</if>
+            <if test="toolInformationID != null and toolInformationID != ''">toolInformationID,</if>
+            <if test="outboundQuantity != null">outboundQuantity,</if>
+            <if test="newAndOldTypes != null and newAndOldTypes != ''">newAndOldTypes,</if>
+            <if test="materialRequisition != null and materialRequisition != ''">materialRequisition,</if>
+            <if test="notes != null">notes,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="toolPrice != null and toolPrice != ''">toolPrice,</if>
+            <if test="typeName != null">typeName,</if>
+            <if test="specificationsType != null">specificationsType,</if>
+            <if test="specificationModel != null">specificationModel,</if>
+            <if test="uint != null and uint != ''">uint,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="deliveryNoteID != null and deliveryNoteID != ''">#{deliveryNoteID},</if>
+            <if test="toolInformationID != null and toolInformationID != ''">#{toolInformationID},</if>
+            <if test="outboundQuantity != null">#{outboundQuantity},</if>
+            <if test="newAndOldTypes != null and newAndOldTypes != ''">#{newAndOldTypes},</if>
+            <if test="materialRequisition != null and materialRequisition != ''">#{materialRequisition},</if>
+            <if test="notes != null">#{notes},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="toolPrice != null and toolPrice != ''">#{toolPrice},</if>
+            <if test="typeName != null">#{typeName},</if>
+            <if test="specificationsType != null">#{specificationsType},</if>
+            <if test="specificationModel != null">#{specificationModel},</if>
+            <if test="uint != null and uint != ''">#{uint},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwDetailsoftooldelivery" parameterType="AwDetailsoftooldelivery">
+        update aw_DetailsOfToolDelivery
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deliveryNoteID != null and deliveryNoteID != ''">deliveryNoteID = #{deliveryNoteID},</if>
+            <if test="toolInformationID != null and toolInformationID != ''">toolInformationID = #{toolInformationID},</if>
+            <if test="outboundQuantity != null">outboundQuantity = #{outboundQuantity},</if>
+            <if test="newAndOldTypes != null and newAndOldTypes != ''">newAndOldTypes = #{newAndOldTypes},</if>
+            <if test="materialRequisition != null and materialRequisition != ''">materialRequisition = #{materialRequisition},</if>
+            <if test="notes != null">notes = #{notes},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="toolPrice != null and toolPrice != ''">toolPrice = #{toolPrice},</if>
+            <if test="typeName != null">typeName = #{typeName},</if>
+            <if test="specificationsType != null">specificationsType = #{specificationsType},</if>
+            <if test="specificationModel != null">specificationModel = #{specificationModel},</if>
+            <if test="uint != null and uint != ''">uint = #{uint},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAwDetailsoftooldeliveryById" parameterType="Long">
+        delete from aw_DetailsOfToolDelivery where id = #{id}
+    </delete>
+
+    <delete id="deleteAwDetailsoftooldeliveryByIds" parameterType="String">
+        delete from aw_DetailsOfToolDelivery where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

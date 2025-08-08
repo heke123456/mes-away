@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.order.mapper.AwAdditionalMapper">
+    
+    <resultMap type="AwAdditional" id="AwAdditionalResult">
+        <result property="id"    column="id"    />
+        <result property="saleorderID"    column="saleorderID"    />
+        <result property="key"    column="key"    />
+        <result property="value"    column="value"    />
+    </resultMap>
+
+    <sql id="selectAwAdditionalVo">
+        select id, saleorderID, `key`, `value` from aw_additional
+    </sql>
+
+    <select id="selectAwAdditionalList" parameterType="AwAdditional" resultMap="AwAdditionalResult">
+        <include refid="selectAwAdditionalVo"/>
+        <where>  
+            <if test="saleorderID != null  and saleorderID != ''"> and saleorderID = #{saleorderID}</if>
+            <if test="key != null  and key != ''"> and `key` = #{key}</if>
+            <if test="value != null  and value != ''"> and `value` = #{value}</if>
+        </where>
+    </select>
+    
+    <select id="selectAwAdditionalById" parameterType="Long" resultMap="AwAdditionalResult">
+        <include refid="selectAwAdditionalVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAwAdditional" parameterType="AwAdditional" useGeneratedKeys="true" keyProperty="id">
+        insert into aw_additional
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="saleorderID != null and saleorderID != ''">saleorderID,</if>
+            <if test="key != null">`key`,</if>
+            <if test="value != null">`value`,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="saleorderID != null and saleorderID != ''">#{saleorderID},</if>
+            <if test="key != null">#{key},</if>
+            <if test="value != null">#{value},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwAdditional" parameterType="AwAdditional">
+        update aw_additional
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="saleorderID != null and saleorderID != ''">saleorderID = #{saleorderID},</if>
+            <if test="key != null">`key` = #{key},</if>
+            <if test="value != null">`value` = #{value},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAwAdditionalById" parameterType="Long">
+        delete from aw_additional where id = #{id}
+    </delete>
+
+    <delete id="deleteAwAdditionalByIds" parameterType="String">
+        delete from aw_additional where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.storage.mapper.MaterialWarehousingDetailedMapper">
+    
+    <resultMap type="MaterialWarehousingDetailed" id="MaterialWarehousingDetailedResult">
+        <result property="warehouseEntryID"    column="warehouseEntryID"    />
+        <result property="localmaterialwarehousingID"    column="localmaterialwarehousingID"    />
+        <result property="subscriptionQuantity"    column="subscriptionQuantity"    />
+        <result property="name"    column="name"    />
+        <result property="typeName"    column="typeName"    />
+        <result property="specificationsType"    column="specificationsType"    />
+        <result property="specificationModel"    column="specificationModel"    />
+        <result property="materialDensity"    column="materialDensity"    />
+        <result property="invoiceTaxRate"    column="invoiceTaxRate"    />
+        <result property="invoiceType"    column="invoiceType"    />
+        <result property="purchaseUnitPriceExcludingTax"    column="purchaseUnitPriceExcludingTax"    />
+        <result property="purchaseUnitPriceIncludingTax"    column="purchaseUnitPriceIncludingTax"    />
+        <result property="subscribeID"    column="subscribeID"    />
+        <result property="sampleURL"    column="sampleURL"    />
+    </resultMap>
+
+    <sql id="selectMaterialWarehousingDetailedVo">
+        select warehouseEntryID, localmaterialwarehousingID, subscriptionQuantity, name, typeName, specificationsType, specificationModel, materialDensity, invoiceTaxRate, invoiceType, purchaseUnitPriceExcludingTax, purchaseUnitPriceIncludingTax, subscribeID, sampleURL from materialWarehousingDetailed
+    </sql>
+
+    <select id="selectMaterialWarehousingDetailedList" parameterType="MaterialWarehousingDetailed" resultMap="MaterialWarehousingDetailedResult">
+        <include refid="selectMaterialWarehousingDetailedVo"/>
+        <where>  
+            <if test="warehouseEntryID != null  and warehouseEntryID != ''"> and warehouseEntryID = #{warehouseEntryID}</if>
+            <if test="localmaterialwarehousingID != null "> and localmaterialwarehousingID = #{localmaterialwarehousingID}</if>
+            <if test="subscriptionQuantity != null "> and subscriptionQuantity = #{subscriptionQuantity}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="typeName != null  and typeName != ''"> and typeName like concat('%', #{typeName}, '%')</if>
+            <if test="specificationsType != null  and specificationsType != ''"> and specificationsType = #{specificationsType}</if>
+            <if test="specificationModel != null  and specificationModel != ''"> and specificationModel = #{specificationModel}</if>
+            <if test="invoiceTaxRate != null  and invoiceTaxRate != ''"> and invoiceTaxRate = #{invoiceTaxRate}</if>
+            <if test="invoiceType != null  and invoiceType != ''"> and invoiceType = #{invoiceType}</if>
+            <if test="purchaseUnitPriceExcludingTax != null "> and purchaseUnitPriceExcludingTax = #{purchaseUnitPriceExcludingTax}</if>
+            <if test="purchaseUnitPriceIncludingTax != null "> and purchaseUnitPriceIncludingTax = #{purchaseUnitPriceIncludingTax}</if>
+            <if test="subscribeID != null  and subscribeID != ''"> and subscribeID = #{subscribeID}</if>
+        </where>
+    </select>
+    
+    <select id="selectMaterialWarehousingDetailedByWarehouseEntryID" parameterType="String" resultMap="MaterialWarehousingDetailedResult">
+        <include refid="selectMaterialWarehousingDetailedVo"/>
+        where warehouseEntryID = #{warehouseEntryID}
+    </select>
+        
+    <insert id="insertMaterialWarehousingDetailed" parameterType="MaterialWarehousingDetailed">
+        insert into materialWarehousingDetailed
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="warehouseEntryID != null and warehouseEntryID != ''">warehouseEntryID,</if>
+            <if test="localmaterialwarehousingID != null">localmaterialwarehousingID,</if>
+            <if test="subscriptionQuantity != null">subscriptionQuantity,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="typeName != null">typeName,</if>
+            <if test="specificationsType != null">specificationsType,</if>
+            <if test="specificationModel != null">specificationModel,</if>
+            <if test="materialDensity != null and materialDensity != ''">materialDensity,</if>
+            <if test="invoiceTaxRate != null">invoiceTaxRate,</if>
+            <if test="invoiceType != null">invoiceType,</if>
+            <if test="purchaseUnitPriceExcludingTax != null">purchaseUnitPriceExcludingTax,</if>
+            <if test="purchaseUnitPriceIncludingTax != null">purchaseUnitPriceIncludingTax,</if>
+            <if test="subscribeID != null and subscribeID != ''">subscribeID,</if>
+            <if test="sampleURL != null">sampleURL,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="warehouseEntryID != null and warehouseEntryID != ''">#{warehouseEntryID},</if>
+            <if test="localmaterialwarehousingID != null">#{localmaterialwarehousingID},</if>
+            <if test="subscriptionQuantity != null">#{subscriptionQuantity},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="typeName != null">#{typeName},</if>
+            <if test="specificationsType != null">#{specificationsType},</if>
+            <if test="specificationModel != null">#{specificationModel},</if>
+            <if test="materialDensity != null and materialDensity != ''">#{materialDensity},</if>
+            <if test="invoiceTaxRate != null">#{invoiceTaxRate},</if>
+            <if test="invoiceType != null">#{invoiceType},</if>
+            <if test="purchaseUnitPriceExcludingTax != null">#{purchaseUnitPriceExcludingTax},</if>
+            <if test="purchaseUnitPriceIncludingTax != null">#{purchaseUnitPriceIncludingTax},</if>
+            <if test="subscribeID != null and subscribeID != ''">#{subscribeID},</if>
+            <if test="sampleURL != null">#{sampleURL},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMaterialWarehousingDetailed" parameterType="MaterialWarehousingDetailed">
+        update materialWarehousingDetailed
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="localmaterialwarehousingID != null">localmaterialwarehousingID = #{localmaterialwarehousingID},</if>
+            <if test="subscriptionQuantity != null">subscriptionQuantity = #{subscriptionQuantity},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="typeName != null">typeName = #{typeName},</if>
+            <if test="specificationsType != null">specificationsType = #{specificationsType},</if>
+            <if test="specificationModel != null">specificationModel = #{specificationModel},</if>
+            <if test="materialDensity != null and materialDensity != ''">materialDensity = #{materialDensity},</if>
+            <if test="invoiceTaxRate != null">invoiceTaxRate = #{invoiceTaxRate},</if>
+            <if test="invoiceType != null">invoiceType = #{invoiceType},</if>
+            <if test="purchaseUnitPriceExcludingTax != null">purchaseUnitPriceExcludingTax = #{purchaseUnitPriceExcludingTax},</if>
+            <if test="purchaseUnitPriceIncludingTax != null">purchaseUnitPriceIncludingTax = #{purchaseUnitPriceIncludingTax},</if>
+            <if test="subscribeID != null and subscribeID != ''">subscribeID = #{subscribeID},</if>
+            <if test="sampleURL != null">sampleURL = #{sampleURL},</if>
+        </trim>
+        where warehouseEntryID = #{warehouseEntryID}
+    </update>
+
+    <delete id="deleteMaterialWarehousingDetailedByWarehouseEntryID" parameterType="String">
+        delete from materialWarehousingDetailed where warehouseEntryID = #{warehouseEntryID}
+    </delete>
+
+    <delete id="deleteMaterialWarehousingDetailedByWarehouseEntryIDs" parameterType="String">
+        delete from materialWarehousingDetailed where warehouseEntryID in 
+        <foreach item="warehouseEntryID" collection="array" open="(" separator="," close=")">
+            #{warehouseEntryID}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.storage.mapper.AwCustomermaterialsstorageMapper">
+    
+    <resultMap type="AwCustomermaterialsstorage" id="AwCustomermaterialsstorageResult">
+        <result property="id"    column="id"    />
+        <result property="saleorderID"    column="saleorderID"    />
+        <result property="materialID"    column="materialID"    />
+        <result property="warehouseEntryID"    column="warehouseEntryID"    />
+        <result property="receiptQuantity"    column="receiptQuantity"    />
+        <result property="sampleURL"    column="sampleURL"    />
+        <result property="notes"    column="notes"    />
+    </resultMap>
+
+    <sql id="selectAwCustomermaterialsstorageVo">
+        select id, saleorderID, materialID, warehouseEntryID, receiptQuantity, sampleURL, notes from aw_CustomerMaterialsStorage
+    </sql>
+
+    <select id="selectAwCustomermaterialsstorageList" parameterType="AwCustomermaterialsstorage" resultMap="AwCustomermaterialsstorageResult">
+        <include refid="selectAwCustomermaterialsstorageVo"/>
+        <where>  
+            <if test="saleorderID != null  and saleorderID != ''"> and saleorderID = #{saleorderID}</if>
+            <if test="materialID != null  and materialID != ''"> and materialID = #{materialID}</if>
+            <if test="warehouseEntryID != null  and warehouseEntryID != ''"> and warehouseEntryID = #{warehouseEntryID}</if>
+            <if test="receiptQuantity != null "> and receiptQuantity = #{receiptQuantity}</if>
+            <if test="sampleURL != null  and sampleURL != ''"> and sampleURL = #{sampleURL}</if>
+            <if test="notes != null  and notes != ''"> and notes = #{notes}</if>
+        </where>
+    </select>
+    
+    <select id="selectAwCustomermaterialsstorageById" parameterType="Long" resultMap="AwCustomermaterialsstorageResult">
+        <include refid="selectAwCustomermaterialsstorageVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAwCustomermaterialsstorage" parameterType="AwCustomermaterialsstorage" useGeneratedKeys="true" keyProperty="id">
+        insert into aw_CustomerMaterialsStorage
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="saleorderID != null and saleorderID != ''">saleorderID,</if>
+            <if test="materialID != null and materialID != ''">materialID,</if>
+            <if test="warehouseEntryID != null and warehouseEntryID != ''">warehouseEntryID,</if>
+            <if test="receiptQuantity != null">receiptQuantity,</if>
+            <if test="sampleURL != null">sampleURL,</if>
+            <if test="notes != null">notes,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="saleorderID != null and saleorderID != ''">#{saleorderID},</if>
+            <if test="materialID != null and materialID != ''">#{materialID},</if>
+            <if test="warehouseEntryID != null and warehouseEntryID != ''">#{warehouseEntryID},</if>
+            <if test="receiptQuantity != null">#{receiptQuantity},</if>
+            <if test="sampleURL != null">#{sampleURL},</if>
+            <if test="notes != null">#{notes},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwCustomermaterialsstorage" parameterType="AwCustomermaterialsstorage">
+        update aw_CustomerMaterialsStorage
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="saleorderID != null and saleorderID != ''">saleorderID = #{saleorderID},</if>
+            <if test="materialID != null and materialID != ''">materialID = #{materialID},</if>
+            <if test="warehouseEntryID != null and warehouseEntryID != ''">warehouseEntryID = #{warehouseEntryID},</if>
+            <if test="receiptQuantity != null">receiptQuantity = #{receiptQuantity},</if>
+            <if test="sampleURL != null">sampleURL = #{sampleURL},</if>
+            <if test="notes != null">notes = #{notes},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAwCustomermaterialsstorageById" parameterType="Long">
+        delete from aw_CustomerMaterialsStorage where id = #{id}
+    </delete>
+
+    <delete id="deleteAwCustomermaterialsstorageByIds" parameterType="String">
+        delete from aw_CustomerMaterialsStorage where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

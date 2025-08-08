@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.storage.mapper.AwUnitsMapper">
+    
+    <resultMap type="AwUnits" id="AwUnitsResult">
+        <result property="id"    column="id"    />
+        <result property="unit"    column="unit"    />
+    </resultMap>
+
+    <sql id="selectAwUnitsVo">
+        select id, unit from aw_units
+    </sql>
+
+    <select id="selectAwUnitsList" parameterType="AwUnits" resultMap="AwUnitsResult">
+        <include refid="selectAwUnitsVo"/>
+        <where>  
+            <if test="unit != null  and unit != ''"> and unit like concat('%', #{unit}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectAwUnitsById" parameterType="Long" resultMap="AwUnitsResult">
+        <include refid="selectAwUnitsVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAwUnits" parameterType="AwUnits">
+        insert into aw_units
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="unit != null and unit != ''">unit,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="unit != null and unit != ''">#{unit},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwUnits" parameterType="AwUnits">
+        update aw_units
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="unit != null and unit != ''">unit = #{unit},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAwUnitsById" parameterType="Long">
+        delete from aw_units where id = #{id}
+    </delete>
+
+    <delete id="deleteAwUnitsByIds" parameterType="String">
+        delete from aw_units where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

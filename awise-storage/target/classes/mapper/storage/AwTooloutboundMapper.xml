@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.storage.mapper.AwTooloutboundMapper">
+    
+    <resultMap type="AwTooloutbound" id="AwTooloutboundResult">
+        <result property="id"    column="id"    />
+        <result property="deliveryNoteID"    column="deliveryNoteID"    />
+        <result property="toolInformationID"    column="toolInformationID"    />
+        <result property="outboundQuantity"    column="outboundQuantity"    />
+        <result property="newAndOldTypes"    column="newAndOldTypes"    />
+        <result property="materialRequisition"    column="materialRequisition"    />
+        <result property="notes"    column="notes"    />
+    </resultMap>
+
+    <sql id="selectAwTooloutboundVo">
+        select id, deliveryNoteID, toolInformationID, outboundQuantity, newAndOldTypes, materialRequisition, notes from aw_ToolOutbound
+    </sql>
+
+    <select id="selectAwTooloutboundList" parameterType="AwTooloutbound" resultMap="AwTooloutboundResult">
+        <include refid="selectAwTooloutboundVo"/>
+        <where>  
+            <if test="deliveryNoteID != null  and deliveryNoteID != ''"> and deliveryNoteID = #{deliveryNoteID}</if>
+            <if test="toolInformationID != null  and toolInformationID != ''"> and toolInformationID = #{toolInformationID}</if>
+            <if test="outboundQuantity != null "> and outboundQuantity = #{outboundQuantity}</if>
+            <if test="newAndOldTypes != null  and newAndOldTypes != ''"> and newAndOldTypes = #{newAndOldTypes}</if>
+            <if test="materialRequisition != null  and materialRequisition != ''"> and materialRequisition = #{materialRequisition}</if>
+            <if test="notes != null  and notes != ''"> and notes = #{notes}</if>
+        </where>
+    </select>
+    
+    <select id="selectAwTooloutboundById" parameterType="Long" resultMap="AwTooloutboundResult">
+        <include refid="selectAwTooloutboundVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAwTooloutbound" parameterType="AwTooloutbound" useGeneratedKeys="true" keyProperty="id">
+        insert into aw_ToolOutbound
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deliveryNoteID != null and deliveryNoteID != ''">deliveryNoteID,</if>
+            <if test="toolInformationID != null and toolInformationID != ''">toolInformationID,</if>
+            <if test="outboundQuantity != null">outboundQuantity,</if>
+            <if test="newAndOldTypes != null and newAndOldTypes != ''">newAndOldTypes,</if>
+            <if test="materialRequisition != null and materialRequisition != ''">materialRequisition,</if>
+            <if test="notes != null">notes,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deliveryNoteID != null and deliveryNoteID != ''">#{deliveryNoteID},</if>
+            <if test="toolInformationID != null and toolInformationID != ''">#{toolInformationID},</if>
+            <if test="outboundQuantity != null">#{outboundQuantity},</if>
+            <if test="newAndOldTypes != null and newAndOldTypes != ''">#{newAndOldTypes},</if>
+            <if test="materialRequisition != null and materialRequisition != ''">#{materialRequisition},</if>
+            <if test="notes != null">#{notes},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwTooloutbound" parameterType="AwTooloutbound">
+        update aw_ToolOutbound
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deliveryNoteID != null and deliveryNoteID != ''">deliveryNoteID = #{deliveryNoteID},</if>
+            <if test="toolInformationID != null and toolInformationID != ''">toolInformationID = #{toolInformationID},</if>
+            <if test="outboundQuantity != null">outboundQuantity = #{outboundQuantity},</if>
+            <if test="newAndOldTypes != null and newAndOldTypes != ''">newAndOldTypes = #{newAndOldTypes},</if>
+            <if test="materialRequisition != null and materialRequisition != ''">materialRequisition = #{materialRequisition},</if>
+            <if test="notes != null">notes = #{notes},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAwTooloutboundById" parameterType="Long">
+        delete from aw_ToolOutbound where id = #{id}
+    </delete>
+
+    <delete id="deleteAwTooloutboundByIds" parameterType="String">
+        delete from aw_ToolOutbound where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

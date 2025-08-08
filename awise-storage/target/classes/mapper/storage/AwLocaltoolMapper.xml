@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.storage.mapper.AwLocaltoolMapper">
+
+    <resultMap type="AwLocaltool" id="AwLocaltoolResult">
+        <result property="id"    column="id"    />
+        <result property="toolInformationID"    column="toolInformationID"    />
+        <result property="number"    column="number"    />
+        <result property="weight"    column="weight"    />
+    </resultMap>
+
+    <sql id="selectAwLocaltoolVo">
+        select id, toolInformationID, number, weight from aw_LocalTool
+    </sql>
+
+    <select id="selectAwLocaltoolList" parameterType="AwLocaltool" resultMap="AwLocaltoolResult">
+        <include refid="selectAwLocaltoolVo"/>
+        <where>
+            <if test="toolInformationID != null  and toolInformationID != ''"> and toolInformationID = #{toolInformationID}</if>
+            <if test="number != null "> and number = #{number}</if>
+            <if test="weight != null "> and weight = #{weight}</if>
+        </where>
+    </select>
+
+    <select id="selectAwLocaltoolById" parameterType="Long" resultMap="AwLocaltoolResult">
+        <include refid="selectAwLocaltoolVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertAwLocaltool" parameterType="AwLocaltool" useGeneratedKeys="true" keyProperty="id">
+        insert into aw_LocalTool
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="toolInformationID != null">toolInformationID,</if>
+            <if test="number != null">number,</if>
+            <if test="weight != null">weight,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="toolInformationID != null">#{toolInformationID},</if>
+            <if test="number != null">#{number},</if>
+            <if test="weight != null">#{weight},</if>
+        </trim>
+    </insert>
+
+    <update id="updateAwLocaltool" parameterType="AwLocaltool">
+        update aw_LocalTool
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="toolInformationID != null">toolInformationID = #{toolInformationID},</if>
+            <if test="number != null">number = #{number},</if>
+            <if test="weight != null">weight = #{weight},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAwLocaltoolById" parameterType="Long">
+        delete from aw_LocalTool where id = #{id}
+    </delete>
+
+    <delete id="deleteAwLocaltoolByIds" parameterType="String">
+        delete from aw_LocalTool where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

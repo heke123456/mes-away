@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.storage.mapper.AwCustomermaterialsinventoryEnMapper">
+
+    <resultMap type="AwCustomermaterialsinventoryEn" id="AwCustomermaterialsinventoryEnResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="materialID"    column="materialID"    />
+        <result property="notes"    column="notes"    />
+        <result property="number"    column="number"    />
+        <result property="weight"    column="weight"    />
+    </resultMap>
+    <select id="selectAwCustomermaterialsinventoryEnList" parameterType="AwCustomermaterialsinventoryEn" resultMap="AwCustomermaterialsinventoryEnResult">
+        SELECT
+            aw_CustomerMaterialsInventory.id,
+            aw_material.`name`,
+            aw_material.`id` as materialID,
+            aw_material.`notes`,
+            aw_CustomerMaterialsInventory.number,
+            aw_CustomerMaterialsInventory.weight
+        FROM
+            aw_CustomerMaterialsInventory
+                LEFT JOIN aw_material ON aw_CustomerMaterialsInventory.materialID = aw_material.id
+
+
+        <where>
+            <if test="materialID != null  and materialID != ''"> and materialID = #{materialID}</if>
+            <if test="name != null  and name != ''"> and name = #{name}</if>
+            <if test="number != null "> and number = #{number}</if>
+            <if test="weight != null "> and weight = #{weight}</if>
+        </where>
+
+    </select>
+
+
+</mapper>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.storage.mapper.AwLocalmaterialsEnMapper">
+    
+    <resultMap type="AwLocalmaterialsEn" id="AwLocalmaterialsEnResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="materialID"    column="materialID"    />
+        <result property="notes"    column="notes"    />
+        <result property="number"    column="number"    />
+        <result property="weight"    column="weight"    />
+    </resultMap>
+
+    <sql id="selectAwLocalmaterialsEnVo">
+        SELECT
+        aw_localmaterials.id,
+        aw_material.`name`,
+        aw_material.`id` as materialID,
+        aw_material.`notes`,
+        aw_localmaterials.number,
+        aw_localmaterials.weight
+        FROM
+        aw_localmaterials
+        LEFT JOIN aw_material ON aw_localmaterials.materialID = aw_material.id
+    </sql>
+
+    <select id="selectAwLocalmaterialsEnList" parameterType="AwLocalmaterialsEn" resultMap="AwLocalmaterialsEnResult">
+        <include refid="selectAwLocalmaterialsEnVo"/>
+<where>
+
+    <if test="materialID != null and materialID != ''">and materialID = #{materialID}</if>
+    <if test="name != null and name != ''">and name = #{name}</if>
+    <if test="number != null ">and number = #{number}</if>
+    <if test="weight != null ">and weight = #{weight}</if>
+
+</where>
+    </select>
+</mapper>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.storage.mapper.AwToolinformationEnMapper">
+
+    <resultMap type="AwToolinformationEn" id="AwToolinformationEnResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="type"    column="type"    />
+        <result property="specifications"    column="specifications"    />
+        <result property="specificationsModel"    column="specificationsModel"    />
+        <result property="unit"    column="unit"    />
+        <result property="notes"    column="notes"    />
+    </resultMap>
+
+    <sql id="selectAwToolinformationEnVo">
+        SELECT
+            aw_toolInformation.id,
+            aw_toolInformation.`name`,
+            aw_toolclassification.`name` AS type,
+            aw_specifications.type as specification,
+            aw_specifications.specificationModel,
+            aw_units.unit,
+            aw_toolInformation.notes
+        FROM
+            aw_toolInformation
+                LEFT JOIN aw_toolclassification ON aw_toolclassification.id = aw_toolInformation.typeID
+                LEFT JOIN aw_specifications ON aw_toolInformation.specificationsID = aw_specifications.id
+                LEFT JOIN aw_units ON aw_toolInformation.unitID = aw_units.id
+    </sql>
+
+    <select id="selectAwToolinformationEnList" parameterType="AwToolinformationEn" resultMap="AwToolinformationEnResult">
+        <include refid="selectAwToolinformationEnVo"/>
+        <where>
+            <if test="name !=null and name != ''">and aw_toolInformation.`name` like concat('%', #{name}, '%')</if>
+            <if test="specification !=null and specification != ''">and aw_toolclassification.`name` like concat('%', #{specification}, '%')</if>
+            <if test="type !=null and type != ''">and aw_specifications.type like concat('%', #{type}, '%')</if>
+            <if test="specificationModel !=null and specificationModel != ''">and aw_specifications.specificationModel like concat('%', #{specificationModel}, '%')</if>
+            <if test="unit !=null and unit != ''">and aw_units.unit like concat('%', #{unit}, '%')</if>
+        </where>
+    </select>
+</mapper>

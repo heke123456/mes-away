@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.storage.mapper.AwLocalmaterialwarehousingMapper">
+    
+    <resultMap type="AwLocalmaterialwarehousing" id="AwLocalmaterialwarehousingResult">
+        <result property="id"    column="id"    />
+        <result property="warehouseEntryID"    column="warehouseEntryID"    />
+        <result property="materialSubscription"    column="materialSubscription"    />
+        <result property="receiptInvoiceID"    column="receiptInvoiceID"    />
+        <result property="materialID"    column="materialID"    />
+        <result property="receiptQuantity"    column="receiptQuantity"    />
+        <result property="sampleURL"    column="sampleURL"    />
+        <result property="notes"    column="notes"    />
+    </resultMap>
+
+    <sql id="selectAwLocalmaterialwarehousingVo">
+        select id, warehouseEntryID, materialSubscription, receiptInvoiceID, materialID, receiptQuantity, sampleURL, notes from aw_LocalMaterialWarehousing
+    </sql>
+
+    <select id="selectAwLocalmaterialwarehousingList" parameterType="AwLocalmaterialwarehousing" resultMap="AwLocalmaterialwarehousingResult">
+        <include refid="selectAwLocalmaterialwarehousingVo"/>
+        <where>  
+            <if test="warehouseEntryID != null  and warehouseEntryID != ''"> and warehouseEntryID = #{warehouseEntryID}</if>
+            <if test="materialSubscription != null  and materialSubscription != ''"> and materialSubscription = #{materialSubscription}</if>
+            <if test="receiptInvoiceID != null  and receiptInvoiceID != ''"> and receiptInvoiceID = #{receiptInvoiceID}</if>
+            <if test="materialID != null  and materialID != ''"> and materialID = #{materialID}</if>
+        </where>
+    </select>
+    
+    <select id="selectAwLocalmaterialwarehousingById" parameterType="Long" resultMap="AwLocalmaterialwarehousingResult">
+        <include refid="selectAwLocalmaterialwarehousingVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAwLocalmaterialwarehousing" parameterType="AwLocalmaterialwarehousing" useGeneratedKeys="true" keyProperty="id">
+        insert into aw_LocalMaterialWarehousing
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="warehouseEntryID != null and warehouseEntryID != ''">warehouseEntryID,</if>
+            <if test="materialSubscription != null">materialSubscription,</if>
+            <if test="receiptInvoiceID != null and receiptInvoiceID != ''">receiptInvoiceID,</if>
+            <if test="materialID != null and materialID != ''">materialID,</if>
+            <if test="receiptQuantity != null">receiptQuantity,</if>
+            <if test="sampleURL != null">sampleURL,</if>
+            <if test="notes != null">notes,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="warehouseEntryID != null and warehouseEntryID != ''">#{warehouseEntryID},</if>
+            <if test="materialSubscription != null">#{materialSubscription},</if>
+            <if test="receiptInvoiceID != null and receiptInvoiceID != ''">#{receiptInvoiceID},</if>
+            <if test="materialID != null and materialID != ''">#{materialID},</if>
+            <if test="receiptQuantity != null">#{receiptQuantity},</if>
+            <if test="sampleURL != null">#{sampleURL},</if>
+            <if test="notes != null">#{notes},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwLocalmaterialwarehousing" parameterType="AwLocalmaterialwarehousing">
+        update aw_LocalMaterialWarehousing
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="warehouseEntryID != null and warehouseEntryID != ''">warehouseEntryID = #{warehouseEntryID},</if>
+            <if test="materialSubscription != null">materialSubscription = #{materialSubscription},</if>
+            <if test="receiptInvoiceID != null and receiptInvoiceID != ''">receiptInvoiceID = #{receiptInvoiceID},</if>
+            <if test="materialID != null and materialID != ''">materialID = #{materialID},</if>
+            <if test="receiptQuantity != null">receiptQuantity = #{receiptQuantity},</if>
+            <if test="sampleURL != null">sampleURL = #{sampleURL},</if>
+            <if test="notes != null">notes = #{notes},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAwLocalmaterialwarehousingById" parameterType="Long">
+        delete from aw_LocalMaterialWarehousing where id = #{id}
+    </delete>
+
+    <delete id="deleteAwLocalmaterialwarehousingByIds" parameterType="String">
+        delete from aw_LocalMaterialWarehousing where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

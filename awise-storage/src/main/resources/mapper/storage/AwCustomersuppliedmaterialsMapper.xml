@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.storage.mapper.AwCustomersuppliedmaterialsMapper">
+    
+    <resultMap type="AwCustomersuppliedmaterials" id="AwCustomersuppliedmaterialsResult">
+        <result property="id"    column="id"    />
+        <result property="saleorderID"    column="saleorderID"    />
+        <result property="materialID"    column="materialID"    />
+        <result property="number"    column="number"    />
+        <result property="weight"    column="weight"    />
+    </resultMap>
+
+    <sql id="selectAwCustomersuppliedmaterialsVo">
+        select id, saleorderID, materialID, number, weight from aw_customersuppliedmaterials
+    </sql>
+
+    <select id="selectAwCustomersuppliedmaterialsList" parameterType="AwCustomersuppliedmaterials" resultMap="AwCustomersuppliedmaterialsResult">
+        <include refid="selectAwCustomersuppliedmaterialsVo"/>
+        <where>  
+        </where>
+    </select>
+    
+    <select id="selectAwCustomersuppliedmaterialsById" parameterType="Long" resultMap="AwCustomersuppliedmaterialsResult">
+        <include refid="selectAwCustomersuppliedmaterialsVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAwCustomersuppliedmaterials" parameterType="AwCustomersuppliedmaterials" useGeneratedKeys="true" keyProperty="id">
+        insert into aw_customersuppliedmaterials
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="saleorderID != null and saleorderID != ''">saleorderID,</if>
+            <if test="materialID != null and materialID != ''">materialID,</if>
+            <if test="number != null">number,</if>
+            <if test="weight != null">weight,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="saleorderID != null and saleorderID != ''">#{saleorderID},</if>
+            <if test="materialID != null and materialID != ''">#{materialID},</if>
+            <if test="number != null">#{number},</if>
+            <if test="weight != null">#{weight},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwCustomersuppliedmaterials" parameterType="AwCustomersuppliedmaterials">
+        update aw_customersuppliedmaterials
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="saleorderID != null and saleorderID != ''">saleorderID = #{saleorderID},</if>
+            <if test="materialID != null and materialID != ''">materialID = #{materialID},</if>
+            <if test="number != null">number = #{number},</if>
+            <if test="weight != null">weight = #{weight},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAwCustomersuppliedmaterialsById" parameterType="Long">
+        delete from aw_customersuppliedmaterials where id = #{id}
+    </delete>
+
+    <delete id="deleteAwCustomersuppliedmaterialsByIds" parameterType="String">
+        delete from aw_customersuppliedmaterials where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

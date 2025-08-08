@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.comprehensive.mapper.AwCustomMapper">
+    
+    <resultMap type="AwCustom" id="AwCustomResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="nameAbbrevation"    column="nameAbbrevation"    />
+        <result property="unifiedCreditCode"    column="unifiedCreditCode"    />
+        <result property="certificateURL"    column="certificateURL"    />
+        <result property="cityid"    column="cityid"    />
+        <result property="address"    column="address"    />
+        <result property="notes"    column="notes"    />
+        <result property="type"    column="type"    />
+        <result property="isdel"    column="isdel"    />
+    </resultMap>
+
+    <sql id="selectAwCustomVo">
+        select id, name, nameAbbrevation, unifiedCreditCode, certificateURL, cityid, address, notes, type, isdel from aw_partner
+    </sql>
+
+    <select id="selectAwCustomList" parameterType="AwCustom" resultMap="AwCustomResult">
+        <include refid="selectAwCustomVo"/>
+        <where>
+            isDel='0'
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="nameAbbrevation != null  and nameAbbrevation != ''"> and nameAbbrevation like concat('%', #{nameAbbrevation}, '%')</if>
+            <if test="unifiedCreditCode != null  and unifiedCreditCode != ''"> and unifiedCreditCode like concat('%', #{unifiedCreditCode}, '%')</if>
+            <if test="certificateURL != null  and certificateURL != ''"> and certificateURL = #{certificateURL}</if>
+            <if test="cityid != null "> and cityid = #{cityid}</if>
+            <if test="address != null  and address != ''"> and address = #{address}</if>
+            <if test="notes != null  and notes != ''"> and notes = #{notes}</if>
+            <if test="type != null "> and type like concat('%', #{type}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectAwCustomByID" parameterType="String" resultMap="AwCustomResult">
+        <include refid="selectAwCustomVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAwCustom" parameterType="AwCustom">
+        insert into aw_partner
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="nameAbbrevation != null and nameAbbrevation != ''">nameAbbrevation,</if>
+            <if test="unifiedCreditCode != null and unifiedCreditCode != ''">unifiedCreditCode,</if>
+            <if test="certificateURL != null">certificateURL,</if>
+            <if test="cityid != null">cityid,</if>
+            <if test="address != null">address,</if>
+            <if test="notes != null">notes,</if>
+            <if test="type != null">type,</if>
+            <if test="isdel != null and isdel != ''">isdel,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="nameAbbrevation != null and nameAbbrevation != ''">#{nameAbbrevation},</if>
+            <if test="unifiedCreditCode != null and unifiedCreditCode != ''">#{unifiedCreditCode},</if>
+            <if test="certificateURL != null">#{certificateURL},</if>
+            <if test="cityid != null">#{cityid},</if>
+            <if test="address != null">#{address},</if>
+            <if test="notes != null">#{notes},</if>
+            <if test="type != null">#{type},</if>
+            <if test="isdel != null and isdel != ''">#{isdel},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwCustom" parameterType="AwCustom">
+        update aw_partner
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="nameAbbrevation != null and nameAbbrevation != ''">nameAbbrevation = #{nameAbbrevation},</if>
+            <if test="unifiedCreditCode != null and unifiedCreditCode != ''">unifiedCreditCode = #{unifiedCreditCode},</if>
+            <if test="certificateURL != null">certificateURL = #{certificateURL},</if>
+            <if test="cityid != null">cityid = #{cityid},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="notes != null">notes = #{notes},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="isdel != null and isdel != ''">isdel = #{isdel},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="deleteAwCustomByID" parameterType="String">
+        update  aw_partner set  isdel='1' where id = #{id}
+    </update>
+
+    <update id="deleteAwCustomByIDs" parameterType="java.lang.String">
+        update  aw_partner set  isdel='1' where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+</mapper>

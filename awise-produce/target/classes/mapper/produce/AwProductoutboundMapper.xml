@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.produce.mapper.AwProductoutboundMapper">
+    
+    <resultMap type="AwProductoutbound" id="AwProductoutboundResult">
+        <result property="id"    column="id"    />
+        <result property="deliveryNoteID"    column="deliveryNoteID"    />
+        <result property="productID"    column="productID"    />
+        <result property="receiptQuantity"    column="receiptQuantity"    />
+        <result property="contractID"    column="contractID"    />
+        <result property="notes"    column="notes"    />
+    </resultMap>
+
+    <sql id="selectAwProductoutboundVo">
+        select id, deliveryNoteID, productID, receiptQuantity, contractID, notes from aw_ProductOutbound
+    </sql>
+
+    <select id="selectAwProductoutboundList" parameterType="AwProductoutbound" resultMap="AwProductoutboundResult">
+        <include refid="selectAwProductoutboundVo"/>
+        <where>  
+            <if test="deliveryNoteID != null  and deliveryNoteID != ''"> and deliveryNoteID = #{deliveryNoteID}</if>
+            <if test="productID != null  and productID != ''"> and productID = #{productID}</if>
+            <if test="receiptQuantity != null "> and receiptQuantity = #{receiptQuantity}</if>
+            <if test="contractID != null  and contractID != ''"> and contractID = #{contractID}</if>
+            <if test="notes != null  and notes != ''"> and notes = #{notes}</if>
+        </where>
+    </select>
+    
+    <select id="selectAwProductoutboundById" parameterType="Long" resultMap="AwProductoutboundResult">
+        <include refid="selectAwProductoutboundVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAwProductoutbound" parameterType="AwProductoutbound">
+        insert into aw_ProductOutbound
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="deliveryNoteID != null and deliveryNoteID != ''">deliveryNoteID,</if>
+            <if test="productID != null and productID != ''">productID,</if>
+            <if test="receiptQuantity != null">receiptQuantity,</if>
+            <if test="contractID != null and contractID != ''">contractID,</if>
+            <if test="notes != null">notes,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="deliveryNoteID != null and deliveryNoteID != ''">#{deliveryNoteID},</if>
+            <if test="productID != null and productID != ''">#{productID},</if>
+            <if test="receiptQuantity != null">#{receiptQuantity},</if>
+            <if test="contractID != null and contractID != ''">#{contractID},</if>
+            <if test="notes != null">#{notes},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwProductoutbound" parameterType="AwProductoutbound">
+        update aw_ProductOutbound
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deliveryNoteID != null and deliveryNoteID != ''">deliveryNoteID = #{deliveryNoteID},</if>
+            <if test="productID != null and productID != ''">productID = #{productID},</if>
+            <if test="receiptQuantity != null">receiptQuantity = #{receiptQuantity},</if>
+            <if test="contractID != null and contractID != ''">contractID = #{contractID},</if>
+            <if test="notes != null">notes = #{notes},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAwProductoutboundById" parameterType="Long">
+        delete from aw_ProductOutbound where id = #{id}
+    </delete>
+
+    <delete id="deleteAwProductoutboundByIds" parameterType="String">
+        delete from aw_ProductOutbound where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

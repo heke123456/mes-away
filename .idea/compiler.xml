@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="awise-visualize" />
+        <module name="awise-comprehensive" />
+        <module name="awise-qrcode" />
+        <module name="away-admin" />
+        <module name="away-quartz" />
+        <module name="away-generator" />
+        <module name="awise-file" />
+        <module name="awise-finance" />
+        <module name="away-framework" />
+        <module name="awise-order" />
+        <module name="away-system" />
+        <module name="away-common" />
+        <module name="awise-storage" />
+        <module name="awise-produce" />
+        <module name="awise-quality" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="ruoyi" target="1.8" />
+      <module name="visualize" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

@@ -1,0 +1,6 @@
+com\awise\qrcode\domain\AwQrcode.class
+com\awise\qrcode\units\QrCodeUnit.class
+com\awise\qrcode\controller\AwQrcodeController.class
+com\awise\qrcode\mapper\AwQrcodeMapper.class
+com\awise\qrcode\service\impl\AwQrcodeServiceImpl.class
+com\awise\qrcode\service\IAwQrcodeService.class

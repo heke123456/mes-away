@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.order.mapper.AwProductMapper">
+    
+    <resultMap type="AwProduct" id="AwProductResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="drawingURL"    column="drawingURL"    />
+    </resultMap>
+
+    <sql id="selectAwProductVo">
+        select id, name, drawingURL from aw_product
+    </sql>
+
+    <select id="selectAwProductList" parameterType="AwProduct" resultMap="AwProductResult">
+        <include refid="selectAwProductVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectAwProductById" parameterType="String" resultMap="AwProductResult">
+        <include refid="selectAwProductVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAwProduct" parameterType="AwProduct">
+        insert into aw_product
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="drawingURL != null">drawingURL,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="name != null">#{name},</if>
+            <if test="drawingURL != null">#{drawingURL},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwProduct" parameterType="AwProduct">
+        update aw_product
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="drawingURL != null">drawingURL = #{drawingURL},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAwProductById" parameterType="String">
+        delete from aw_product where id = #{id}
+    </delete>
+
+    <delete id="deleteAwProductByIds" parameterType="String">
+        delete from aw_product where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

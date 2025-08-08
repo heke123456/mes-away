@@ -1,0 +1,4 @@
+qrcode:
+  url: xxxx
+  size: 48*30
+  filetype: png

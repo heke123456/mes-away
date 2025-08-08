@@ -1,0 +1,500 @@
+﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+// for details on configuring this project to bundle and minify static web assets.
+
+
+// from assets/js/main.js
+jQuery(document).ready(function ($) {
+
+    /* ======= Scrollspy ======= */
+    $('body').scrollspy({ target: '#top', offset: 400 });
+
+    /* ======= ScrollTo ======= */
+    $('a.scrollto').on('click', function (e) {
+
+        //store hash
+        var target = this.hash;
+
+        e.preventDefault();
+
+        $('body').scrollTo(target, 800, { offset: -80, 'axis': 'y', easing: 'easeOutQuad' });
+        //Collapse mobile menu after clicking
+        if ($('.navbar-collapse').hasClass('show')) {
+            $('.navbar-collapse').removeClass('show');
+        }
+
+    });
+
+    /* ======= Flexslider ======= */
+    //$('.flexslider').flexslider({
+    //    animation: "fade",
+    //    touch: true,
+    //    directionNav: false
+    //}); 
+
+    /* ======= jQuery Responsive equal heights plugin ======= */
+    /* Ref: https://github.com/liabru/jquery-match-height */
+
+    //$('#testimonials .quote-box').matchHeight(); 
+
+    $("#page-messages").fadeTo(2000, 500).slideUp(500, function () {
+        $("#page-messages").alert('close');
+    });
+
+
+    
+    $('#reportPage').click(function () {
+
+        if (!g_isUserLoggedIn) {
+            alert('请先登录。');
+            window.location = '/identity/account/login?ReturnUrl=' +
+                encodeURIComponent(window.location.pathname + window.location.search);
+        } else {
+            showFrameModal("举报动作", '/report?type=url&id=' +encodeURIComponent(window.location)+"&title=" + encodeURIComponent(document.title));
+        }
+    });
+
+
+    //lity.handlers('video', function (target) {
+    //    if (typeof target === 'string' && target.indexOf('.mp4') > 0) {
+    //        var html = '<video style="max-width: 100%;" autoplay playsinline>';
+    //        html += '<source src="' + target + '" type="video/mp4">';
+    //        html += '</video>';
+    //        return html;
+    //    }
+    //    return false;
+    //});
+
+    // 点击图片使用lightbox打开
+    $("img").not("a img").not('.action-icon').not('.no-lity').on('click', lity);
+
+
+    //// 滚动到屏中的时候开始播放
+    //$(document).ready(function () {
+    //    // Get media - with autoplay disabled (audio or video)
+    //    var media = $('video.action-demo').not("[autoplay='autoplay']");
+    //    var tolerancePixel = 40;
+
+    //    function checkMedia() {
+    //        // Get current browser top and bottom
+    //        var scrollTop = $(window).scrollTop() + tolerancePixel;
+    //        var scrollBottom = $(window).scrollTop() + $(window).height() - tolerancePixel;
+
+    //        media.each(function (index, el) {
+    //            var yTopMedia = $(this).offset().top;
+    //            var yBottomMedia = $(this).height() + yTopMedia;
+
+    //            if (scrollTop < yBottomMedia && scrollBottom > yTopMedia) { //view explaination in `In brief` section above
+    //                $(this).get(0).play();
+    //            } else {
+    //                $(this).get(0).pause();
+    //            }
+    //        });
+
+    //        //}
+    //    }
+    //    $(document).on('scroll', checkMedia);
+
+    //    // 对当前页的也检查一下要不要播放
+    //    checkMedia();
+    //});
+});
+
+// 显示文字提示 tooltip
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip({ delay: { "show": 500, "hide": 100 } });
+});
+
+// Write your JavaScript code.
+function copyToClipboard(text) {
+    if (window.clipboardData && window.clipboardData.setData) {
+        // IE specific code path to prevent textarea being shown while dialog is visible.
+        return clipboardData.setData("Text", text);
+
+    } else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
+        var textarea = document.createElement("textarea");
+        textarea.textContent = text;
+        textarea.style.position = "fixed";  // Prevent scrolling to bottom of page in MS Edge.
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+            return document.execCommand("copy");  // Security exception may be thrown by some browsers.
+        } catch (ex) {
+            console.warn("Copy to clipboard failed.", ex);
+            return false;
+        } finally {
+            document.body.removeChild(textarea);
+        }
+    }
+}
+
+function copyAndShowInfo(text) {
+    if (copyToClipboard(text)) {
+        if ($('#commonCopySuccessAlert').length > 0) {
+            //$('#copySuccessAlert').alert();
+            $("#commonCopySuccessAlert").fadeTo(2000, 500).slideUp(500, function () {
+                $("#commonCopySuccessAlert").slideUp(500);
+            });
+        } else {
+            alert('已复制到剪贴板。');
+        }
+
+    } else {
+        alert('没有成功复制到粘贴板。');
+    }
+}
+
+
+$(function() {
+    $('[sharedAction]').on('click',
+        function(e) {
+            console.log('copy action link...');
+            if (copyToClipboard('https://getquicker.net/Sharedaction?code=' +
+                $(e.currentTarget).attr('sharedAction'))) {
+                if ($('#copySuccessAlert').length > 0) {
+                    //$('#copySuccessAlert').alert();
+                    $("#copySuccessAlert").fadeTo(2000, 500).slideUp(500,
+                        function() {
+                            $("#copySuccessAlert").slideUp(500);
+                        });
+                } else {
+                    alert('已复制到剪贴板，请在Quicker面板的空白按钮上点右键粘贴。');
+                }
+
+            } else {
+                alert('没有成功复制到粘贴板。请直接从浏览器地址栏复制网址后在Quicker面板空白按钮上粘贴。');
+            }
+
+        });
+});
+
+
+$('[data-copy]').on('click',
+    function (e) {
+        var target = $(e.currentTarget);
+        var msg = target.attr('data-copy-msg') || '已复制到剪贴板';
+
+        if (copyToClipboard($(e.currentTarget).attr('data-copy'))) {
+            if ($('#commonCopySuccessAlert').length > 0) {
+                //$('#copySuccessAlert').alert();
+                $('#commonCopySuccessAlert').text(msg);
+                $("#commonCopySuccessAlert").fadeTo(2000, 500).slideUp(500, function () {
+                    $("#commonCopySuccessAlert").slideUp(500);
+                });
+            } else {
+                alert('已复制到剪贴板。');
+            }
+
+        } else {
+            alert('没有成功复制到粘贴板。');
+        }
+
+    });
+
+// 高亮当前页面链接
+$(document).ready(function () {
+    var url = window.location;
+    // Will only work if string in href matches with location
+    $('ul.nav a[href="' + url + '"]').parent().addClass('active');
+
+    // Will also work for relative and absolute hrefs
+    $('ul.nav a').filter(function () {
+        //return this.href == url;
+        //console.log(url.href + '--' + this.href);
+        if (this.href.endsWith('/')) {
+            return this.href === url;
+        } else {
+            return url.href.startsWith(this.href);
+        }
+
+        //return this.href == url;
+    }).parent().addClass('active');
+});
+
+// 向下滚动时隐藏导航栏
+$(function () {
+    if (typeof isMobile === 'undefined') {
+        return;
+    }
+    if ( isMobile.any !== false) {
+        return;
+    }
+    var lastScrollTop = 0;
+    var $navbar = $('.navbar');
+    var navbarHeight = $navbar.outerHeight();
+    var movement = 0;
+    var lastDirection = 0;
+
+
+    var isHidden = null; // null 表示初始。 true表示隐藏。 false表示显示
+
+    $(window).scroll(function (event) {
+        var st = $(this).scrollTop();
+
+        //console.log(st);
+        movement += st - lastScrollTop;
+
+
+        // 向下滚动时超过60像素再开始隐藏，解决页面padding-top造成的白底问题。
+
+        if (st === 0 || st < lastScrollTop) {
+            if (isHidden !== false) {
+                isHidden = false;
+                $navbar.stop(true, true).show();
+            }
+        } else if (st > lastScrollTop && st > 60) {
+            if (isHidden !== true) {
+                isHidden = true;
+                $navbar.stop(true, true).fadeOut(400);
+            }
+        }
+
+        lastScrollTop = st;
+    });
+});
+
+
+// 为markdown editor上传图片
+function uploadImageForMd(image,  imgType, onSuccess, onError ) {
+    var data = new FormData();
+    data.append("image", image);
+    $.ajax({
+        url: '/site/upload?type=' + imgType,
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: data,
+        type: "post",
+        success: function (url) {
+            onSuccess(url);
+            //var image = $('<img>').attr('src', url);
+            //$(el).summernote("insertNode", image[0]);
+
+            //$(el).summernote("insertImage", url, function ($image) {
+            //    var ratio = window.devicePixelRatio;
+            //    if (ratio < 1) {
+            //        ratio = 1;
+            //    }
+
+            //    // 尝试在高分屏下自动缩小截图
+            //    if (ratio > 1) {
+            //        $image.css('width', $image.width() / ratio);
+            //    }
+            //});
+        },
+        error: function (data) {
+            console.log(data);
+            onError(data);
+        }
+    });
+}
+
+// 上传summernote图片
+function uploadImage(image, el, imgType) {
+    var data = new FormData();
+    data.append("image", image);
+    $.ajax({
+        url: '/site/upload?type=' + imgType,
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: data,
+        type: "post",
+        success: function (url) {
+
+            //var image = $('<img>').attr('src', url);
+            //$(el).summernote("insertNode", image[0]);
+
+            $(el).summernote("insertImage", url, function ($image) {
+                var ratio = window.devicePixelRatio;
+                if (ratio < 1) {
+                    ratio = 1;
+                }
+
+                // 尝试在高分屏下自动缩小截图
+                if (ratio > 1) {
+                    $image.css('width', $image.width() / ratio);
+                }
+            });
+        },
+        error: function (data) {
+            console.log(data);
+        }
+    });
+}
+
+// 创建编辑器
+function createEditor(selector, height, imgType, placeholder) {
+    // 编辑器
+    $(document).ready(function () {
+        $(selector).summernote({
+            tabsize: 2,
+            lang: 'zh-CN',
+            height: height,
+            placeholder: placeholder || '撰写答案...',
+            toolbar: [
+                ['style', ['style', 'bold', 'italic', 'underline', 'clear', 'strikethrough']],
+                //['font', ['strikethrough', 'superscript', 'subscript']],
+                //['fontsize', ['fontsize']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                // ['height', ['height']],
+                ['insert', ['picture', 'link', 'bilibili', /*'video',*/'table',]],
+                ['view', ['fullscreen', 'codeview', 'help']],
+            ],
+            styleTags: ['p',
+                { title: 'Blockquote', tag: 'blockquote', className: 'blockquote', value: 'blockquote' },
+                'pre', 'h1', 'h2', 'h3'
+            ],
+
+            callbacks: {
+                onImageUpload: function (image) {
+                    console.log('Called event onImageUpload');
+
+                    var sizeKB = image[0]['size'] / 1000;
+                    if (sizeKB > 5000) {
+                        tmp_pr = 1;
+                        alert("文件尺寸太大。");
+                        return;
+                    }
+
+                    
+                    uploadImage(image[0], this, imgType);
+                },
+                //onPaste: function (e) {
+                //    //去除格式 https://stackoverflow.com/questions/43491553/how-to-remove-style-attributes-from-tags-on-summernote-onpaste 
+                //    console.log('Called event paste');
+                //    var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('text/html');
+                //    e.preventDefault();
+                //    var div = $('<div />');
+                //    div.append(bufferText);
+                //    div.find('*').removeAttr('style');
+                //    setTimeout(function () {
+                //        document.execCommand('insertHtml', false, div.html());
+                //    }, 10);
+                //}
+            },
+            buttons: {
+                bilibili: function (context) {
+                    var ui = $.summernote.ui;
+                    var button = ui.button({
+                        //contents: '<i class="fal fa-video"/>',
+                        contents:'<img src="/images/bilibili.png" style="height:18px;padding:0;border:0;width:18px;">',
+                        tooltip: '插入bilibili网站视频',
+                        click: function () {
+                            // code from https://www.cnblogs.com/wkfvawl/p/12268980.html
+                            var div = document.createElement('div');
+                            div.style.cssText = "position: relative; padding: 30% 45%;";
+
+                            var code = prompt('请粘贴B站视频嵌入代码(<iframe ....):');
+
+                            if (code && code.startsWith('<iframe src="//player.bilibili.com')) {
+                                div.innerHTML = code;
+                                var iframe = div.firstChild;
+                                iframe.style.cssText =
+                                    "position: absolute; width: 100%; height: 100%; left: 0; top: 0;";
+
+                                var text = '[[' + iframe.src + ']]';
+                                context.invoke('editor.insertText', text);
+                            }
+
+                           
+                        }
+                    });
+
+                    return button.render();
+                }
+            }
+        });
+    });
+}
+
+// 创建markdown编辑器
+function createMarkdownEditor(selector, height, fileSavePath, autoSaveId) {
+    $(document).ready(function () {
+
+        function uploadImg(file, onSuccess, onError) {
+            console.log('file:', file);
+            return uploadImageForMd(file, fileSavePath, onSuccess, onError);
+        }
+
+
+        const easyMDE = new EasyMDE({
+            element: document.querySelector(selector),
+            uploadImage: true,
+            imageAccept: 'image/png,image/jpeg,image/gif',
+            previewImagesInEditor: false,
+            imageUploadFunction: uploadImg,
+            autosave:
+            {
+                enabled: autoSaveId,
+                uniqueId: autoSaveId,
+                delay: 5000,
+                text: "自动保存了："
+            },
+            imageTexts:
+            {
+                sbInit: "拖放或粘贴图片文件。",
+                sbOnDragEnter: "释放以插入图片。",
+                sbOnDrop: "正在上传... #images_names#"
+            },
+            spellChecker: false,
+            minHeight: height,
+            maxHeight: "800px"
+        });
+
+
+    });
+}
+
+// 行内编辑器设置
+var _inline_editor_config = {
+    toolbar: false,
+    height: 50,
+    lang:'zh-CN',
+    callbacks: {
+        onImageUpload: function (image) {
+            console.log('Called event onImageUpload');
+            uploadImage(image[0], this, "kb");
+        },
+        onPaste: function (e) {
+            console.log('Called event paste');
+        }
+    }
+};
+
+
+// 显示对话框
+function showFrameModal(title, url) {
+    $('#modalIFrame').attr('src', url);
+    $('#modalTitle').text(title);
+    $('#modalWindow').modal('show');
+};
+
+// 关闭对话框，并根据情况刷新页面
+function closeModal(refreshPage) {
+    $('#modalWindow').modal('hide');
+    if (refreshPage) {
+        location.reload();
+    }
+
+}
+
+
+// 依据内容调整iframe高度
+function resizeIframe(obj) {
+    //obj.style.height = obj.contentWindow.document.body.scrollHeight + 40 + 'px';
+}
+
+// 更改网页favicon
+function changeFavicon(icoUrl, color) {
+    var link = document.querySelector("link[rel~='icon']");
+    if (!link) {
+        link = document.createElement('link');
+        link.rel = 'icon';
+        if (color) {
+            link.color = color;
+        }
+        document.getElementsByTagName('head')[0].appendChild(link);
+    }
+    link.href = icoUrl;
+}

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.comprehensive.mapper.AwContactsMapper">
+    
+    <resultMap type="AwContacts" id="AwContactsResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="phone"    column="phone"    />
+        <result property="department"    column="department"    />
+        <result property="position"    column="position"    />
+        <result property="location"    column="location"    />
+        <result property="companyID"    column="companyID"    />
+        <result property="notes"    column="notes"    />
+        <result property="isDel"    column="isDel"    />
+    </resultMap>
+
+    <sql id="selectAwContactsVo">
+        select id, name, phone, department, position, location, companyID, notes, isDel from aw_contacts
+    </sql>
+
+    <select id="selectAwContactsList" parameterType="AwContacts" resultMap="AwContactsResult">
+        <include refid="selectAwContactsVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="department != null  and department != ''"> and department = #{department}</if>
+            <if test="position != null  and position != ''"> and position = #{position}</if>
+            <if test="location != null "> and location = #{location}</if>
+            <if test="companyID != null  and companyID != ''"> and companyID = #{companyID}</if>
+        </where>
+    </select>
+    
+    <select id="selectAwContactsById" parameterType="Long" resultMap="AwContactsResult">
+        <include refid="selectAwContactsVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAwContacts" parameterType="AwContacts"  useGeneratedKeys="true" keyProperty="id">
+        <selectKey keyProperty="id" resultType="long" order="BEFORE">
+            SELECT if(max(id) is null,1,MAX(id) + 1 ) as id from aw_contacts
+        </selectKey>
+        insert into aw_contacts
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="phone != null">phone,</if>
+            <if test="department != null">department,</if>
+            <if test="position != null">position,</if>
+            <if test="location != null">location,</if>
+            <if test="companyID != null">companyID,</if>
+            <if test="notes != null">notes,</if>
+            <if test="isDel != null">isDel,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="name != null">#{name},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="department != null">#{department},</if>
+            <if test="position != null">#{position},</if>
+            <if test="location != null">#{location},</if>
+            <if test="companyID != null">#{companyID},</if>
+            <if test="notes != null">#{notes},</if>
+            <if test="isDel != null">#{isDel},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwContacts" parameterType="AwContacts">
+        update aw_contacts
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="department != null">department = #{department},</if>
+            <if test="position != null">position = #{position},</if>
+            <if test="location != null">location = #{location},</if>
+            <if test="companyID != null">companyID = #{companyID},</if>
+            <if test="notes != null">notes = #{notes},</if>
+            <if test="isDel != null">isDel = #{isDel},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="deleteAwContactsById" parameterType="Long">
+
+        delete from aw_contacts where id = #{id}
+    </update>
+
+    <delete id="deleteAwContactsByIds" parameterType="String">
+        delete from aw_contacts where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

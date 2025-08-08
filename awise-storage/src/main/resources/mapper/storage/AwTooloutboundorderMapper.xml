@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.storage.mapper.AwTooloutboundorderMapper">
+    
+    <resultMap type="AwTooloutboundorder" id="AwTooloutboundorderResult">
+        <result property="deliveryNoteID"    column="deliveryNoteID"    />
+        <result property="deliveryDate"    column="deliveryDate"    />
+        <result property="creator"    column="creator"    />
+        <result property="issuedBy"    column="issuedBy"    />
+        <result property="materialReceiver"    column="materialReceiver"    />
+        <result property="approver"    column="approver"    />
+        <result property="notes"    column="notes"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectAwTooloutboundorderVo">
+        select deliveryNoteID, deliveryDate, creator, issuedBy, materialReceiver, approver, notes, status from aw_ToolOutboundOrder
+    </sql>
+
+    <select id="selectAwTooloutboundorderList" parameterType="AwTooloutboundorder" resultMap="AwTooloutboundorderResult">
+        <include refid="selectAwTooloutboundorderVo"/>
+        <where>  
+            <if test="deliveryDate != null "> and deliveryDate = #{deliveryDate}</if>
+            <if test="creator != null  and creator != ''"> and creator = #{creator}</if>
+            <if test="issuedBy != null  and issuedBy != ''"> and issuedBy = #{issuedBy}</if>
+            <if test="materialReceiver != null  and materialReceiver != ''"> and materialReceiver = #{materialReceiver}</if>
+            <if test="approver != null  and approver != ''"> and approver = #{approver}</if>
+            <if test="notes != null  and notes != ''"> and notes = #{notes}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectAwTooloutboundorderByDeliveryNoteID" parameterType="String" resultMap="AwTooloutboundorderResult">
+        <include refid="selectAwTooloutboundorderVo"/>
+        where deliveryNoteID = #{deliveryNoteID}
+    </select>
+        
+    <insert id="insertAwTooloutboundorder" parameterType="AwTooloutboundorder">
+        insert into aw_ToolOutboundOrder
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deliveryNoteID != null">deliveryNoteID,</if>
+            <if test="deliveryDate != null">deliveryDate,</if>
+            <if test="creator != null and creator != ''">creator,</if>
+            <if test="issuedBy != null and issuedBy != ''">issuedBy,</if>
+            <if test="materialReceiver != null and materialReceiver != ''">materialReceiver,</if>
+            <if test="approver != null and approver != ''">approver,</if>
+            <if test="notes != null and notes != ''">notes,</if>
+            <if test="status != null and status != ''">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deliveryNoteID != null">#{deliveryNoteID},</if>
+            <if test="deliveryDate != null">#{deliveryDate},</if>
+            <if test="creator != null and creator != ''">#{creator},</if>
+            <if test="issuedBy != null and issuedBy != ''">#{issuedBy},</if>
+            <if test="materialReceiver != null and materialReceiver != ''">#{materialReceiver},</if>
+            <if test="approver != null and approver != ''">#{approver},</if>
+            <if test="notes != null and notes != ''">#{notes},</if>
+            <if test="status != null and status != ''">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwTooloutboundorder" parameterType="AwTooloutboundorder">
+        update aw_ToolOutboundOrder
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deliveryDate != null">deliveryDate = #{deliveryDate},</if>
+            <if test="creator != null and creator != ''">creator = #{creator},</if>
+            <if test="issuedBy != null and issuedBy != ''">issuedBy = #{issuedBy},</if>
+            <if test="materialReceiver != null and materialReceiver != ''">materialReceiver = #{materialReceiver},</if>
+            <if test="approver != null and approver != ''">approver = #{approver},</if>
+            <if test="notes != null and notes != ''">notes = #{notes},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+        </trim>
+        where deliveryNoteID = #{deliveryNoteID}
+    </update>
+
+    <delete id="deleteAwTooloutboundorderByDeliveryNoteID" parameterType="String">
+        delete from aw_ToolOutboundOrder where deliveryNoteID = #{deliveryNoteID}
+    </delete>
+
+    <delete id="deleteAwTooloutboundorderByDeliveryNoteIDs" parameterType="String">
+        delete from aw_ToolOutboundOrder where deliveryNoteID in 
+        <foreach item="deliveryNoteID" collection="array" open="(" separator="," close=")">
+            #{deliveryNoteID}
+        </foreach>
+    </delete>
+</mapper>

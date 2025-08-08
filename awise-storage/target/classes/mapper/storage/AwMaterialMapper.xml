@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.storage.mapper.AwMaterialMapper">
+    
+    <resultMap type="AwMaterial" id="AwMaterialResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="typeID"    column="typeID"    />
+        <result property="specificationsID"    column="specificationsID"    />
+        <result property="materialDensity"    column="materialDensity"    />
+        <result property="notes"    column="notes"    />
+    </resultMap>
+
+    <sql id="selectAwMaterialVo">
+        select id, name, typeID, specificationsID, materialDensity,notes from aw_material
+    </sql>
+
+    <select id="selectAwMaterialList" parameterType="AwMaterial" resultMap="AwMaterialResult">
+        <include refid="selectAwMaterialVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="typeID != null "> and typeID like concat('%', #{typeID}, '%')</if>
+            <if test="specificationsID != null "> and specificationsID like concat('%', #{specificationsID}, '%')</if>
+            <if test="materialDensity != null  and materialDensity != ''"> and materialDensity like concat('%', #{materialDensity}, '%')</if>
+            <if test="notes != null  and notes != ''"> and notes like concat('%', #{notes}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectAwMaterialById" parameterType="String" resultMap="AwMaterialResult">
+        <include refid="selectAwMaterialVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAwMaterial" parameterType="AwMaterial">
+        insert into aw_material
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="typeID != null">typeID,</if>
+            <if test="specificationsID != null">specificationsID,</if>
+            <if test="materialDensity != null and materialDensity != ''">materialDensity,</if>
+            <if test="notes != null">notes,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="typeID != null">#{typeID},</if>
+            <if test="specificationsID != null">#{specificationsID},</if>
+            <if test="materialDensity != null and materialDensity != ''">#{materialDensity},</if>
+            <if test="notes != null">#{notes},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwMaterial" parameterType="AwMaterial">
+        update aw_material
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="typeID != null">typeID = #{typeID},</if>
+            <if test="specificationsID != null">specificationsID = #{specificationsID},</if>
+            <if test="materialDensity != null and materialDensity != ''">materialDensity = #{materialDensity},</if>
+            <if test="notes != null">notes = #{notes},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAwMaterialById" parameterType="String">
+        delete from aw_material where id = #{id}
+    </delete>
+
+    <delete id="deleteAwMaterialByIds" parameterType="String">
+        delete from aw_material where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

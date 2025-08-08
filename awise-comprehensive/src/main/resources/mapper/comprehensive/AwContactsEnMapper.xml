@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.comprehensive.mapper.AwContactsEnMapper">
+    
+    <resultMap type="AwContactsEn" id="AwContactsEnResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="phone"    column="phone"    />
+        <result property="department"    column="department"    />
+        <result property="position"    column="position"    />
+        <result property="location"    column="location"    />
+        <result property="companyID"    column="companyID"    />
+        <result property="companyName"    column="companyName"    />
+        <result property="notes"    column="notes"    />
+        <result property="isDel"    column="isDel"    />
+    </resultMap>
+
+    <sql id="selectAwContactsEn">
+        select aw_contacts.id, aw_contacts.name, aw_contacts.phone, aw_contacts.department, aw_contacts.position, aw_contacts.location, aw_contacts.companyID, aw_partner.name as companyName,aw_contacts.notes, aw_contacts.isDel from aw_contacts
+            left join aw_partner on aw_contacts.companyID=aw_partner.id
+    </sql>
+
+    <select id="selectAwContactsEnList" parameterType="AwContactsEn" resultMap="AwContactsEnResult">
+        <include refid="selectAwContactsEn"/>
+        <where>  
+            <if test="name != null  and name != ''"> and aw_contacts.name like concat('%', #{name}, '%')</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="department != null  and department != ''"> and department = #{department}</if>
+            <if test="position != null  and position != ''"> and position = #{position}</if>
+            <if test="location != null "> and location = #{location}</if>
+            <if test="companyID != null  and companyID != ''"> and companyID = #{companyID}</if>
+        </where>
+    </select>
+    
+
+        
+
+</mapper>

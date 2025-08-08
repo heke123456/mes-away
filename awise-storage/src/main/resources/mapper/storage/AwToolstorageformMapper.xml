@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.storage.mapper.AwToolstorageformMapper">
+    
+    <resultMap type="AwToolstorageform" id="AwToolstorageformResult">
+        <result property="warehouseEntryID"    column="warehouseEntryID"    />
+        <result property="warehousingDate"    column="warehousingDate"    />
+        <result property="creator"    column="creator"    />
+        <result property="warehouseKeeper"    column="warehouseKeeper"    />
+        <result property="operator"    column="operator"    />
+        <result property="notes"    column="notes"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectAwToolstorageformVo">
+        select warehouseEntryID, warehousingDate, creator, warehouseKeeper, operator, notes, status from aw_toolStorageform
+    </sql>
+
+    <select id="selectAwToolstorageformList" parameterType="AwToolstorageform" resultMap="AwToolstorageformResult">
+        <include refid="selectAwToolstorageformVo"/>
+        <where>  
+            <if test="warehouseEntryID != null  and warehouseEntryID != ''"> and warehouseEntryID = #{warehouseEntryID}</if>
+            <if test="warehousingDate != null "> and warehousingDate = #{warehousingDate}</if>
+            <if test="creator != null  and creator != ''"> and creator = #{creator}</if>
+            <if test="warehouseKeeper != null  and warehouseKeeper != ''"> and warehouseKeeper = #{warehouseKeeper}</if>
+            <if test="operator != null  and operator != ''"> and operator = #{operator}</if>
+            <if test="notes != null  and notes != ''"> and notes = #{notes}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectAwToolstorageformByWarehouseEntryID" parameterType="String" resultMap="AwToolstorageformResult">
+        <include refid="selectAwToolstorageformVo"/>
+        where warehouseEntryID = #{warehouseEntryID}
+    </select>
+        
+    <insert id="insertAwToolstorageform" parameterType="AwToolstorageform">
+        insert into aw_toolStorageform
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="warehouseEntryID != null and warehouseEntryID != ''">warehouseEntryID,</if>
+            <if test="warehousingDate != null">warehousingDate,</if>
+            <if test="creator != null and creator != ''">creator,</if>
+            <if test="warehouseKeeper != null and warehouseKeeper != ''">warehouseKeeper,</if>
+            <if test="operator != null and operator != ''">operator,</if>
+            <if test="notes != null">notes,</if>
+            <if test="status != null and status != ''">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="warehouseEntryID != null and warehouseEntryID != ''">#{warehouseEntryID},</if>
+            <if test="warehousingDate != null">#{warehousingDate},</if>
+            <if test="creator != null and creator != ''">#{creator},</if>
+            <if test="warehouseKeeper != null and warehouseKeeper != ''">#{warehouseKeeper},</if>
+            <if test="operator != null and operator != ''">#{operator},</if>
+            <if test="notes != null">#{notes},</if>
+            <if test="status != null and status != ''">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwToolstorageform" parameterType="AwToolstorageform">
+        update aw_toolStorageform
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="warehousingDate != null">warehousingDate = #{warehousingDate},</if>
+            <if test="creator != null and creator != ''">creator = #{creator},</if>
+            <if test="warehouseKeeper != null and warehouseKeeper != ''">warehouseKeeper = #{warehouseKeeper},</if>
+            <if test="operator != null and operator != ''">operator = #{operator},</if>
+            <if test="notes != null">notes = #{notes},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+        </trim>
+        where warehouseEntryID = #{warehouseEntryID}
+    </update>
+
+    <delete id="deleteAwToolstorageformByWarehouseEntryID" parameterType="String">
+        delete from aw_toolStorageform where warehouseEntryID = #{warehouseEntryID}
+    </delete>
+
+    <delete id="deleteAwToolstorageformByWarehouseEntryIDs" parameterType="String">
+        delete from aw_toolStorageform where warehouseEntryID in 
+        <foreach item="warehouseEntryID" collection="array" open="(" separator="," close=")">
+            #{warehouseEntryID}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.away.system.mapper.AwCityMapper">
+
+    <resultMap type="AwCity" id="AwCityResult">
+        <result property="id"    column="id"    />
+        <result property="economize"    column="economize"    />
+        <result property="city"    column="city"    />
+        <result property="county"    column="county"    />
+    </resultMap>
+
+    <sql id="selectAwCityVo">
+        select id, economize, city, county from aw_city
+    </sql>
+    <sql id = "selectAwCityJsonVo">
+        SELECT JSON_ARRAYAGG(economize)
+        FROM (
+                 SELECT JSON_OBJECT('label', economize, 'children', JSON_ARRAYAGG(city)) AS economize
+                 FROM (
+                          SELECT economize, JSON_OBJECT('label', aw_city.city, 'children', JSON_ARRAYAGG(JSON_OBJECT('label', aw_city.county, 'value', aw_city.id))) AS city
+                          FROM aw_city
+                          GROUP BY economize, aw_city.city
+                      ) citys
+                 GROUP BY economize
+             ) economizes
+    </sql>
+
+    <select id="selectAwCityList" parameterType="AwCity" resultMap="AwCityResult">
+        <include refid="selectAwCityVo"/>
+        <where>
+            <if test="economize != null  and economize != ''"> and economize like concat('%', #{economize}, '%')</if>
+            <if test="city != null  and city != ''"> and city like concat('%', #{city}, '%')</if>
+            <if test="county != null  and county != ''"> and county like concat('%', #{county}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectAwCityJson" parameterType="AwCity" resultType="String">
+        <include refid="selectAwCityJsonVo"/>
+    </select>
+
+    <select id="selectAwCityById" parameterType="Long" resultMap="AwCityResult">
+        <include refid="selectAwCityVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertAwCity" parameterType="AwCity">
+        insert into aw_city
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="economize != null and economize != ''">economize,</if>
+            <if test="city != null and city != ''">city,</if>
+            <if test="county != null and county != ''">county,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="economize != null and economize != ''">#{economize},</if>
+            <if test="city != null and city != ''">#{city},</if>
+            <if test="county != null and county != ''">#{county},</if>
+        </trim>
+    </insert>
+
+    <update id="updateAwCity" parameterType="AwCity">
+        update aw_city
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="economize != null and economize != ''">economize = #{economize},</if>
+            <if test="city != null and city != ''">city = #{city},</if>
+            <if test="county != null and county != ''">county = #{county},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAwCityById" parameterType="Long">
+        delete from aw_city where id = #{id}
+    </delete>
+
+    <delete id="deleteAwCityByIds" parameterType="String">
+        delete from aw_city where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.storage.mapper.AwSpecificationsMapper">
+    
+    <resultMap type="AwSpecifications" id="AwSpecificationsResult">
+        <result property="id"    column="id"    />
+        <result property="type"    column="type"    />
+        <result property="specificationModel"    column="specificationModel"    />
+    </resultMap>
+
+    <sql id="selectAwSpecificationsVo">
+        select id, type, specificationModel from aw_specifications
+    </sql>
+
+    <select id="selectAwSpecificationsList" parameterType="AwSpecifications" resultMap="AwSpecificationsResult">
+        <include refid="selectAwSpecificationsVo"/>
+        <where>  
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="specificationModel != null  and specificationModel != ''"> and specificationModel = #{specificationModel}</if>
+        </where>
+    </select>
+    
+    <select id="selectAwSpecificationsById" parameterType="Long" resultMap="AwSpecificationsResult">
+        <include refid="selectAwSpecificationsVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAwSpecifications" parameterType="AwSpecifications" useGeneratedKeys="true" keyProperty="id">
+        insert into aw_specifications
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="type != null">type,</if>
+            <if test="specificationModel != null">specificationModel,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="type != null">#{type},</if>
+            <if test="specificationModel != null">#{specificationModel},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwSpecifications" parameterType="AwSpecifications">
+        update aw_specifications
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="type != null">type = #{type},</if>
+            <if test="specificationModel != null">specificationModel = #{specificationModel},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAwSpecificationsById" parameterType="Long">
+        delete from aw_specifications where id = #{id}
+    </delete>
+
+    <delete id="deleteAwSpecificationsByIds" parameterType="String">
+        delete from aw_specifications where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.order.mapper.AwContractMapper">
+    
+    <resultMap type="AwContract" id="AwContractResult">
+        <result property="id"    column="id"    />
+        <result property="money"    column="money"    />
+        <result property="contractURL"    column="contractURL"    />
+    </resultMap>
+
+    <sql id="selectAwContractVo">
+        select id, money, contractURL from aw_contract
+    </sql>
+
+    <select id="selectAwContractList" parameterType="AwContract" resultMap="AwContractResult">
+        <include refid="selectAwContractVo"/>
+        <where>  
+        </where>
+    </select>
+    
+    <select id="selectAwContractById" parameterType="String" resultMap="AwContractResult">
+        <include refid="selectAwContractVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAwContract" parameterType="AwContract">
+        insert into aw_contract
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="money != null">money,</if>
+            <if test="contractURL != null">contractURL,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="money != null">#{money},</if>
+            <if test="contractURL != null">#{contractURL},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwContract" parameterType="AwContract">
+        update aw_contract
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="money != null">money = #{money},</if>
+            <if test="contractURL != null">contractURL = #{contractURL},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAwContractById" parameterType="String">
+        delete from aw_contract where id = #{id}
+    </delete>
+
+    <delete id="deleteAwContractByIds" parameterType="String">
+        delete from aw_contract where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

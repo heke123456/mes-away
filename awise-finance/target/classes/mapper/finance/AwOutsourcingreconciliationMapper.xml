@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.finance.mapper.AwOutsourcingreconciliationMapper">
+    
+    <resultMap type="AwOutsourcingreconciliation" id="AwOutsourcingreconciliationResult">
+        <result property="id"    column="id"    />
+        <result property="outsourcingStatementsID"    column="outsourcingStatementsID"    />
+        <result property="outsourcingOrderID"    column="outsourcingOrderID"    />
+        <result property="outsourcingQuantity"    column="outsourcingQuantity"    />
+        <result property="completedQuantity"    column="completedQuantity"    />
+        <result property="unfinishedQuantity"    column="unfinishedQuantity"    />
+        <result property="orderAmount"    column="orderAmount"    />
+        <result property="amountDue"    column="amountDue"    />
+        <result property="outOfPocketAmount"    column="outOfPocketAmount"    />
+        <result property="unpaidAmount"    column="unpaidAmount"    />
+        <result property="customerPrice"    column="customerPrice"    />
+        <result property="invoicePrice"    column="invoicePrice"    />
+        <result property="outsourcingPrice"    column="outsourcingPrice"    />
+        <result property="processPrice"    column="processPrice"    />
+        <result property="notes"    column="notes"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectAwOutsourcingreconciliationVo">
+        select id, outsourcingStatementsID, outsourcingOrderID, outsourcingQuantity, completedQuantity, unfinishedQuantity, orderAmount, amountDue, outOfPocketAmount, unpaidAmount, customerPrice, invoicePrice, outsourcingPrice, processPrice, notes, status from aw_OutsourcingReconciliation
+    </sql>
+
+    <select id="selectAwOutsourcingreconciliationList" parameterType="AwOutsourcingreconciliation" resultMap="AwOutsourcingreconciliationResult">
+        <include refid="selectAwOutsourcingreconciliationVo"/>
+        <where>  
+            <if test="outsourcingStatementsID != null  and outsourcingStatementsID != ''"> and outsourcingStatementsID = #{outsourcingStatementsID}</if>
+            <if test="outsourcingOrderID != null  and outsourcingOrderID != ''"> and outsourcingOrderID = #{outsourcingOrderID}</if>
+            <if test="outsourcingQuantity != null "> and outsourcingQuantity = #{outsourcingQuantity}</if>
+            <if test="completedQuantity != null "> and completedQuantity = #{completedQuantity}</if>
+            <if test="unfinishedQuantity != null "> and unfinishedQuantity = #{unfinishedQuantity}</if>
+            <if test="orderAmount != null  and orderAmount != ''"> and orderAmount = #{orderAmount}</if>
+            <if test="amountDue != null  and amountDue != ''"> and amountDue = #{amountDue}</if>
+            <if test="outOfPocketAmount != null  and outOfPocketAmount != ''"> and outOfPocketAmount = #{outOfPocketAmount}</if>
+            <if test="unpaidAmount != null  and unpaidAmount != ''"> and unpaidAmount = #{unpaidAmount}</if>
+            <if test="customerPrice != null  and customerPrice != ''"> and customerPrice = #{customerPrice}</if>
+            <if test="invoicePrice != null  and invoicePrice != ''"> and invoicePrice = #{invoicePrice}</if>
+            <if test="outsourcingPrice != null  and outsourcingPrice != ''"> and outsourcingPrice = #{outsourcingPrice}</if>
+            <if test="processPrice != null  and processPrice != ''"> and processPrice = #{processPrice}</if>
+            <if test="notes != null  and notes != ''"> and notes = #{notes}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectAwOutsourcingreconciliationById" parameterType="Long" resultMap="AwOutsourcingreconciliationResult">
+        <include refid="selectAwOutsourcingreconciliationVo"/>
+        where id = #{id}
+    </select>
+    <select id="selectAll" resultType="com.awise.finance.domain.AwOutsourcingreconciliation">
+        select  * from aw_OutsourcingReconciliation
+    </select>
+
+    <insert id="insertAwOutsourcingreconciliation" parameterType="AwOutsourcingreconciliation" useGeneratedKeys="true" keyProperty="id">
+        insert into aw_OutsourcingReconciliation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="outsourcingStatementsID != null and outsourcingStatementsID != ''">outsourcingStatementsID,</if>
+            <if test="outsourcingOrderID != null and outsourcingOrderID != ''">outsourcingOrderID,</if>
+            <if test="outsourcingQuantity != null">outsourcingQuantity,</if>
+            <if test="completedQuantity != null">completedQuantity,</if>
+            <if test="unfinishedQuantity != null">unfinishedQuantity,</if>
+            <if test="orderAmount != null">orderAmount,</if>
+            <if test="amountDue != null and amountDue != ''">amountDue,</if>
+            <if test="outOfPocketAmount != null and outOfPocketAmount != ''">outOfPocketAmount,</if>
+            <if test="unpaidAmount != null and unpaidAmount != ''">unpaidAmount,</if>
+            <if test="customerPrice != null">customerPrice,</if>
+            <if test="invoicePrice != null">invoicePrice,</if>
+            <if test="outsourcingPrice != null">outsourcingPrice,</if>
+            <if test="processPrice != null">processPrice,</if>
+            <if test="notes != null">notes,</if>
+            <if test="status != null and status != ''">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="outsourcingStatementsID != null and outsourcingStatementsID != ''">#{outsourcingStatementsID},</if>
+            <if test="outsourcingOrderID != null and outsourcingOrderID != ''">#{outsourcingOrderID},</if>
+            <if test="outsourcingQuantity != null">#{outsourcingQuantity},</if>
+            <if test="completedQuantity != null">#{completedQuantity},</if>
+            <if test="unfinishedQuantity != null">#{unfinishedQuantity},</if>
+            <if test="orderAmount != null">#{orderAmount},</if>
+            <if test="amountDue != null and amountDue != ''">#{amountDue},</if>
+            <if test="outOfPocketAmount != null and outOfPocketAmount != ''">#{outOfPocketAmount},</if>
+            <if test="unpaidAmount != null and unpaidAmount != ''">#{unpaidAmount},</if>
+            <if test="customerPrice != null">#{customerPrice},</if>
+            <if test="invoicePrice != null">#{invoicePrice},</if>
+            <if test="outsourcingPrice != null">#{outsourcingPrice},</if>
+            <if test="processPrice != null">#{processPrice},</if>
+            <if test="notes != null">#{notes},</if>
+            <if test="status != null and status != ''">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwOutsourcingreconciliation" parameterType="AwOutsourcingreconciliation">
+        update aw_OutsourcingReconciliation
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="outsourcingStatementsID != null and outsourcingStatementsID != ''">outsourcingStatementsID = #{outsourcingStatementsID},</if>
+            <if test="outsourcingOrderID != null and outsourcingOrderID != ''">outsourcingOrderID = #{outsourcingOrderID},</if>
+            <if test="outsourcingQuantity != null">outsourcingQuantity = #{outsourcingQuantity},</if>
+            <if test="completedQuantity != null">completedQuantity = #{completedQuantity},</if>
+            <if test="unfinishedQuantity != null">unfinishedQuantity = #{unfinishedQuantity},</if>
+            <if test="orderAmount != null">orderAmount = #{orderAmount},</if>
+            <if test="amountDue != null and amountDue != ''">amountDue = #{amountDue},</if>
+            <if test="outOfPocketAmount != null and outOfPocketAmount != ''">outOfPocketAmount = #{outOfPocketAmount},</if>
+            <if test="unpaidAmount != null and unpaidAmount != ''">unpaidAmount = #{unpaidAmount},</if>
+            <if test="customerPrice != null">customerPrice = #{customerPrice},</if>
+            <if test="invoicePrice != null">invoicePrice = #{invoicePrice},</if>
+            <if test="outsourcingPrice != null">outsourcingPrice = #{outsourcingPrice},</if>
+            <if test="processPrice != null">processPrice = #{processPrice},</if>
+            <if test="notes != null">notes = #{notes},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAwOutsourcingreconciliationById" parameterType="Long">
+        delete from aw_OutsourcingReconciliation where id = #{id}
+    </delete>
+
+    <delete id="deleteAwOutsourcingreconciliationByIds" parameterType="String">
+        delete from aw_OutsourcingReconciliation where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

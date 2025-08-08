@@ -1,0 +1,14 @@
+.el-input.is-disabled .el-input__inner {
+  background-color: rgba(0, 0, 0, 0);
+  border-color: rgba(0, 0, 0, 0);
+  color: rgb(0, 0, 0);
+  cursor: not-allowed;
+}
+
+.el-select .el-input.is-disabled .el-input__inner:hover {
+  border-color: rgba(0, 0, 0, 0);
+}
+
+.el-input__suffix {
+  display: none;
+}/*# sourceMappingURL=away-element-ui-disabled.css.map */

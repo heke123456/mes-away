@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.storage.mapper.AwCsmtinvtdetlsMapper">
+    
+    <resultMap type="AwCsmtinvtdetls" id="AwCsmtinvtdetlsResult">
+        <result property="id"    column="id"    />
+        <result property="saleorderID"    column="saleorderID"    />
+        <result property="materialID"    column="materialID"    />
+        <result property="number"    column="number"    />
+        <result property="weight"    column="weight"    />
+        <result property="materianame"    column="materianame"    />
+        <result property="typeName"    column="typeName"    />
+        <result property="specificationsType"    column="specificationsType"    />
+        <result property="specificationModel"    column="specificationModel"    />
+        <result property="materialDensity"    column="materialDensity"    />
+        <result property="notes"    column="notes"    />
+        <result property="customname"    column="customname"    />
+    </resultMap>
+
+    <sql id="selectAwCsmtinvtdetlsVo">
+        select id, saleorderID, materialID, number, weight, materianame, typeName, specificationsType, specificationModel, materialDensity, notes, customname from aw_CsmtInvtDetls
+    </sql>
+
+    <select id="selectAwCsmtinvtdetlsList" parameterType="AwCsmtinvtdetls" resultMap="AwCsmtinvtdetlsResult">
+        <include refid="selectAwCsmtinvtdetlsVo"/>
+        <where>  
+            <if test="materialID != null  and materialID != ''"> and materialID = #{materialID}</if>
+            <if test="materianame != null  and materianame != ''"> and materianame like concat('%', #{materianame}, '%')</if>
+            <if test="typeName != null  and typeName != ''"> and typeName like concat('%', #{typeName}, '%')</if>
+            <if test="specificationsType != null  and specificationsType != ''"> and specificationsType = #{specificationsType}</if>
+            <if test="specificationModel != null  and specificationModel != ''"> and specificationModel = #{specificationModel}</if>
+            <if test="materialDensity != null  and materialDensity != ''"> and materialDensity = #{materialDensity}</if>
+            <if test="customname != null  and customname != ''"> and customname like concat('%', #{customname}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectAwCsmtinvtdetlsById" parameterType="Long" resultMap="AwCsmtinvtdetlsResult">
+        <include refid="selectAwCsmtinvtdetlsVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAwCsmtinvtdetls" parameterType="AwCsmtinvtdetls">
+        insert into aw_CsmtInvtDetls
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="saleorderID != null and saleorderID != ''">saleorderID,</if>
+            <if test="materialID != null and materialID != ''">materialID,</if>
+            <if test="number != null">number,</if>
+            <if test="weight != null">weight,</if>
+            <if test="materianame != null">materianame,</if>
+            <if test="typeName != null">typeName,</if>
+            <if test="specificationsType != null">specificationsType,</if>
+            <if test="specificationModel != null">specificationModel,</if>
+            <if test="materialDensity != null">materialDensity,</if>
+            <if test="notes != null">notes,</if>
+            <if test="customname != null">customname,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="saleorderID != null and saleorderID != ''">#{saleorderID},</if>
+            <if test="materialID != null and materialID != ''">#{materialID},</if>
+            <if test="number != null">#{number},</if>
+            <if test="weight != null">#{weight},</if>
+            <if test="materianame != null">#{materianame},</if>
+            <if test="typeName != null">#{typeName},</if>
+            <if test="specificationsType != null">#{specificationsType},</if>
+            <if test="specificationModel != null">#{specificationModel},</if>
+            <if test="materialDensity != null">#{materialDensity},</if>
+            <if test="notes != null">#{notes},</if>
+            <if test="customname != null">#{customname},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwCsmtinvtdetls" parameterType="AwCsmtinvtdetls">
+        update aw_CsmtInvtDetls
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="saleorderID != null and saleorderID != ''">saleorderID = #{saleorderID},</if>
+            <if test="materialID != null and materialID != ''">materialID = #{materialID},</if>
+            <if test="number != null">number = #{number},</if>
+            <if test="weight != null">weight = #{weight},</if>
+            <if test="materianame != null">materianame = #{materianame},</if>
+            <if test="typeName != null">typeName = #{typeName},</if>
+            <if test="specificationsType != null">specificationsType = #{specificationsType},</if>
+            <if test="specificationModel != null">specificationModel = #{specificationModel},</if>
+            <if test="materialDensity != null">materialDensity = #{materialDensity},</if>
+            <if test="notes != null">notes = #{notes},</if>
+            <if test="customname != null">customname = #{customname},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAwCsmtinvtdetlsById" parameterType="Long">
+        delete from aw_CsmtInvtDetls where id = #{id}
+    </delete>
+
+    <delete id="deleteAwCsmtinvtdetlsByIds" parameterType="String">
+        delete from aw_CsmtInvtDetls where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

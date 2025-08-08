@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.order.mapper.AwDetailmaterialsubscriptionMapper">
+    
+    <resultMap type="AwDetailmaterialsubscription" id="AwDetailmaterialsubscriptionResult">
+        <result property="materialSubscription"    column="materialSubscription"    />
+        <result property="subscribeID"    column="subscribeID"    />
+        <result property="productionTasksID"    column="productionTasksID"    />
+        <result property="materialID"    column="materialID"    />
+        <result property="name"    column="name"    />
+        <result property="materialPrice"    column="materialPrice"    />
+        <result property="typeName"    column="typeName"    />
+        <result property="specificationsType"    column="specificationsType"    />
+        <result property="specificationModel"    column="specificationModel"    />
+        <result property="materialDensity"    column="materialDensity"    />
+        <result property="processingTechnologyID"    column="processingTechnologyID"    />
+        <result property="subscriptionQuantity"    column="subscriptionQuantity"    />
+        <result property="requiredDate"    column="requiredDate"    />
+        <result property="sampleURL"    column="sampleURL"    />
+        <result property="note"    column="note"    />
+    </resultMap>
+
+    <sql id="selectAwDetailmaterialsubscriptionVo">
+        select materialSubscription, subscribeID, productionTasksID, materialID, name, materialPrice,typeName, specificationsType, specificationModel, materialDensity, processingTechnologyID, subscriptionQuantity, requiredDate, sampleURL, note from aw_Detailmaterialsubscription
+    </sql>
+
+    <select id="selectAwDetailmaterialsubscriptionList" parameterType="AwDetailmaterialsubscription" resultMap="AwDetailmaterialsubscriptionResult">
+        <include refid="selectAwDetailmaterialsubscriptionVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="typeName != null  and typeName != ''"> and typeName like concat('%', #{typeName}, '%')</if>
+            <if test="specificationModel != null  and specificationModel != ''"> and specificationModel = #{specificationModel}</if>
+            <if test="subscribeID != null  and materialID != ''"> and subscribeID = #{subscribeID}</if>
+            <if test="processingTechnologyID != null  and processingTechnologyID != ''"> and processingTechnologyID = #{processingTechnologyID}</if>
+            <if test="requiredDate != null "> and requiredDate = #{requiredDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectAwDetailmaterialsubscriptionByMaterialSubscription" parameterType="String" resultMap="AwDetailmaterialsubscriptionResult">
+        <include refid="selectAwDetailmaterialsubscriptionVo"/>
+        where materialSubscription = #{materialSubscription}
+    </select>
+        
+    <insert id="insertAwDetailmaterialsubscription" parameterType="AwDetailmaterialsubscription">
+        insert into aw_Detailmaterialsubscription
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="materialSubscription != null and materialSubscription != ''">materialSubscription,</if>
+            <if test="subscribeID != null and subscribeID != ''">subscribeID,</if>
+            <if test="productionTasksID != null">productionTasksID,</if>
+            <if test="materialID != null and materialID != ''">materialID,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="materialPrice != null and materialPrice != ''">materialPrice,</if>
+            <if test="typeName != null">typeName,</if>
+            <if test="specificationsType != null">specificationsType,</if>
+            <if test="specificationModel != null">specificationModel,</if>
+            <if test="materialDensity != null and materialDensity != ''">materialDensity,</if>
+            <if test="processingTechnologyID != null and processingTechnologyID != ''">processingTechnologyID,</if>
+            <if test="subscriptionQuantity != null">subscriptionQuantity,</if>
+            <if test="requiredDate != null">requiredDate,</if>
+            <if test="sampleURL != null">sampleURL,</if>
+            <if test="note != null">note,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="materialSubscription != null and materialSubscription != ''">#{materialSubscription},</if>
+            <if test="subscribeID != null and subscribeID != ''">#{subscribeID},</if>
+            <if test="productionTasksID != null">#{productionTasksID},</if>
+            <if test="materialID != null and materialID != ''">#{materialID},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="materialPrice != null and materialPrice != ''">#{materialPrice},</if>
+            <if test="typeName != null">#{typeName},</if>
+            <if test="specificationsType != null">#{specificationsType},</if>
+            <if test="specificationModel != null">#{specificationModel},</if>
+            <if test="materialDensity != null and materialDensity != ''">#{materialDensity},</if>
+            <if test="processingTechnologyID != null and processingTechnologyID != ''">#{processingTechnologyID},</if>
+            <if test="subscriptionQuantity != null">#{subscriptionQuantity},</if>
+            <if test="requiredDate != null">#{requiredDate},</if>
+            <if test="sampleURL != null">#{sampleURL},</if>
+            <if test="note != null">#{note},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwDetailmaterialsubscription" parameterType="AwDetailmaterialsubscription">
+        update aw_Detailmaterialsubscription
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="subscribeID != null and subscribeID != ''">subscribeID = #{subscribeID},</if>
+            <if test="productionTasksID != null">productionTasksID = #{productionTasksID},</if>
+            <if test="materialID != null and materialID != ''">materialID = #{materialID},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="materialPrice != null and materialPrice != ''">materialPrice = #{materialPrice},</if>
+            <if test="typeName != null">typeName = #{typeName},</if>
+            <if test="specificationsType != null">specificationsType = #{specificationsType},</if>
+            <if test="specificationModel != null">specificationModel = #{specificationModel},</if>
+            <if test="materialDensity != null and materialDensity != ''">materialDensity = #{materialDensity},</if>
+            <if test="processingTechnologyID != null and processingTechnologyID != ''">processingTechnologyID = #{processingTechnologyID},</if>
+            <if test="subscriptionQuantity != null">subscriptionQuantity = #{subscriptionQuantity},</if>
+            <if test="requiredDate != null">requiredDate = #{requiredDate},</if>
+            <if test="sampleURL != null">sampleURL = #{sampleURL},</if>
+            <if test="note != null">note = #{note},</if>
+        </trim>
+        where materialSubscription = #{materialSubscription}
+    </update>
+
+    <delete id="deleteAwDetailmaterialsubscriptionByMaterialSubscription" parameterType="String">
+        delete from aw_Detailmaterialsubscription where materialSubscription = #{materialSubscription}
+    </delete>
+
+    <delete id="deleteAwDetailmaterialsubscriptionByMaterialSubscriptions" parameterType="String">
+        delete from aw_Detailmaterialsubscription where materialSubscription in
+        <foreach item="materialSubscription" collection="array" open="(" separator="," close=")">
+            #{materialSubscription}
+        </foreach>
+    </delete>
+</mapper>

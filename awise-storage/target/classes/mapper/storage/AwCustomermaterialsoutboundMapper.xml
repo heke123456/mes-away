@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.storage.mapper.AwCustomermaterialsoutboundMapper">
+    
+    <resultMap type="AwCustomermaterialsoutbound" id="AwCustomermaterialsoutboundResult">
+        <result property="id"    column="id"    />
+        <result property="deliveryNoteID"    column="deliveryNoteID"    />
+        <result property="materialID"    column="materialID"    />
+        <result property="productionTasksID"    column="productionTasksID"    />
+        <result property="processingTechnologyID"    column="processingTechnologyID"    />
+        <result property="outboundQuantity"    column="outboundQuantity"    />
+        <result property="notes"    column="notes"    />
+    </resultMap>
+
+    <sql id="selectAwCustomermaterialsoutboundVo">
+        select id, deliveryNoteID, materialID, productionTasksID, processingTechnologyID, outboundQuantity, notes from aw_CustomerMaterialsOutbound
+    </sql>
+
+    <select id="selectAwCustomermaterialsoutboundList" parameterType="AwCustomermaterialsoutbound" resultMap="AwCustomermaterialsoutboundResult">
+        <include refid="selectAwCustomermaterialsoutboundVo"/>
+        <where>  
+            <if test="deliveryNoteID != null  and deliveryNoteID != ''"> and deliveryNoteID = #{deliveryNoteID}</if>
+            <if test="materialID != null  and materialID != ''"> and materialID = #{materialID}</if>
+            <if test="productionTasksID != null "> and productionTasksID = #{productionTasksID}</if>
+            <if test="processingTechnologyID != null  and processingTechnologyID != ''"> and processingTechnologyID = #{processingTechnologyID}</if>
+            <if test="outboundQuantity != null "> and outboundQuantity = #{outboundQuantity}</if>
+            <if test="notes != null  and notes != ''"> and notes = #{notes}</if>
+        </where>
+    </select>
+    
+    <select id="selectAwCustomermaterialsoutboundById" parameterType="Long" resultMap="AwCustomermaterialsoutboundResult">
+        <include refid="selectAwCustomermaterialsoutboundVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAwCustomermaterialsoutbound" parameterType="AwCustomermaterialsoutbound" useGeneratedKeys="true" keyProperty="id">
+        insert into aw_CustomerMaterialsOutbound
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deliveryNoteID != null and deliveryNoteID != ''">deliveryNoteID,</if>
+            <if test="materialID != null and materialID != ''">materialID,</if>
+            <if test="productionTasksID != null">productionTasksID,</if>
+            <if test="processingTechnologyID != null">processingTechnologyID,</if>
+            <if test="outboundQuantity != null">outboundQuantity,</if>
+            <if test="notes != null">notes,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deliveryNoteID != null and deliveryNoteID != ''">#{deliveryNoteID},</if>
+            <if test="materialID != null and materialID != ''">#{materialID},</if>
+            <if test="productionTasksID != null">#{productionTasksID},</if>
+            <if test="processingTechnologyID != null">#{processingTechnologyID},</if>
+            <if test="outboundQuantity != null">#{outboundQuantity},</if>
+            <if test="notes != null">#{notes},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwCustomermaterialsoutbound" parameterType="AwCustomermaterialsoutbound">
+        update aw_CustomerMaterialsOutbound
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deliveryNoteID != null and deliveryNoteID != ''">deliveryNoteID = #{deliveryNoteID},</if>
+            <if test="materialID != null and materialID != ''">materialID = #{materialID},</if>
+            <if test="productionTasksID != null">productionTasksID = #{productionTasksID},</if>
+            <if test="processingTechnologyID != null">processingTechnologyID = #{processingTechnologyID},</if>
+            <if test="outboundQuantity != null">outboundQuantity = #{outboundQuantity},</if>
+            <if test="notes != null">notes = #{notes},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAwCustomermaterialsoutboundById" parameterType="Long">
+        delete from aw_CustomerMaterialsOutbound where id = #{id}
+    </delete>
+
+    <delete id="deleteAwCustomermaterialsoutboundByIds" parameterType="String">
+        delete from aw_CustomerMaterialsOutbound where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

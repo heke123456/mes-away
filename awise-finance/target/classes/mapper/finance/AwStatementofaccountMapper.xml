@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.finance.mapper.AwStatementofaccountMapper">
+    
+    <resultMap type="AwStatementofaccount" id="AwStatementofaccountResult">
+        <result property="statementOfAccountID"    column="statementOfAccountID"    />
+        <result property="creator"    column="creator"    />
+        <result property="reconciler"    column="reconciler"    />
+        <result property="statementOfAccountDate"    column="statementOfAccountDate"    />
+        <result property="notes"    column="notes"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectAwStatementofaccountVo">
+        select statementOfAccountID, creator, reconciler, statementOfAccountDate, notes, status from aw_StatementOfAccount
+    </sql>
+
+    <select id="selectAwStatementofaccountList" parameterType="AwStatementofaccount" resultMap="AwStatementofaccountResult">
+        <include refid="selectAwStatementofaccountVo"/>
+        <where>  
+            <if test="creator != null  and creator != ''"> and creator = #{creator}</if>
+            <if test="reconciler != null  and reconciler != ''"> and reconciler = #{reconciler}</if>
+            <if test="statementOfAccountDate != null "> and statementOfAccountDate = #{statementOfAccountDate}</if>
+            <if test="notes != null  and notes != ''"> and notes = #{notes}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectAwStatementofaccountByStatementOfAccountID" parameterType="String" resultMap="AwStatementofaccountResult">
+        <include refid="selectAwStatementofaccountVo"/>
+        where statementOfAccountID = #{statementOfAccountID}
+    </select>
+        
+    <insert id="insertAwStatementofaccount" parameterType="AwStatementofaccountVo">
+        insert into aw_StatementOfAccount
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="statementOfAccountID != null">statementOfAccountID,</if>
+            <if test="creator != null and creator != ''">creator,</if>
+            <if test="reconciler != null and reconciler != ''">reconciler,</if>
+            <if test="statementOfAccountDate != null">statementOfAccountDate,</if>
+            <if test="notes != null">notes,</if>
+            <if test="status != null and status != ''">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="statementOfAccountID != null">#{statementOfAccountID},</if>
+            <if test="creator != null and creator != ''">#{creator},</if>
+            <if test="reconciler != null and reconciler != ''">#{reconciler},</if>
+            <if test="statementOfAccountDate != null">#{statementOfAccountDate},</if>
+            <if test="notes != null">#{notes},</if>
+            <if test="status != null and status != ''">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwStatementofaccount" parameterType="AwStatementofaccountVo">
+        update aw_StatementOfAccount
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="creator != null and creator != ''">creator = #{creator},</if>
+            <if test="reconciler != null and reconciler != ''">reconciler = #{reconciler},</if>
+            <if test="statementOfAccountDate != null">statementOfAccountDate = #{statementOfAccountDate},</if>
+            <if test="notes != null">notes = #{notes},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+        </trim>
+        where statementOfAccountID = #{statementOfAccountID}
+    </update>
+
+    <delete id="deleteAwStatementofaccountByStatementOfAccountID" parameterType="String">
+        delete from aw_StatementOfAccount where statementOfAccountID = #{statementOfAccountID}
+    </delete>
+
+    <delete id="deleteAwStatementofaccountByStatementOfAccountIDs" parameterType="String">
+        delete from aw_StatementOfAccount where statementOfAccountID in 
+        <foreach item="statementOfAccountID" collection="array" open="(" separator="," close=")">
+            #{statementOfAccountID}
+        </foreach>
+    </delete>
+</mapper>

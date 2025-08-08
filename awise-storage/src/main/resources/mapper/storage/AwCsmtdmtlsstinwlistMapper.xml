@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.storage.mapper.AwCsmtdmtlsstinwlistMapper">
+    
+    <resultMap type="AwCsmtdmtlsstinwlist" id="AwCsmtdmtlsstinwlistResult">
+        <result property="warehouseEntryID"    column="warehouseEntryID"    />
+    </resultMap>
+
+    <sql id="selectAwCsmtdmtlsstinwlistVo">
+        select warehouseEntryID from aw_CsmtdmtlsstinwList
+    </sql>
+
+    <select id="selectAwCsmtdmtlsstinwlistList" parameterType="AwCsmtdmtlsstinwlist" resultMap="AwCsmtdmtlsstinwlistResult">
+        <include refid="selectAwCsmtdmtlsstinwlistVo"/>
+        <where>  
+           
+        </where>
+    </select>
+    
+    <select id="selectAwCsmtdmtlsstinwlistByWarehouseEntryID" parameterType="String" resultMap="AwCsmtdmtlsstinwlistResult">
+        <include refid="selectAwCsmtdmtlsstinwlistVo"/>
+        where warehouseEntryID = #{warehouseEntryID}
+    </select>
+        
+    <insert id="insertAwCsmtdmtlsstinwlist" parameterType="AwCsmtdmtlsstinwlist">
+        insert into aw_CsmtdmtlsstinwList
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="warehouseEntryID != null">warehouseEntryID,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="warehouseEntryID != null">#{warehouseEntryID},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwCsmtdmtlsstinwlist" parameterType="AwCsmtdmtlsstinwlist">
+        update aw_CsmtdmtlsstinwList
+        <trim prefix="SET" suffixOverrides=",">
+        </trim>
+        where warehouseEntryID = #{warehouseEntryID}
+    </update>
+
+    <delete id="deleteAwCsmtdmtlsstinwlistByWarehouseEntryID" parameterType="String">
+        delete from aw_CsmtdmtlsstinwList where warehouseEntryID = #{warehouseEntryID}
+    </delete>
+
+    <delete id="deleteAwCsmtdmtlsstinwlistByWarehouseEntryIDs" parameterType="String">
+        delete from aw_CsmtdmtlsstinwList where warehouseEntryID in 
+        <foreach item="warehouseEntryID" collection="array" open="(" separator="," close=")">
+            #{warehouseEntryID}
+        </foreach>
+    </delete>
+</mapper>

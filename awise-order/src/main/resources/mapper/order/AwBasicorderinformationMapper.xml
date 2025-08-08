@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.order.mapper.AwBasicorderinformationMapper">
+    
+    <resultMap type="AwBasicorderinformation" id="AwBasicorderinformationResult">
+        <result property="id"    column="id"    />
+        <result property="number"    column="number"    />
+        <result property="name"    column="name"    />
+        <result property="money"    column="money"    />
+        <result property="productName"    column="productName"    />
+    </resultMap>
+
+    <sql id="selectAwBasicorderinformationVo">
+        select id, number, name, money, productName from aw_BasicOrderInformation
+    </sql>
+
+    <select id="selectAwBasicorderinformationList" parameterType="AwBasicorderinformation" resultMap="AwBasicorderinformationResult">
+        <include refid="selectAwBasicorderinformationVo"/>
+        <where>  
+            <if test="number != null "> and number = #{number}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="money != null  and money != ''"> and money = #{money}</if>
+            <if test="productName != null  and productName != ''"> and productName like concat('%', #{productName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectAwBasicorderinformationById" parameterType="String" resultMap="AwBasicorderinformationResult">
+        <include refid="selectAwBasicorderinformationVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAwBasicorderinformation" parameterType="AwBasicorderinformation">
+        insert into aw_BasicOrderInformation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">id,</if>
+            <if test="number != null">number,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="money != null">money,</if>
+            <if test="productName != null">productName,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">#{id},</if>
+            <if test="number != null">#{number},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="money != null">#{money},</if>
+            <if test="productName != null">#{productName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwBasicorderinformation" parameterType="AwBasicorderinformation">
+        update aw_BasicOrderInformation
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="number != null">number = #{number},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="money != null">money = #{money},</if>
+            <if test="productName != null">productName = #{productName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAwBasicorderinformationById" parameterType="String">
+        delete from aw_BasicOrderInformation where id = #{id}
+    </delete>
+
+    <delete id="deleteAwBasicorderinformationByIds" parameterType="String">
+        delete from aw_BasicOrderInformation where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

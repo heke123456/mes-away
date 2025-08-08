@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.produce.mapper.AwDetailproductwarehousingMapper">
+    
+    <resultMap type="AwDetailproductwarehousing" id="AwDetailproductwarehousingResult">
+        <result property="id"    column="id"    />
+        <result property="warehouseEntryID"    column="warehouseEntryID"    />
+        <result property="productID"    column="productID"    />
+        <result property="receiptQuantity"    column="receiptQuantity"    />
+        <result property="finishedProductInspectionID"    column="finishedProductInspectionID"    />
+        <result property="testResult"    column="testResult"    />
+        <result property="notes"    column="notes"    />
+    </resultMap>
+
+    <sql id="selectAwDetailproductwarehousingVo">
+        select id, warehouseEntryID, productID, receiptQuantity, FinishedProductInspectionID, testResult, notes from aw_DetailProductWarehousing
+    </sql>
+
+    <select id="selectAwDetailproductwarehousingList" parameterType="AwDetailproductwarehousing" resultMap="AwDetailproductwarehousingResult">
+        <include refid="selectAwDetailproductwarehousingVo"/>
+        <where>  
+            <if test="productID != null  and productID != ''"> and productID = #{productID}</if>
+            <if test="finishedProductInspectionID != null  and finishedProductInspectionID != ''"> and finishedProductInspectionID = #{finishedProductInspectionID}</if>
+            <if test="warehouseEntryID != null  and warehouseEntryID != ''"> and warehouseEntryID = #{warehouseEntryID}</if>
+        </where>
+    </select>
+    
+    <select id="selectAwDetailproductwarehousingById" parameterType="Long" resultMap="AwDetailproductwarehousingResult">
+        <include refid="selectAwDetailproductwarehousingVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAwDetailproductwarehousing" parameterType="AwDetailproductwarehousing">
+        insert into aw_DetailProductWarehousing
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="warehouseEntryID != null and warehouseEntryID != ''">warehouseEntryID,</if>
+            <if test="productID != null and productID != ''">productID,</if>
+            <if test="receiptQuantity != null">receiptQuantity,</if>
+            <if test="FinishedProductInspectionID != null">FinishedProductInspectionID,</if>
+            <if test="testResult != null">testResult,</if>
+            <if test="notes != null">notes,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="warehouseEntryID != null and warehouseEntryID != ''">#{warehouseEntryID},</if>
+            <if test="productID != null and productID != ''">#{productID},</if>
+            <if test="receiptQuantity != null">#{receiptQuantity},</if>
+            <if test="FinishedProductInspectionID != null">#{FinishedProductInspectionID},</if>
+            <if test="testResult != null">#{testResult},</if>
+            <if test="notes != null">#{notes},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwDetailproductwarehousing" parameterType="AwDetailproductwarehousing">
+        update aw_DetailProductWarehousing
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="warehouseEntryID != null and warehouseEntryID != ''">warehouseEntryID = #{warehouseEntryID},</if>
+            <if test="productID != null and productID != ''">productID = #{productID},</if>
+            <if test="receiptQuantity != null">receiptQuantity = #{receiptQuantity},</if>
+            <if test="FinishedProductInspectionID != null">FinishedProductInspectionID = #{FinishedProductInspectionID},</if>
+            <if test="testResult != null">testResult = #{testResult},</if>
+            <if test="notes != null">notes = #{notes},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAwDetailproductwarehousingById" parameterType="Long">
+        delete from aw_DetailProductWarehousing where id = #{id}
+    </delete>
+
+    <delete id="deleteAwDetailproductwarehousingByIds" parameterType="String">
+        delete from aw_DetailProductWarehousing where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

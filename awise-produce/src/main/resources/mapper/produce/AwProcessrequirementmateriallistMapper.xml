@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.produce.mapper.AwProcessrequirementmateriallistMapper">
+    
+    <resultMap type="AwProcessrequirementmateriallist" id="AwProcessrequirementmateriallistResult">
+        <result property="id"    column="id"    />
+        <result property="materialID"    column="materialID"    />
+        <result property="processingTechnologyID"    column="processingTechnologyID"    />
+        <result property="cuttingSize"    column="cuttingSize"    />
+        <result property="numberProducibleParts"    column="numberProducibleParts"    />
+    </resultMap>
+
+    <sql id="selectAwProcessrequirementmateriallistVo">
+        select id, materialID, processingTechnologyID, cuttingSize, numberProducibleParts from aw_ProcessRequirementMaterialList
+    </sql>
+
+    <select id="selectAwProcessrequirementmateriallistList" parameterType="AwProcessrequirementmateriallist" resultMap="AwProcessrequirementmateriallistResult">
+        <include refid="selectAwProcessrequirementmateriallistVo"/>
+        <where>  
+            <if test="materialID != null  and materialID != ''"> and materialID = #{materialID}</if>
+        </where>
+    </select>
+    
+    <select id="selectAwProcessrequirementmateriallistById" parameterType="Long" resultMap="AwProcessrequirementmateriallistResult">
+        <include refid="selectAwProcessrequirementmateriallistVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAwProcessrequirementmateriallist" parameterType="AwProcessrequirementmateriallist" useGeneratedKeys="true" keyProperty="id">
+        insert into aw_ProcessRequirementMaterialList
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="materialID != null and materialID != ''">materialID,</if>
+            <if test="processingTechnologyID != null and processingTechnologyID != ''">processingTechnologyID,</if>
+            <if test="cuttingSize != null">cuttingSize,</if>
+            <if test="numberProducibleParts != null and numberProducibleParts != ''">numberProducibleParts,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="materialID != null and materialID != ''">#{materialID},</if>
+            <if test="processingTechnologyID != null and processingTechnologyID != ''">#{processingTechnologyID},</if>
+            <if test="cuttingSize != null">#{cuttingSize},</if>
+            <if test="numberProducibleParts != null and numberProducibleParts != ''">#{numberProducibleParts},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwProcessrequirementmateriallist" parameterType="AwProcessrequirementmateriallist">
+        update aw_ProcessRequirementMaterialList
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="materialID != null and materialID != ''">materialID = #{materialID},</if>
+            <if test="processingTechnologyID != null and processingTechnologyID != ''">processingTechnologyID = #{processingTechnologyID},</if>
+            <if test="cuttingSize != null">cuttingSize = #{cuttingSize},</if>
+            <if test="numberProducibleParts != null and numberProducibleParts != ''">numberProducibleParts = #{numberProducibleParts},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAwProcessrequirementmateriallistById" parameterType="Long">
+        delete from aw_ProcessRequirementMaterialList where id = #{id}
+    </delete>
+
+    <delete id="deleteAwProcessrequirementmateriallistByIds" parameterType="String">
+        delete from aw_ProcessRequirementMaterialList where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

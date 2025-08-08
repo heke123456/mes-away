@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.storage.mapper.AwMatloutbounddetMapper">
+    
+    <resultMap type="AwMatloutbounddet" id="AwMatloutbounddetResult">
+        <result property="id"    column="id"    />
+        <result property="deliveryNoteID"    column="deliveryNoteID"    />
+        <result property="materialID"    column="materialID"    />
+        <result property="name"    column="name"    />
+        <result property="materialPrice"    column="materialPrice"    />
+        <result property="typeName"    column="typeName"    />
+        <result property="specificationsType"    column="specificationsType"    />
+        <result property="specificationModel"    column="specificationModel"    />
+        <result property="productionTasksID"    column="productionTasksID"    />
+        <result property="processingTechnologyID"    column="processingTechnologyID"    />
+        <result property="outboundQuantity"    column="outboundQuantity"    />
+        <result property="notes"    column="notes"    />
+    </resultMap>
+
+    <sql id="selectAwMatloutbounddetVo">
+        select id, deliveryNoteID, materialID, name,materialPrice, typeName, specificationsType, specificationModel, productionTasksID, processingTechnologyID, outboundQuantity, notes from aw_MatlOutboundDet
+    </sql>
+
+    <select id="selectAwMatloutbounddetList" parameterType="AwMatloutbounddet" resultMap="AwMatloutbounddetResult">
+        <include refid="selectAwMatloutbounddetVo"/>
+        <where>  
+            <if test="deliveryNoteID != null  and deliveryNoteID != ''"> and deliveryNoteID = #{deliveryNoteID}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="typeName != null  and typeName != ''"> and typeName like concat('%', #{typeName}, '%')</if>
+            <if test="specificationsType != null  and specificationsType != ''"> and specificationsType = #{specificationsType}</if>
+            <if test="specificationModel != null  and specificationModel != ''"> and specificationModel = #{specificationModel}</if>
+            <if test="productionTasksID != null "> and productionTasksID = #{productionTasksID}</if>
+        </where>
+    </select>
+    
+    <select id="selectAwMatloutbounddetById" parameterType="Long" resultMap="AwMatloutbounddetResult">
+        <include refid="selectAwMatloutbounddetVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAwMatloutbounddet" parameterType="AwMatloutbounddet">
+        insert into aw_MatlOutboundDet
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="deliveryNoteID != null and deliveryNoteID != ''">deliveryNoteID,</if>
+            <if test="materialID != null and materialID != ''">materialID,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="materialPrice != null and materialPrice != ''">materialPrice,</if>
+            <if test="typeName != null">typeName,</if>
+            <if test="specificationsType != null">specificationsType,</if>
+            <if test="specificationModel != null">specificationModel,</if>
+            <if test="productionTasksID != null">productionTasksID,</if>
+            <if test="processingTechnologyID != null">processingTechnologyID,</if>
+            <if test="outboundQuantity != null">outboundQuantity,</if>
+            <if test="notes != null">notes,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="deliveryNoteID != null and deliveryNoteID != ''">#{deliveryNoteID},</if>
+            <if test="materialID != null and materialID != ''">#{materialID},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="materialPrice != null and materialPrice != ''">#{materialPrice</if>
+            <if test="typeName != null">#{typeName},</if>
+            <if test="specificationsType != null">#{specificationsType},</if>
+            <if test="specificationModel != null">#{specificationModel},</if>
+            <if test="productionTasksID != null">#{productionTasksID},</if>
+            <if test="processingTechnologyID != null">#{processingTechnologyID},</if>
+            <if test="outboundQuantity != null">#{outboundQuantity},</if>
+            <if test="notes != null">#{notes},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwMatloutbounddet" parameterType="AwMatloutbounddet">
+        update aw_MatlOutboundDet
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deliveryNoteID != null and deliveryNoteID != ''">deliveryNoteID = #{deliveryNoteID},</if>
+            <if test="materialID != null and materialID != ''">materialID = #{materialID},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="materialPrice != null and materialPrice != ''">materialPrice = #{materialPrice},</if>
+            <if test="typeName != null">typeName = #{typeName},</if>
+            <if test="specificationsType != null">specificationsType = #{specificationsType},</if>
+            <if test="specificationModel != null">specificationModel = #{specificationModel},</if>
+            <if test="productionTasksID != null">productionTasksID = #{productionTasksID},</if>
+            <if test="processingTechnologyID != null">processingTechnologyID = #{processingTechnologyID},</if>
+            <if test="outboundQuantity != null">outboundQuantity = #{outboundQuantity},</if>
+            <if test="notes != null">notes = #{notes},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAwMatloutbounddetById" parameterType="Long">
+        delete from aw_MatlOutboundDet where id = #{id}
+    </delete>
+
+    <delete id="deleteAwMatloutbounddetByIds" parameterType="String">
+        delete from aw_MatlOutboundDet where id in
+        <foreach item="id" collection="array" open="(n" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

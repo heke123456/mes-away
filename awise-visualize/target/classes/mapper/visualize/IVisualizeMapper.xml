@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.away.visualize.mapper.IVisualizeMapper">
+
+
+    <resultMap type="productionVo" id="productionResult">
+        <result property="id"    column="id"    />
+        <result property="notes"    column="notes"    />
+        <result property="name"    column="name"    />
+    </resultMap>
+
+
+
+    <select id="getSaleorderList" resultType="java.util.Map">
+        SELECT
+            CONCAT(month, '月') AS month,
+    COUNT(*) AS order_count
+        FROM
+            (
+            SELECT
+            DATE_FORMAT(createTime, '%c') AS month
+            FROM
+            aw_saleorder
+            WHERE YEAR(createTime) = YEAR(CURDATE())
+            ) AS months
+        GROUP BY
+            month
+        ORDER BY
+            CAST(month AS UNSIGNED);
+    </select>
+
+
+    <select id="getToolList" resultType="java.util.Map">
+        select aw_LocalTool.number as value ,aw_toolInformation.name as name from aw_LocalTool join aw_toolInformation on aw_LocalTool.toolInformationID = aw_toolInformation.id;
+
+    </select>
+    <select id="getProductList" resultType="java.util.Map">
+        select aw_product.name as name ,aw_ProductInventory.number as value from aw_ProductInventory join aw_product  on aw_ProductInventory.productID = aw_product.id
+
+    </select>
+    <select id="getMaterialList" resultType="java.util.Map">
+        select aw_localmaterials.number as value, aw_material.name as name     from  aw_localmaterials join  aw_material on aw_localmaterials.materialID=aw_material.id
+
+    </select>
+    <select id="getDeptList" resultType="java.util.Map">
+        select sys_dept.dept_name , count(*) as count from  sys_user  join   sys_dept on  sys_user.dept_id=sys_dept.dept_id where sys_user.del_flag=0 group by sys_user.dept_id
+    </select>
+    <select id="getProductionList"  resultMap="productionResult">
+        SELECT aw_saleorder.id, aw_partner.name, aw_ProductionTasks.notes
+        FROM aw_ProductionTasks
+                 JOIN aw_saleorder ON aw_ProductionTasks.saleOrderID = aw_saleorder.id
+                 JOIN aw_partner ON aw_saleorder.customerID = aw_partner.id
+        WHERE YEAR(aw_saleorder.createTime) = YEAR(CURDATE());
+    </select>
+
+</mapper>

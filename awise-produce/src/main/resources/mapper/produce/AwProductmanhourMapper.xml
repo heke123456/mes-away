@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.produce.mapper.AwProductmanhourMapper">
+
+    <resultMap type="AwProductmanhour" id="AwProductmanhourResult">
+        <result property="id"    column="id"    />
+        <result property="saleorderID"    column="saleorderID"    />
+        <result property="productiontasksID"    column="productiontasksID"    />
+        <result property="processingprocess"    column="processingprocess"    />
+        <result property="manhourName"    column="manHourName"    />
+        <result property="workClass"    column="workClass"    />
+        <result property="platformNumber"    column="PlatformNumber"    />
+        <result property="qualifiedQuantity"    column="qualifiedQuantity"    />
+        <result property="scrapQuantity"    column="scrapQuantity"    />
+        <result property="lotNumber"    column="lotNumber"    />
+        <result property="manhoursTime"    column="manhoursTime"    />
+        <result property="formulateName1"    column="formulateName1"    />
+        <result property="handlers1"    column="handlers1"    />
+        <result property="beginTime1"    column="beginTime1"    />
+        <result property="endTime1"    column="endTime1"    />
+        <result property="actualTime1"    column="actualTime1"    />
+        <result property="formulateName2"    column="formulateName2"    />
+        <result property="handlers2"    column="handlers2"    />
+        <result property="beginTime2"    column="beginTime2"    />
+        <result property="endTime2"    column="endTime2"    />
+        <result property="actualTime2"    column="actualTime2"    />
+    </resultMap>
+
+    <sql id="selectAwProductmanhourVo">
+        select id, saleorderID, productiontasksID, processingprocess, manhourName, workClass, PlatformNumber, qualifiedQuantity, scrapQuantity, lotNumber, manhoursTime, formulateName1, handlers1, beginTime1, endTime1, actualTime1, formulateName2,  handlers2, beginTime2, endTime2, actualTime2 from aw_productmanhour
+    </sql>
+
+    <select id="selectAwProductmanhourList" parameterType="AwProductmanhour" resultMap="AwProductmanhourResult">
+        <include refid="selectAwProductmanhourVo"/>
+        <where>  
+            <if test="saleorderID != null  and saleorderID != ''"> and saleorderID = #{saleorderID}</if>
+            <if test="productiontasksID != null "> and productiontasksID = #{productiontasksID}</if>
+            <if test="processingprocess != null "> and processingprocess = #{processingprocess}</if>
+            <if test="manhourName != null  and manhourName != ''"> and manhourName like concat('%', #{manhourName}, '%')</if>
+            <if test="workClass != null  and workClass != ''"> and workClass = #{workClass}</if>
+            <if test="PlatformNumber != null  and PlatformNumber != ''"> and PlatformNumber = #{PlatformNumber}</if>
+            <if test="qualifiedQuantity != null "> and qualifiedQuantity = #{qualifiedQuantity}</if>
+            <if test="scrapQuantity != null "> and scrapQuantity = #{scrapQuantity}</if>
+            <if test="lotNumber != null "> and lotNumber = #{lotNumber}</if>
+            <if test="manhoursTime != null "> and manhoursTime = #{manhoursTime}</if>
+            <if test="formulateName1 != null  and formulateName1 != ''"> and formulateName1 = #{formulateName1}</if>
+            <if test="handlers1 != null  and handlers1 != ''"> and handlers1 = #{handlers1}</if>
+            <if test="beginTime1 != null "> and beginTime1 = #{beginTime1}</if>
+            <if test="endTime1 != null "> and endTime1 = #{endTime1}</if>
+            <if test="actualTime1 != null "> and actualTime1 = #{actualTime1}</if>
+            <if test="formulateName2 != null  and formulateName2 != ''"> and formulateName2 = #{formulateName2}</if>
+
+            <if test="handlers2 != null  and handlers2 != ''"> and handlers2 = #{handlers2}</if>
+            <if test="beginTime2 != null "> and beginTime2 = #{beginTime2}</if>
+            <if test="endTime2 != null "> and endTime2 = #{endTime2}</if>
+            <if test="actualTime2 != null "> and actualTime2 = #{actualTime2}</if>
+        </where>
+    </select>
+    
+    <select id="selectAwProductmanhourById" parameterType="Long" resultMap="AwProductmanhourResult">
+        <include refid="selectAwProductmanhourVo"/>
+        where id = #{id}
+    </select>
+
+
+
+
+    <insert id="insertAwProductmanhour" parameterType="AwProductmanhour" useGeneratedKeys="true" keyProperty="id">
+        insert into aw_productmanhour
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="saleorderID != null and saleorderID != ''">saleorderID,</if>
+            <if test="productiontasksID != null">productiontasksID,</if>
+            <if test="processingprocess != null">processingprocess,</if>
+            <if test="manhourName != null">manhourName,</if>
+            <if test="workClass != null">workClass,</if>
+            <if test="PlatformNumber != null">PlatformNumber,</if>
+            <if test="qualifiedQuantity != null">qualifiedQuantity,</if>
+            <if test="scrapQuantity != null">scrapQuantity,</if>
+            <if test="lotNumber != null">lotNumber,</if>
+            <if test="manhoursTime != null">manhoursTime,</if>
+            <if test="formulateName1 != null">formulateName1,</if>
+
+            <if test="handlers1 != null">handlers1,</if>
+            <if test="beginTime1 != null">beginTime1,</if>
+            <if test="endTime1 != null">endTime1,</if>
+            <if test="actualTime1 != null">actualTime1,</if>
+            <if test="formulateName2 != null">formulateName2,</if>
+
+            <if test="handlers2 != null">handlers2,</if>
+            <if test="beginTime2 != null">beginTime2,</if>
+            <if test="endTime2 != null">endTime2,</if>
+            <if test="actualTime2 != null">actualTime2,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="saleorderID != null and saleorderID != ''">#{saleorderID},</if>
+            <if test="productiontasksID != null">#{productiontasksID},</if>
+            <if test="processingprocess != null">#{processingprocess},</if>
+            <if test="manhourName != null">#{manhourName},</if>
+            <if test="workClass != null">#{workClass},</if>
+            <if test="PlatformNumber != null">#{PlatformNumber},</if>
+            <if test="qualifiedQuantity != null">#{qualifiedQuantity},</if>
+            <if test="scrapQuantity != null">#{scrapQuantity},</if>
+            <if test="lotNumber != null">#{lotNumber},</if>
+            <if test="manhoursTime != null">#{manhoursTime},</if>
+            <if test="formulateName1 != null">#{formulateName1},</if>
+            <if test="handlers1 != null">#{handlers1},</if>
+            <if test="beginTime1 != null">#{beginTime1},</if>
+            <if test="endTime1 != null">#{endTime1},</if>
+            <if test="actualTime1 != null">#{actualTime1},</if>
+            <if test="formulateName2 != null">#{formulateName2},</if>
+            <if test="handlers2 != null">#{handlers2},</if>
+            <if test="beginTime2 != null">#{beginTime2},</if>
+            <if test="endTime2 != null">#{endTime2},</if>
+            <if test="actualTime2 != null">#{actualTime2},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwProductmanhour" parameterType="AwProductmanhour">
+        update aw_productmanhour
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="saleorderID != null and saleorderID != ''">saleorderID = #{saleorderID},</if>
+            <if test="productiontasksID != null">productiontasksID = #{productiontasksID},</if>
+            <if test="processingprocess != null">processingprocess = #{processingprocess},</if>
+            <if test="manhourName != null">manhourName = #{manhourName},</if>
+            <if test="workClass != null">workClass = #{workClass},</if>
+            <if test="PlatformNumber != null">PlatformNumber = #{PlatformNumber},</if>
+            <if test="qualifiedQuantity != null">qualifiedQuantity = #{qualifiedQuantity},</if>
+            <if test="scrapQuantity != null">scrapQuantity = #{scrapQuantity},</if>
+            <if test="lotNumber != null">lotNumber = #{lotNumber},</if>
+            <if test="manhoursTime != null">manhoursTime = #{manhoursTime},</if>
+            <if test="formulateName1 != null">formulateName1 = #{formulateName1},</if>
+            <if test="handlers1 != null">handlers1 = #{handlers1},</if>
+            <if test="beginTime1 != null">beginTime1 = #{beginTime1},</if>
+            <if test="endTime1 != null">endTime1 = #{endTime1},</if>
+            <if test="actualTime1 != null">actualTime1 = #{actualTime1},</if>
+            <if test="formulateName2 != null">formulateName2 = #{formulateName2},</if>
+            <if test="handlers2 != null">handlers2 = #{handlers2},</if>
+            <if test="beginTime2 != null">beginTime2 = #{beginTime2},</if>
+            <if test="endTime2 != null">endTime2 = #{endTime2},</if>
+            <if test="actualTime2 != null">actualTime2 = #{actualTime2},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAwProductmanhourById" parameterType="Long">
+        delete from aw_productmanhour where id = #{id}
+    </delete>
+
+    <delete id="deleteAwProductmanhourByIds" parameterType="String">
+        delete from aw_productmanhour where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

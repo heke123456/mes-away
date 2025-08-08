@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.storage.mapper.AwToolstorageMapper">
+    
+    <resultMap type="AwToolstorage" id="AwToolstorageResult">
+        <result property="id"    column="id"    />
+        <result property="warehouseEntryID"    column="warehouseEntryID"    />
+        <result property="manufacturers"    column="manufacturers"    />
+        <result property="receiptInvoiceID"    column="receiptInvoiceID"    />
+        <result property="toolInformationID"    column="toolInformationID"    />
+        <result property="receiptQuantity"    column="receiptQuantity"    />
+        <result property="notes"    column="notes"    />
+    </resultMap>
+
+    <sql id="selectAwToolstorageVo">
+        select id, warehouseEntryID, receiptInvoiceID, toolInformationID, receiptQuantity, notes,manufacturers from aw_toolStorage
+    </sql>
+
+    <select id="selectAwToolstorageList" parameterType="AwToolstorage" resultMap="AwToolstorageResult">
+        <include refid="selectAwToolstorageVo"/>
+        <where>  
+            <if test="warehouseEntryID != null  and warehouseEntryID != ''"> and warehouseEntryID = #{warehouseEntryID}</if>
+            <if test="receiptInvoiceID != null  and receiptInvoiceID != ''"> and receiptInvoiceID = #{receiptInvoiceID}</if>
+            <if test="manufacturers != null  and manufacturers != ''"> and manufacturers = #{manufacturers}</if>
+            <if test="toolInformationID != null  and toolInformationID != ''"> and toolInformationID = #{toolInformationID}</if>
+            <if test="receiptQuantity != null "> and receiptQuantity = #{receiptQuantity}</if>
+            <if test="notes != null  and notes != ''"> and notes = #{notes}</if>
+        </where>
+    </select>
+    
+    <select id="selectAwToolstorageById" parameterType="String" resultMap="AwToolstorageResult">
+        <include refid="selectAwToolstorageVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAwToolstorage" parameterType="AwToolstorage" useGeneratedKeys="true" keyProperty="id">
+        insert into aw_toolStorage
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="warehouseEntryID != null and warehouseEntryID != ''">warehouseEntryID,</if>
+            <if test="receiptInvoiceID != null and receiptInvoiceID != ''">receiptInvoiceID,</if>
+            <if test="manufacturers != null and manufacturers != ''">manufacturers,</if>
+            <if test="toolInformationID != null and toolInformationID != ''">toolInformationID,</if>
+            <if test="receiptQuantity != null">receiptQuantity,</if>
+            <if test="notes != null">notes,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="warehouseEntryID != null and warehouseEntryID != ''">#{warehouseEntryID},</if>
+            <if test="receiptInvoiceID != null and receiptInvoiceID != ''">#{receiptInvoiceID},</if>
+            <if test="manufacturers != null and manufacturers != ''">#{manufacturers},</if>
+            <if test="toolInformationID != null and toolInformationID != ''">#{toolInformationID},</if>
+            <if test="receiptQuantity != null">#{receiptQuantity},</if>
+            <if test="notes != null">#{notes},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwToolstorage" parameterType="AwToolstorage">
+        update aw_toolStorage
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="warehouseEntryID != null and warehouseEntryID != ''">warehouseEntryID = #{warehouseEntryID},</if>
+            <if test="receiptInvoiceID != null and receiptInvoiceID != ''">receiptInvoiceID = #{receiptInvoiceID},</if>
+            <if test="manufacturers != null and manufacturers != ''">manufacturers = #{manufacturers},</if>
+            <if test="toolInformationID != null and toolInformationID != ''">toolInformationID = #{toolInformationID},</if>
+            <if test="receiptQuantity != null">receiptQuantity = #{receiptQuantity},</if>
+            <if test="notes != null">notes = #{notes},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAwToolstorageById" parameterType="String">
+        delete from aw_toolStorage where id = #{id}
+    </delete>
+
+    <delete id="deleteAwToolstorageByIds" parameterType="String">
+        delete from aw_toolStorage where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

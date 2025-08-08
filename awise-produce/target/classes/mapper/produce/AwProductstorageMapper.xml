@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.produce.mapper.AwProductstorageMapper">
+    
+    <resultMap type="AwProductstorage" id="AwProductstorageResult">
+        <result property="id"    column="id"    />
+        <result property="warehouseEntryID"    column="warehouseEntryID"    />
+        <result property="productID"    column="productID"    />
+        <result property="FinishedProductInspectionID"    column="FinishedProductInspectionID"    />
+        <result property="receiptQuantity"    column="receiptQuantity"    />
+        <result property="notes"    column="notes"    />
+    </resultMap>
+
+    <sql id="selectAwProductstorageVo">
+        select id, warehouseEntryID, productID, FinishedProductInspectionID, receiptQuantity, notes from aw_ProductStorage
+    </sql>
+
+    <select id="selectAwProductstorageList" parameterType="AwProductstorage" resultMap="AwProductstorageResult">
+        <include refid="selectAwProductstorageVo"/>
+        <where>  
+            <if test="warehouseEntryID != null  and warehouseEntryID != ''"> and warehouseEntryID = #{warehouseEntryID}</if>
+            <if test="productID != null  and productID != ''"> and productID = #{productID}</if>
+            <if test="FinishedProductInspectionID != null  and FinishedProductInspectionID != ''"> and FinishedProductInspectionID = #{FinishedProductInspectionID}</if>
+            <if test="receiptQuantity != null "> and receiptQuantity = #{receiptQuantity}</if>
+            <if test="notes != null  and notes != ''"> and notes = #{notes}</if>
+        </where>
+    </select>
+    
+    <select id="selectAwProductstorageById" parameterType="Long" resultMap="AwProductstorageResult">
+        <include refid="selectAwProductstorageVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAwProductstorage" parameterType="AwProductstorage">
+        insert into aw_ProductStorage
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="warehouseEntryID != null and warehouseEntryID != ''">warehouseEntryID,</if>
+            <if test="productID != null and productID != ''">productID,</if>
+            <if test="FinishedProductInspectionID != null">FinishedProductInspectionID,</if>
+            <if test="receiptQuantity != null">receiptQuantity,</if>
+            <if test="notes != null">notes,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="warehouseEntryID != null and warehouseEntryID != ''">#{warehouseEntryID},</if>
+            <if test="productID != null and productID != ''">#{productID},</if>
+            <if test="FinishedProductInspectionID != null">#{FinishedProductInspectionID},</if>
+            <if test="receiptQuantity != null">#{receiptQuantity},</if>
+            <if test="notes != null">#{notes},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwProductstorage" parameterType="AwProductstorage">
+        update aw_ProductStorage
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="warehouseEntryID != null and warehouseEntryID != ''">warehouseEntryID = #{warehouseEntryID},</if>
+            <if test="productID != null and productID != ''">productID = #{productID},</if>
+            <if test="FinishedProductInspectionID != null">FinishedProductInspectionID = #{FinishedProductInspectionID},</if>
+            <if test="receiptQuantity != null">receiptQuantity = #{receiptQuantity},</if>
+            <if test="notes != null">notes = #{notes},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAwProductstorageById" parameterType="Long">
+        delete from aw_ProductStorage where id = #{id}
+    </delete>
+
+    <delete id="deleteAwProductstorageByIds" parameterType="String">
+        delete from aw_ProductStorage where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDialectMappings">
+    <file url="file://D:/dowload3/away (1)/BasicOrderInformationMenu.sql" dialect="MySQL" />
+    <file url="file://E:/sql/dz.sql" dialect="MySQL" />
+    <file url="file://E:/sql/dzdetail.sql" dialect="MySQL" />
+    <file url="file://E:/sql/s1.sql" dialect="MySQL" />
+    <file url="file://E:/sql/s2.sql" dialect="MySQL" />
+    <file url="file://E:/sql/s3.sql" dialect="MySQL" />
+  </component>
+</project>

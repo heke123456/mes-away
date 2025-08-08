@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.qrcode.mapper.AwQrcodeMapper">
+
+    <resultMap type="AwQrcode" id="AwQrcodeResult">
+        <result property="id"    column="id"    />
+        <result property="fileurl"    column="fileurl"    />
+        <result property="productionTasksFormID"    column="productionTasksFormID"    />
+        <result property="productionTasksID"    column="productionTasksID"    />
+        <result property="processingprocessID"    column="processingprocessID"    />
+        <result property="createTime"    column="createTime"    />
+        <result property="effectiveDuration"    column="effectiveDuration"    />
+    </resultMap>
+
+    <sql id="selectAwQrcodeVo">
+        select id, fileurl, productionTasksFormID, productionTasksID, processingprocessID, createTime, effectiveDuration from aw_qrcode
+    </sql>
+
+    <select id="selectAwQrcodeList" parameterType="AwQrcode" resultMap="AwQrcodeResult">
+        <include refid="selectAwQrcodeVo"/>
+        <where>
+            <if test="id != null "> and id = #{id}</if>
+            <if test="fileurl != null  and fileurl != ''"> and fileurl = #{fileurl}</if>
+            <if test="productionTasksFormID != null "> and productionTasksFormID = #{productionTasksFormID}</if>
+            <if test="productionTasksID != null "> and productionTasksID = #{productionTasksID}</if>
+            <if test="processingprocessID != null "> and processingprocessID = #{processingprocessID}</if>
+            <if test="createTime != null "> and createTime = #{createTime}</if>
+            <if test="effectiveDuration != null  and effectiveDuration != ''"> and effectiveDuration = #{effectiveDuration}</if>
+        </where>
+    </select>
+    
+    <select id="selectAwQrcodeById" parameterType="Long" resultMap="AwQrcodeResult">
+        <include refid="selectAwQrcodeVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectAwQrcodeByProcessingprocessID" parameterType="Long" resultMap="AwQrcodeResult">
+        <include refid="selectAwQrcodeVo"/>
+        where processingprocessID = #{processingprocessID}
+        ORDER BY createTime DESC
+        LIMIT 1;
+    </select>
+
+    <insert id="insertAwQrcode" parameterType="AwQrcode">
+        insert into aw_qrcode
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="fileurl != null and fileurl != ''">fileurl,</if>
+            <if test="productionTasksFormID != null">productionTasksFormID,</if>
+            <if test="productionTasksID != null">productionTasksID,</if>
+            <if test="processingprocessID != null">processingprocessID,</if>
+            <if test="createTime != null">createTime,</if>
+            <if test="effectiveDuration != null and effectiveDuration != ''">effectiveDuration,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="fileurl != null and fileurl != ''">#{fileurl},</if>
+            <if test="productionTasksFormID != null">#{productionTasksFormID},</if>
+            <if test="productionTasksID != null">#{productionTasksID},</if>
+            <if test="processingprocessID != null">#{processingprocessID},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="effectiveDuration != null and effectiveDuration != ''">#{effectiveDuration},</if>
+        </trim>
+    </insert>
+
+    <update id="updateAwQrcode" parameterType="AwQrcode">
+        update aw_qrcode
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="fileurl != null and fileurl != ''">fileurl = #{fileurl},</if>
+            <if test="productionTasksFormID != null">productionTasksFormID = #{productionTasksFormID},</if>
+            <if test="productionTasksID != null">productionTasksID = #{productionTasksID},</if>
+            <if test="processingprocessID != null">processingprocessID = #{processingprocessID},</if>
+            <if test="createTime != null">createTime = #{createTime},</if>
+            <if test="effectiveDuration != null and effectiveDuration != ''">effectiveDuration = #{effectiveDuration},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAwQrcodeById" parameterType="Long">
+        delete from aw_qrcode where id = #{id}
+    </delete>
+
+    <delete id="deleteAwQrcodeByIds" parameterType="String">
+        delete from aw_qrcode where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

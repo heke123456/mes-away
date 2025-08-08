@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.storage.mapper.AwBasicinformationofmaterialsMapper">
+    
+    <resultMap type="AwBasicinformationofmaterials" id="AwBasicinformationofmaterialsResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="typeID"    column="typeID"    />
+        <result property="specificationsID"    column="specificationsID"    />
+        <result property="materialDensity"    column="materialDensity"    />
+        <result property="materialPrice"    column="materialPrice"    />
+        <result property="typeName"    column="typeName"    />
+        <result property="specificationsType"    column="specificationsType"    />
+        <result property="specificationModel"    column="specificationModel"    />
+    </resultMap>
+
+    <sql id="selectAwBasicinformationofmaterialsVo">
+        select id, name, typeID, specificationsID, materialDensity, materialPrice, typeName, specificationsType, specificationModel from aw_BasicInformationOfMaterials
+    </sql>
+
+    <select id="selectAwBasicinformationofmaterialsList" parameterType="AwBasicinformationofmaterials" resultMap="AwBasicinformationofmaterialsResult">
+        <include refid="selectAwBasicinformationofmaterialsVo"/>
+        <where>  
+            <if test="id != null  and id != ''"> and id = #{id}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="typeID != null "> and typeID = #{typeID}</if>
+            <if test="specificationsID != null "> and specificationsID = #{specificationsID}</if>
+            <if test="materialDensity != null  and materialDensity != ''"> and materialDensity = #{materialDensity}</if>
+            <if test="materialPrice != null  and materialPrice != ''"> and materialPrice = #{materialPrice}</if>
+            <if test="typeName != null  and typeName != ''"> and typeName like concat('%', #{typeName}, '%')</if>
+            <if test="specificationsType != null  and specificationsType != ''"> and specificationsType = #{specificationsType}</if>
+            <if test="specificationModel != null  and specificationModel != ''"> and specificationModel = #{specificationModel}</if>
+        </where>
+    </select>
+    
+    <select id="selectAwBasicinformationofmaterialsById" parameterType="String" resultMap="AwBasicinformationofmaterialsResult">
+        <include refid="selectAwBasicinformationofmaterialsVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAwBasicinformationofmaterials" parameterType="AwBasicinformationofmaterials">
+        insert into aw_BasicInformationOfMaterials
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">id,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="typeID != null">typeID,</if>
+            <if test="specificationsID != null">specificationsID,</if>
+            <if test="materialDensity != null and materialDensity != ''">materialDensity,</if>
+            <if test="materialPrice != null">materialPrice,</if>
+            <if test="typeName != null">typeName,</if>
+            <if test="specificationsType != null">specificationsType,</if>
+            <if test="specificationModel != null">specificationModel,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">#{id},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="typeID != null">#{typeID},</if>
+            <if test="specificationsID != null">#{specificationsID},</if>
+            <if test="materialDensity != null and materialDensity != ''">#{materialDensity},</if>
+            <if test="materialPrice != null">#{materialPrice},</if>
+            <if test="typeName != null">#{typeName},</if>
+            <if test="specificationsType != null">#{specificationsType},</if>
+            <if test="specificationModel != null">#{specificationModel},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwBasicinformationofmaterials" parameterType="AwBasicinformationofmaterials">
+        update aw_BasicInformationOfMaterials
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="typeID != null">typeID = #{typeID},</if>
+            <if test="specificationsID != null">specificationsID = #{specificationsID},</if>
+            <if test="materialDensity != null and materialDensity != ''">materialDensity = #{materialDensity},</if>
+            <if test="materialPrice != null">materialPrice = #{materialPrice},</if>
+            <if test="typeName != null">typeName = #{typeName},</if>
+            <if test="specificationsType != null">specificationsType = #{specificationsType},</if>
+            <if test="specificationModel != null">specificationModel = #{specificationModel},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAwBasicinformationofmaterialsById" parameterType="String">
+        delete from aw_BasicInformationOfMaterials where id = #{id}
+    </delete>
+
+    <delete id="deleteAwBasicinformationofmaterialsByIds" parameterType="String">
+        delete from aw_BasicInformationOfMaterials where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

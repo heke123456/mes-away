@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.finance.mapper.AwReceiptinvoiceMapper">
+
+    <resultMap type="AwReceiptinvoice" id="AwReceiptinvoiceResult">
+        <result property="receiptInvoiceID"    column="receiptInvoiceID"    />
+        <result property="invoiceType"    column="invoiceType"    />
+        <result property="invoiceTaxRate"    column="invoiceTaxRate"    />
+        <result property="purchaseUnitPriceExcludingTax"    column="purchaseUnitPriceExcludingTax"    />
+        <result property="purchaseUnitPriceIncludingTax"    column="purchaseUnitPriceIncludingTax"    />
+    </resultMap>
+
+    <sql id="selectAwReceiptinvoiceVo">
+        select receiptInvoiceID, invoiceType, invoiceTaxRate, purchaseUnitPriceExcludingTax, purchaseUnitPriceIncludingTax from aw_ReceiptInvoice
+    </sql>
+
+    <select id="selectAwReceiptinvoiceList" parameterType="AwReceiptinvoice" resultMap="AwReceiptinvoiceResult">
+        <include refid="selectAwReceiptinvoiceVo"/>
+        <where>
+            <if test="invoiceType != null  and invoiceType != ''"> and invoiceType = #{invoiceType}</if>
+            <if test="invoiceTaxRate != null  and invoiceTaxRate != ''"> and invoiceTaxRate = #{invoiceTaxRate}</if>
+            <if test="purchaseUnitPriceExcludingTax != null "> and purchaseUnitPriceExcludingTax = #{purchaseUnitPriceExcludingTax}</if>
+            <if test="purchaseUnitPriceIncludingTax != null "> and purchaseUnitPriceIncludingTax = #{purchaseUnitPriceIncludingTax}</if>
+        </where>
+    </select>
+
+    <select id="selectAwReceiptinvoiceByReceiptInvoiceID" parameterType="String" resultMap="AwReceiptinvoiceResult">
+        <include refid="selectAwReceiptinvoiceVo"/>
+        where receiptInvoiceID = #{receiptInvoiceID}
+    </select>
+
+    <insert id="insertAwReceiptinvoice" parameterType="AwReceiptinvoice">
+        insert into aw_ReceiptInvoice
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="receiptInvoiceID != null and receiptInvoiceID != ''">receiptInvoiceID,</if>
+            <if test="invoiceType != null">invoiceType,</if>
+            <if test="invoiceTaxRate != null">invoiceTaxRate,</if>
+            <if test="purchaseUnitPriceExcludingTax != null">purchaseUnitPriceExcludingTax,</if>
+            <if test="purchaseUnitPriceIncludingTax != null">purchaseUnitPriceIncludingTax,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="receiptInvoiceID != null and receiptInvoiceID != ''">#{receiptInvoiceID},</if>
+            <if test="invoiceType != null">#{invoiceType},</if>
+            <if test="invoiceTaxRate != null">#{invoiceTaxRate},</if>
+            <if test="purchaseUnitPriceExcludingTax != null">#{purchaseUnitPriceExcludingTax},</if>
+            <if test="purchaseUnitPriceIncludingTax != null">#{purchaseUnitPriceIncludingTax},</if>
+        </trim>
+    </insert>
+
+    <update id="updateAwReceiptinvoice" parameterType="AwReceiptinvoice">
+        update aw_ReceiptInvoice
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="invoiceType != null">invoiceType = #{invoiceType},</if>
+            <if test="invoiceTaxRate != null">invoiceTaxRate = #{invoiceTaxRate},</if>
+            <if test="purchaseUnitPriceExcludingTax != null">purchaseUnitPriceExcludingTax = #{purchaseUnitPriceExcludingTax},</if>
+            <if test="purchaseUnitPriceIncludingTax != null">purchaseUnitPriceIncludingTax = #{purchaseUnitPriceIncludingTax},</if>
+        </trim>
+        where receiptInvoiceID = #{receiptInvoiceID}
+    </update>
+
+    <delete id="deleteAwReceiptinvoiceByReceiptInvoiceID" parameterType="String">
+        delete from aw_ReceiptInvoice where receiptInvoiceID = #{receiptInvoiceID}
+    </delete>
+
+    <delete id="deleteAwReceiptinvoiceByReceiptInvoiceIDs" parameterType="String">
+        delete from aw_ReceiptInvoice where receiptInvoiceID in
+        <foreach item="receiptInvoiceID" collection="array" open="(" separator="," close=")">
+            #{receiptInvoiceID}
+        </foreach>
+
+    </delete>
+</mapper>

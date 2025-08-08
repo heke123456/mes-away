@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.storage.mapper.AwDetailcustomermaterialoutboundMapper">
+    
+    <resultMap type="AwDetailcustomermaterialoutbound" id="AwDetailcustomermaterialoutboundResult">
+        <result property="id"    column="id"    />
+        <result property="deliveryNoteID"    column="deliveryNoteID"    />
+        <result property="materialID"    column="materialID"    />
+        <result property="productionTasksID"    column="productionTasksID"    />
+        <result property="processingTechnologyID"    column="processingTechnologyID"    />
+        <result property="outboundQuantity"    column="outboundQuantity"    />
+        <result property="notes"    column="notes"    />
+        <result property="name"    column="name"    />
+        <result property="materialPrice"    column="materialPrice"    />
+        <result property="materialDensity"    column="materialDensity"    />
+        <result property="typeName"    column="typeName"    />
+        <result property="specificationsType"    column="specificationsType"    />
+        <result property="specificationModel"    column="specificationModel"    />
+    </resultMap>
+
+    <sql id="selectAwDetailcustomermaterialoutboundVo">
+        select id, deliveryNoteID, materialID, productionTasksID, processingTechnologyID, outboundQuantity, notes, name, materialPrice, materialDensity, typeName, specificationsType, specificationModel from aw_DetailCustomerMaterialOutbound
+    </sql>
+
+    <select id="selectAwDetailcustomermaterialoutboundList" parameterType="AwDetailcustomermaterialoutbound" resultMap="AwDetailcustomermaterialoutboundResult">
+        <include refid="selectAwDetailcustomermaterialoutboundVo"/>
+        <where>  
+            <if test="deliveryNoteID != null  and deliveryNoteID != ''"> and deliveryNoteID = #{deliveryNoteID}</if>
+            <if test="materialID != null  and materialID != ''"> and materialID = #{materialID}</if>
+            <if test="productionTasksID != null "> and productionTasksID = #{productionTasksID}</if>
+            <if test="processingTechnologyID != null  and processingTechnologyID != ''"> and processingTechnologyID = #{processingTechnologyID}</if>
+            <if test="outboundQuantity != null "> and outboundQuantity = #{outboundQuantity}</if>
+            <if test="notes != null  and notes != ''"> and notes = #{notes}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="materialPrice != null  and materialPrice != ''"> and materialPrice = #{materialPrice}</if>
+            <if test="materialDensity != null  and materialDensity != ''"> and materialDensity = #{materialDensity}</if>
+            <if test="typeName != null  and typeName != ''"> and typeName like concat('%', #{typeName}, '%')</if>
+            <if test="specificationsType != null  and specificationsType != ''"> and specificationsType = #{specificationsType}</if>
+            <if test="specificationModel != null  and specificationModel != ''"> and specificationModel = #{specificationModel}</if>
+        </where>
+    </select>
+    
+    <select id="selectAwDetailcustomermaterialoutboundById" parameterType="Long" resultMap="AwDetailcustomermaterialoutboundResult">
+        <include refid="selectAwDetailcustomermaterialoutboundVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAwDetailcustomermaterialoutbound" parameterType="AwDetailcustomermaterialoutbound">
+        insert into aw_DetailCustomerMaterialOutbound
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="deliveryNoteID != null and deliveryNoteID != ''">deliveryNoteID,</if>
+            <if test="materialID != null and materialID != ''">materialID,</if>
+            <if test="productionTasksID != null">productionTasksID,</if>
+            <if test="processingTechnologyID != null">processingTechnologyID,</if>
+            <if test="outboundQuantity != null">outboundQuantity,</if>
+            <if test="notes != null">notes,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="materialPrice != null">materialPrice,</if>
+            <if test="materialDensity != null and materialDensity != ''">materialDensity,</if>
+            <if test="typeName != null">typeName,</if>
+            <if test="specificationsType != null">specificationsType,</if>
+            <if test="specificationModel != null">specificationModel,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="deliveryNoteID != null and deliveryNoteID != ''">#{deliveryNoteID},</if>
+            <if test="materialID != null and materialID != ''">#{materialID},</if>
+            <if test="productionTasksID != null">#{productionTasksID},</if>
+            <if test="processingTechnologyID != null">#{processingTechnologyID},</if>
+            <if test="outboundQuantity != null">#{outboundQuantity},</if>
+            <if test="notes != null">#{notes},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="materialPrice != null">#{materialPrice},</if>
+            <if test="materialDensity != null and materialDensity != ''">#{materialDensity},</if>
+            <if test="typeName != null">#{typeName},</if>
+            <if test="specificationsType != null">#{specificationsType},</if>
+            <if test="specificationModel != null">#{specificationModel},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwDetailcustomermaterialoutbound" parameterType="AwDetailcustomermaterialoutbound">
+        update aw_DetailCustomerMaterialOutbound
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deliveryNoteID != null and deliveryNoteID != ''">deliveryNoteID = #{deliveryNoteID},</if>
+            <if test="materialID != null and materialID != ''">materialID = #{materialID},</if>
+            <if test="productionTasksID != null">productionTasksID = #{productionTasksID},</if>
+            <if test="processingTechnologyID != null">processingTechnologyID = #{processingTechnologyID},</if>
+            <if test="outboundQuantity != null">outboundQuantity = #{outboundQuantity},</if>
+            <if test="notes != null">notes = #{notes},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="materialPrice != null">materialPrice = #{materialPrice},</if>
+            <if test="materialDensity != null and materialDensity != ''">materialDensity = #{materialDensity},</if>
+            <if test="typeName != null">typeName = #{typeName},</if>
+            <if test="specificationsType != null">specificationsType = #{specificationsType},</if>
+            <if test="specificationModel != null">specificationModel = #{specificationModel},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAwDetailcustomermaterialoutboundById" parameterType="Long">
+        delete from aw_DetailCustomerMaterialOutbound where id = #{id}
+    </delete>
+
+    <delete id="deleteAwDetailcustomermaterialoutboundByIds" parameterType="String">
+        delete from aw_DetailCustomerMaterialOutbound where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

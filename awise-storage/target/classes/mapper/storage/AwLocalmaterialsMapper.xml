@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.storage.mapper.AwLocalmaterialsMapper">
+    
+    <resultMap type="AwLocalmaterials" id="AwLocalmaterialsResult">
+        <result property="id"    column="id"    />
+        <result property="materialID"    column="materialID"    />
+        <result property="number"    column="number"    />
+        <result property="weight"    column="weight"    />
+    </resultMap>
+
+    <sql id="selectAwLocalmaterialsVo">
+        select id, materialID, number, weight from aw_localmaterials
+    </sql>
+
+    <select id="selectAwLocalmaterialsList" parameterType="AwLocalmaterials" resultMap="AwLocalmaterialsResult">
+        <include refid="selectAwLocalmaterialsVo"/>
+        <where>
+            <if test="materialID != null and materialID != ''">and materialID = #{materialID}</if>
+        </where>
+    </select>
+    
+    <select id="selectAwLocalmaterialsById" parameterType="Long" resultMap="AwLocalmaterialsResult">
+        <include refid="selectAwLocalmaterialsVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAwLocalmaterials" parameterType="AwLocalmaterials" useGeneratedKeys="true" keyProperty="id">
+        insert into aw_localmaterials
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="materialID != null and materialID != ''">materialID,</if>
+            <if test="number != null">number,</if>
+            <if test="weight != null">weight,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="materialID != null and materialID != ''">#{materialID},</if>
+            <if test="number != null">#{number},</if>
+            <if test="weight != null">#{weight},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwLocalmaterials" parameterType="AwLocalmaterials">
+        update aw_localmaterials
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="materialID != null and materialID != ''">materialID = #{materialID},</if>
+            <if test="number != null">number = #{number},</if>
+            <if test="weight != null">weight = #{weight},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAwLocalmaterialsById" parameterType="Long">
+        delete from aw_localmaterials where id = #{id}
+    </delete>
+
+    <delete id="deleteAwLocalmaterialsByIds" parameterType="String">
+        delete from aw_localmaterials where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

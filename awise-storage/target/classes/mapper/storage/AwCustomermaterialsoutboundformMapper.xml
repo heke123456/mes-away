@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.storage.mapper.AwCustomermaterialsoutboundformMapper">
+    
+    <resultMap type="AwCustomermaterialsoutboundform" id="AwCustomermaterialsoutboundformResult">
+        <result property="deliveryNoteID"    column="deliveryNoteID"    />
+        <result property="deliveryDate"    column="deliveryDate"    />
+        <result property="creator"    column="creator"    />
+        <result property="warehouseKeeper"    column="warehouseKeeper"    />
+        <result property="materialReceiver"    column="materialReceiver"    />
+        <result property="notes"    column="notes"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectAwCustomermaterialsoutboundformVo">
+        select deliveryNoteID, deliveryDate, creator, warehouseKeeper, materialReceiver, notes, status from aw_CustomerMaterialsOutboundForm
+    </sql>
+
+    <select id="selectAwCustomermaterialsoutboundformList" parameterType="AwCustomermaterialsoutboundform" resultMap="AwCustomermaterialsoutboundformResult">
+        <include refid="selectAwCustomermaterialsoutboundformVo"/>
+        <where>  
+            <if test="deliveryDate != null "> and deliveryDate = #{deliveryDate}</if>
+            <if test="creator != null  and creator != ''"> and creator = #{creator}</if>
+            <if test="warehouseKeeper != null  and warehouseKeeper != ''"> and warehouseKeeper = #{warehouseKeeper}</if>
+            <if test="materialReceiver != null  and materialReceiver != ''"> and materialReceiver = #{materialReceiver}</if>
+            <if test="notes != null  and notes != ''"> and notes = #{notes}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectAwCustomermaterialsoutboundformByDeliveryNoteID" parameterType="String" resultMap="AwCustomermaterialsoutboundformResult">
+        <include refid="selectAwCustomermaterialsoutboundformVo"/>
+        where deliveryNoteID = #{deliveryNoteID}
+    </select>
+        
+    <insert id="insertAwCustomermaterialsoutboundform" parameterType="AwCustomermaterialsoutboundform">
+        insert into aw_CustomerMaterialsOutboundForm
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deliveryNoteID != null">deliveryNoteID,</if>
+            <if test="deliveryDate != null">deliveryDate,</if>
+            <if test="creator != null and creator != ''">creator,</if>
+            <if test="warehouseKeeper != null and warehouseKeeper != ''">warehouseKeeper,</if>
+            <if test="materialReceiver != null and materialReceiver != ''">materialReceiver,</if>
+            <if test="notes != null">notes,</if>
+            <if test="status != null and status != ''">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deliveryNoteID != null">#{deliveryNoteID},</if>
+            <if test="deliveryDate != null">#{deliveryDate},</if>
+            <if test="creator != null and creator != ''">#{creator},</if>
+            <if test="warehouseKeeper != null and warehouseKeeper != ''">#{warehouseKeeper},</if>
+            <if test="materialReceiver != null and materialReceiver != ''">#{materialReceiver},</if>
+            <if test="notes != null">#{notes},</if>
+            <if test="status != null and status != ''">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwCustomermaterialsoutboundform" parameterType="AwCustomermaterialsoutboundform">
+        update aw_CustomerMaterialsOutboundForm
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deliveryDate != null">deliveryDate = #{deliveryDate},</if>
+            <if test="creator != null and creator != ''">creator = #{creator},</if>
+            <if test="warehouseKeeper != null and warehouseKeeper != ''">warehouseKeeper = #{warehouseKeeper},</if>
+            <if test="materialReceiver != null and materialReceiver != ''">materialReceiver = #{materialReceiver},</if>
+            <if test="notes != null">notes = #{notes},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+        </trim>
+        where deliveryNoteID = #{deliveryNoteID}
+    </update>
+
+    <delete id="deleteAwCustomermaterialsoutboundformByDeliveryNoteID" parameterType="String">
+        delete from aw_CustomerMaterialsOutboundForm where deliveryNoteID = #{deliveryNoteID}
+    </delete>
+
+    <delete id="deleteAwCustomermaterialsoutboundformByDeliveryNoteIDs" parameterType="String">
+        delete from aw_CustomerMaterialsOutboundForm where deliveryNoteID in 
+        <foreach item="deliveryNoteID" collection="array" open="(" separator="," close=")">
+            #{deliveryNoteID}
+        </foreach>
+    </delete>
+</mapper>

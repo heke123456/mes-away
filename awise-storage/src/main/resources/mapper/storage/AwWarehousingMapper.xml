@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.storage.mapper.AwWarehousingMapper">
+    
+    <resultMap type="AwWarehousing" id="AwWarehousingResult">
+        <result property="warehouseEntryID"    column="warehouseEntryID"    />
+        <result property="warehousingDate"    column="warehousingDate"    />
+        <result property="creator"    column="creator"    />
+        <result property="acceptedBy"    column="acceptedBy"    />
+        <result property="warehouseKeeper"    column="warehouseKeeper"    />
+        <result property="operator"    column="operator"    />
+        <result property="notes"    column="notes"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectAwWarehousingVo">
+        select warehouseEntryID, warehousingDate, creator, acceptedBy, warehouseKeeper, operator, notes, status from aw_Warehousing
+    </sql>
+
+    <select id="selectAwWarehousingList" parameterType="AwWarehousing" resultMap="AwWarehousingResult">
+        <include refid="selectAwWarehousingVo"/>
+        <where>
+            warehouseEntryID not in (select warehouseEntryID from aw_CsmtdmtlsstinwList)
+            <if test="warehousingDate != null "> and warehousingDate = #{warehousingDate}</if>
+            <if test="creator != null  and creator != ''"> and creator = #{creator}</if>
+            <if test="acceptedBy != null  and acceptedBy != ''"> and acceptedBy = #{acceptedBy}</if>
+            <if test="warehouseKeeper != null  and warehouseKeeper != ''"> and warehouseKeeper = #{warehouseKeeper}</if>
+            <if test="operator != null  and operator != ''"> and operator = #{operator}</if>
+        </where>
+    </select>
+    
+    <select id="selectAwWarehousingByWarehouseEntryID" parameterType="String" resultMap="AwWarehousingResult">
+        <include refid="selectAwWarehousingVo"/>
+        where warehouseEntryID = #{warehouseEntryID}
+    </select>
+        
+    <insert id="insertAwWarehousing" parameterType="AwWarehousing">
+        insert into aw_Warehousing
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="warehouseEntryID != null and warehouseEntryID != ''">warehouseEntryID,</if>
+            <if test="warehousingDate != null">warehousingDate,</if>
+            <if test="creator != null and creator != ''">creator,</if>
+            <if test="acceptedBy != null and acceptedBy != ''">acceptedBy,</if>
+            <if test="warehouseKeeper != null and warehouseKeeper != ''">warehouseKeeper,</if>
+            <if test="operator != null and operator != ''">operator,</if>
+            <if test="notes != null">notes,</if>
+            <if test="status != null and status != ''">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="warehouseEntryID != null and warehouseEntryID != ''">#{warehouseEntryID},</if>
+            <if test="warehousingDate != null">#{warehousingDate},</if>
+            <if test="creator != null and creator != ''">#{creator},</if>
+            <if test="acceptedBy != null and acceptedBy != ''">#{acceptedBy},</if>
+            <if test="warehouseKeeper != null and warehouseKeeper != ''">#{warehouseKeeper},</if>
+            <if test="operator != null and operator != ''">#{operator},</if>
+            <if test="notes != null">#{notes},</if>
+            <if test="status != null and status != ''">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwWarehousing" parameterType="AwWarehousing">
+        update aw_Warehousing
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="warehousingDate != null">warehousingDate = #{warehousingDate},</if>
+            <if test="creator != null and creator != ''">creator = #{creator},</if>
+            <if test="acceptedBy != null and acceptedBy != ''">acceptedBy = #{acceptedBy},</if>
+            <if test="warehouseKeeper != null and warehouseKeeper != ''">warehouseKeeper = #{warehouseKeeper},</if>
+            <if test="operator != null and operator != ''">operator = #{operator},</if>
+            <if test="notes != null">notes = #{notes},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+        </trim>
+        where warehouseEntryID = #{warehouseEntryID}
+    </update>
+
+    <delete id="deleteAwWarehousingByWarehouseEntryID" parameterType="String">
+        delete from aw_Warehousing where warehouseEntryID = #{warehouseEntryID}
+    </delete>
+
+    <delete id="deleteAwWarehousingByWarehouseEntryIDs" parameterType="String">
+        delete from aw_Warehousing where warehouseEntryID in
+        <foreach item="warehouseEntryID" collection="array" open="(" separator="," close=")">
+            #{warehouseEntryID}
+        </foreach>
+    </delete>
+</mapper>

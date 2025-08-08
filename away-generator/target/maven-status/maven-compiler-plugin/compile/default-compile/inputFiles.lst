@@ -1,0 +1,13 @@
+D:\programme\java\jxsdnext\jxsd\away-generator\src\main\java\com\away\generator\config\GenConfig.java
+D:\programme\java\jxsdnext\jxsd\away-generator\src\main\java\com\away\generator\service\GenTableServiceImpl.java
+D:\programme\java\jxsdnext\jxsd\away-generator\src\main\java\com\away\generator\service\GenTableColumnServiceImpl.java
+D:\programme\java\jxsdnext\jxsd\away-generator\src\main\java\com\away\generator\controller\GenController.java
+D:\programme\java\jxsdnext\jxsd\away-generator\src\main\java\com\away\generator\mapper\GenTableColumnMapper.java
+D:\programme\java\jxsdnext\jxsd\away-generator\src\main\java\com\away\generator\service\IGenTableService.java
+D:\programme\java\jxsdnext\jxsd\away-generator\src\main\java\com\away\generator\util\GenUtils.java
+D:\programme\java\jxsdnext\jxsd\away-generator\src\main\java\com\away\generator\domain\GenTableColumn.java
+D:\programme\java\jxsdnext\jxsd\away-generator\src\main\java\com\away\generator\mapper\GenTableMapper.java
+D:\programme\java\jxsdnext\jxsd\away-generator\src\main\java\com\away\generator\util\VelocityInitializer.java
+D:\programme\java\jxsdnext\jxsd\away-generator\src\main\java\com\away\generator\service\IGenTableColumnService.java
+D:\programme\java\jxsdnext\jxsd\away-generator\src\main\java\com\away\generator\util\VelocityUtils.java
+D:\programme\java\jxsdnext\jxsd\away-generator\src\main\java\com\away\generator\domain\GenTable.java

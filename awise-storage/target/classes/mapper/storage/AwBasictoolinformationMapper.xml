@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.storage.mapper.AwBasictoolinformationMapper">
+    
+    <resultMap type="AwBasictoolinformation" id="AwBasictoolinformationResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="toolPrice"    column="toolPrice"    />
+        <result property="typeID"    column="typeID"    />
+        <result property="specificationsID"    column="specificationsID"    />
+        <result property="unitID"    column="unitID"    />
+        <result property="typeName"    column="typeName"    />
+        <result property="uint"    column="uint"    />
+        <result property="specificationsType"    column="specificationsType"    />
+        <result property="specificationModel"    column="specificationModel"    />
+    </resultMap>
+
+    <sql id="selectAwBasictoolinformationVo">
+        select id, name,toolPrice, typeID, specificationsID, unitID, typeName, uint, specificationsType, specificationModel from aw_BasicToolInformation
+    </sql>
+
+    <select id="selectAwBasictoolinformationList" parameterType="AwBasictoolinformation" resultMap="AwBasictoolinformationResult">
+        <include refid="selectAwBasictoolinformationVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="typeID != null "> and typeID = #{typeID}</if>
+            <if test="specificationsID != null "> and specificationsID = #{specificationsID}</if>
+            <if test="unitID != null "> and unitID = #{unitID}</if>
+            <if test="typeName != null  and typeName != ''"> and typeName like concat('%', #{typeName}, '%')</if>
+            <if test="uint != null  and uint != ''"> and uint = #{uint}</if>
+            <if test="specificationsType != null  and specificationsType != ''"> and specificationsType = #{specificationsType}</if>
+            <if test="specificationModel != null  and specificationModel != ''"> and specificationModel = #{specificationModel}</if>
+        </where>
+    </select>
+    
+    <select id="selectAwBasictoolinformationById" parameterType="String" resultMap="AwBasictoolinformationResult">
+        <include refid="selectAwBasictoolinformationVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAwBasictoolinformation" parameterType="AwBasictoolinformation">
+        insert into aw_BasicToolInformation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">id,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="toolPrice != null and toolPrice != ''">toolPrice,</if>
+            <if test="typeID != null">typeID,</if>
+            <if test="specificationsID != null">specificationsID,</if>
+            <if test="unitID != null">unitID,</if>
+            <if test="typeName != null">typeName,</if>
+            <if test="uint != null and uint != ''">uint,</if>
+            <if test="specificationsType != null">specificationsType,</if>
+            <if test="specificationModel != null">specificationModel,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">#{id},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="toolPrice != null and toolPrice != ''">#{toolPrice},</if>
+            <if test="typeID != null">#{typeID},</if>
+            <if test="specificationsID != null">#{specificationsID},</if>
+            <if test="unitID != null">#{unitID},</if>
+            <if test="typeName != null">#{typeName},</if>
+            <if test="uint != null and uint != ''">#{uint},</if>
+            <if test="specificationsType != null">#{specificationsType},</if>
+            <if test="specificationModel != null">#{specificationModel},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwBasictoolinformation" parameterType="AwBasictoolinformation">
+        update aw_BasicToolInformation
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="toolPrice != null and toolPrice != ''">toolPrice = #{toolPrice},</if>
+            <if test="typeID != null">typeID = #{typeID},</if>
+            <if test="specificationsID != null">specificationsID = #{specificationsID},</if>
+            <if test="unitID != null">unitID = #{unitID},</if>
+            <if test="typeName != null">typeName = #{typeName},</if>
+            <if test="uint != null and uint != ''">uint = #{uint},</if>
+            <if test="specificationsType != null">specificationsType = #{specificationsType},</if>
+            <if test="specificationModel != null">specificationModel = #{specificationModel},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAwBasictoolinformationById" parameterType="String">
+        delete from aw_BasicToolInformation where id = #{id}
+    </delete>
+
+    <delete id="deleteAwBasictoolinformationByIds" parameterType="String">
+        delete from aw_BasicToolInformation where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

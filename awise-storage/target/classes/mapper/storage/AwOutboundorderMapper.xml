@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.storage.mapper.AwOutboundorderMapper">
+    
+    <resultMap type="AwOutboundorder" id="AwOutboundorderResult">
+        <result property="deliveryNoteID"    column="deliveryNoteID"    />
+        <result property="deliveryDate"    column="deliveryDate"    />
+        <result property="creator"    column="creator"    />
+        <result property="warehouseKeeper"    column="warehouseKeeper"    />
+        <result property="materialReceiver"    column="materialReceiver"    />
+        <result property="notes"    column="notes"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectAwOutboundorderVo">
+        select deliveryNoteID, deliveryDate, creator, warehouseKeeper, materialReceiver, notes, status from aw_OutboundOrder
+    </sql>
+
+    <select id="selectAwOutboundorderList" parameterType="AwOutboundorder" resultMap="AwOutboundorderResult">
+        <include refid="selectAwOutboundorderVo"/>
+        <where>  
+            <if test="deliveryDate != null "> and deliveryDate = #{deliveryDate}</if>
+            <if test="creator != null  and creator != ''"> and creator = #{creator}</if>
+            <if test="warehouseKeeper != null  and warehouseKeeper != ''"> and warehouseKeeper = #{warehouseKeeper}</if>
+            <if test="materialReceiver != null  and materialReceiver != ''"> and materialReceiver = #{materialReceiver}</if>
+            <if test="notes != null  and notes != ''"> and notes = #{notes}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectAwOutboundorderByDeliveryNoteID" parameterType="String" resultMap="AwOutboundorderResult">
+        <include refid="selectAwOutboundorderVo"/>
+        where deliveryNoteID = #{deliveryNoteID}
+    </select>
+        
+    <insert id="insertAwOutboundorder" parameterType="AwOutboundorder">
+        insert into aw_OutboundOrder
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deliveryNoteID != null and deliveryNoteID != ''">deliveryNoteID,</if>
+            <if test="deliveryDate != null">deliveryDate,</if>
+            <if test="creator != null and creator != ''">creator,</if>
+            <if test="warehouseKeeper != null and warehouseKeeper != ''">warehouseKeeper,</if>
+            <if test="materialReceiver != null and materialReceiver != ''">materialReceiver,</if>
+            <if test="notes != null">notes,</if>
+            <if test="status != null and status != ''">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deliveryNoteID != null and deliveryNoteID != ''">#{deliveryNoteID},</if>
+            <if test="deliveryDate != null">#{deliveryDate},</if>
+            <if test="creator != null and creator != ''">#{creator},</if>
+            <if test="warehouseKeeper != null and warehouseKeeper != ''">#{warehouseKeeper},</if>
+            <if test="materialReceiver != null and materialReceiver != ''">#{materialReceiver},</if>
+            <if test="notes != null">#{notes},</if>
+            <if test="status != null and status != ''">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwOutboundorder" parameterType="AwOutboundorder">
+        update aw_OutboundOrder
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deliveryDate != null">deliveryDate = #{deliveryDate},</if>
+            <if test="creator != null and creator != ''">creator = #{creator},</if>
+            <if test="warehouseKeeper != null and warehouseKeeper != ''">warehouseKeeper = #{warehouseKeeper},</if>
+            <if test="materialReceiver != null and materialReceiver != ''">materialReceiver = #{materialReceiver},</if>
+            <if test="notes != null">notes = #{notes},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+        </trim>
+        where deliveryNoteID = #{deliveryNoteID}
+    </update>
+
+    <delete id="deleteAwOutboundorderByDeliveryNoteID" parameterType="String">
+        delete from aw_OutboundOrder where deliveryNoteID = #{deliveryNoteID}
+    </delete>
+
+    <delete id="deleteAwOutboundorderByDeliveryNoteIDs" parameterType="String">
+        delete from aw_OutboundOrder where deliveryNoteID in
+        <foreach item="deliveryNoteID" collection="array" open="(" separator="," close=")">
+            #{deliveryNoteID}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.storage.mapper.AwCustomersuppliedmaterialsEnMapper">
+    
+    <resultMap type="AwCustomersuppliedmaterialsEn" id="AwCustomersuppliedmaterialsEnResult">
+        <result property="id"    column="id"    />
+        <result property="material"    column="material"    />
+        <result property="number"    column="number"    />
+        <result property="weight"    column="weight"    />
+        <result property="customer"    column="customer"    />
+    </resultMap>
+
+    <sql id="selectAwCustomersuppliedmaterialsEnVo">
+        SELECT
+        aw_customersuppliedmaterials.id,
+        aw_customersuppliedmaterials.weight,
+        aw_customersuppliedmaterials.number,
+        aw_material.`name` AS material,
+        aw_partner.`name` AS customer
+        FROM
+        aw_customersuppliedmaterials
+        LEFT JOIN aw_material ON aw_customersuppliedmaterials.materialID = aw_material.id
+        LEFT JOIN aw_partner ON aw_customersuppliedmaterials.customerID = aw_partner.id
+    </sql>
+
+    <select id="selectAwCustomersuppliedmaterialsEnList" parameterType="AwCustomersuppliedmaterialsEn" resultMap="AwCustomersuppliedmaterialsEnResult">
+        <include refid="selectAwCustomersuppliedmaterialsEnVo"/>
+        <where>  
+            <if test="customer != null  and customer != ''"> and customer = #{customer}</if>
+        </where>
+    </select>
+</mapper>

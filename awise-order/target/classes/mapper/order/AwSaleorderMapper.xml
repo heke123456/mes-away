@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.order.mapper.AwSaleorderMapper">
+    
+    <resultMap type="AwSaleorder" id="AwSaleorderResult">
+        <result property="id"    column="id"    />
+        <result property="createTime"    column="createTime"    />
+        <result property="createUserName"    column="createUserName"    />
+        <result property="orderDate"    column="orderDate"    />
+        <result property="number"    column="number"    />
+        <result property="requiredDeliveryTime"    column="requiredDeliveryTime"    />
+        <result property="customerID"    column="customerID"    />
+        <result property="productID"    column="productID"    />
+        <result property="contractID"    column="contractID"    />
+        <result property="invoiceID"    column="invoiceID"    />
+        <result property="iscustomersuppliedmaterials"    column="iscustomersuppliedmaterials"    />
+        <result property="state"    column="state"    />
+        <result property="note"    column="note"    />
+        <result property="isDel"    column="isDel"    />
+    </resultMap>
+
+    <sql id="selectAwSaleorderVo">
+        select id, createTime, createUserName, lotNumber,orderDate, number, requiredDeliveryTime, customerID, productID, contractID, invoiceID, iscustomersuppliedmaterials, state, note, isDel from aw_saleorder
+    </sql>
+
+    <select id="selectAwSaleorderList" parameterType="AwSaleorder" resultMap="AwSaleorderResult">
+        <include refid="selectAwSaleorderVo"/>
+        <where>  
+            <if test="createTime != null "> and createTime = #{createTime}</if>
+            <if test="requiredDeliveryTime != null  and requiredDeliveryTime != ''"> and requiredDeliveryTime = #{requiredDeliveryTime}</if>
+            <if test="lotNumber != null  and lotNumber != ''"> and lotNumber = #{lotNumber}</if>
+        </where>
+    </select>
+    
+    <select id="selectAwSaleorderById" parameterType="String" resultMap="AwSaleorderResult">
+        <include refid="selectAwSaleorderVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAwSaleorder" parameterType="AwSaleorder">
+        insert into aw_saleorder
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="createTime != null">createTime,</if>
+            <if test="createUserName != null and createUserName != ''">createUserName,</if>
+            <if test="orderDate != null">orderDate,</if>
+            <if test="number != null">number,</if>
+            <if test="lotNumber != null and lotNumber!='' ">lotNumber,</if>
+            <if test="requiredDeliveryTime != null and requiredDeliveryTime != ''">requiredDeliveryTime,</if>
+            <if test="customerID != null and customerID != ''">customerID,</if>
+            <if test="productID != null and productID != ''">productID,</if>
+            <if test="contractID != null">contractID,</if>
+            <if test="invoiceID != null">invoiceID,</if>
+            <if test="iscustomersuppliedmaterials != null and iscustomersuppliedmaterials!='' ">iscustomersuppliedmaterials,</if>
+            <if test="state != null and state != ''">state,</if>
+            <if test="note != null">note,</if>
+            <if test="isDel != null and isDel != ''">isDel,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createUserName != null and createUserName != ''">#{createUserName},</if>
+            <if test="orderDate != null">#{orderDate},</if>
+            <if test="number != null">#{number},</if>
+            <if test="lotNumber != null and lotNumber != ''">#{lotNumber},</if>
+            <if test="requiredDeliveryTime != null and requiredDeliveryTime != ''">#{requiredDeliveryTime},</if>
+            <if test="customerID != null and customerID != ''">#{customerID},</if>
+            <if test="productID != null and productID != ''">#{productID},</if>
+            <if test="contractID != null">#{contractID},</if>
+            <if test="invoiceID != null">#{invoiceID},</if>
+            <if test="iscustomersuppliedmaterials != null">#{iscustomersuppliedmaterials},</if>
+            <if test="state != null and state != ''">#{state},</if>
+            <if test="note != null">#{note},</if>
+            <if test="isDel != null and isDel != ''">#{isDel},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwSaleorder" parameterType="AwSaleorder">
+        update aw_saleorder
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createTime != null">createTime = #{createTime},</if>
+            <if test="createUserName != null and createUserName != ''">createUserName = #{createUserName},</if>
+            <if test="orderDate != null">orderDate = #{orderDate},</if>
+            <if test="number != null">number = #{number},</if>
+            <if test="lotNumber != null and lotNumber != ''">lotNumber = #{lotNumber},</if>
+            <if test="requiredDeliveryTime != null and requiredDeliveryTime != ''">requiredDeliveryTime = #{requiredDeliveryTime},</if>
+            <if test="customerID != null and customerID != ''">customerID = #{customerID},</if>
+            <if test="productID != null and productID != ''">productID = #{productID},</if>
+            <if test="contractID != null">contractID = #{contractID},</if>
+            <if test="invoiceID != null">invoiceID = #{invoiceID},</if>
+            <if test="iscustomersuppliedmaterials != null and iscustomersuppliedmaterials != ''">iscustomersuppliedmaterials = #{iscustomersuppliedmaterials},</if>
+            <if test="state != null and state != ''">state = #{state},</if>
+            <if test="note != null">note = #{note},</if>
+            <if test="isDel != null and isDel != ''">isDel = #{isDel},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAwSaleorderById" parameterType="String">
+        delete from aw_saleorder where id = #{id}
+    </delete>
+
+    <delete id="deleteAwSaleorderByIds" parameterType="String">
+        delete from aw_saleorder where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

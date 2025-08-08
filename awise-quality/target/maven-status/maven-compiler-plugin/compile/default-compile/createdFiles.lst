@@ -1,0 +1,15 @@
+com\awise\quality\service\impl\AwShippinginspectionServiceImpl.class
+com\awise\quality\controller\AwFinishedproductinspectionController.class
+com\awise\quality\domain\AwProcessinspection.class
+com\awise\quality\mapper\AwFinishedproductinspectionMapper.class
+com\awise\quality\domain\AwShippinginspection.class
+com\awise\quality\controller\AwProcessinspectionController.class
+com\awise\quality\mapper\AwShippinginspectionMapper.class
+com\awise\quality\mapper\AwProcessinspectionMapper.class
+com\awise\quality\domain\AwFinishedproductinspection.class
+com\awise\quality\service\IAwFinishedproductinspectionService.class
+com\awise\quality\service\impl\AwFinishedproductinspectionServiceImpl.class
+com\awise\quality\service\IAwShippinginspectionService.class
+com\awise\quality\service\IAwProcessinspectionService.class
+com\awise\quality\controller\AwShippinginspectionController.class
+com\awise\quality\service\impl\AwProcessinspectionServiceImpl.class

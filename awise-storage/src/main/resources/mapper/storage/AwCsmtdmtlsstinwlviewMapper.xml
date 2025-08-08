@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.storage.mapper.AwCsmtdmtlsstinwlviewMapper">
+    
+    <resultMap type="AwCsmtdmtlsstinwlview" id="AwCsmtdmtlsstinwlviewResult">
+        <result property="warehouseEntryID"    column="warehouseEntryID"    />
+        <result property="warehousingDate"    column="warehousingDate"    />
+        <result property="creator"    column="creator"    />
+        <result property="acceptedBy"    column="acceptedBy"    />
+        <result property="warehouseKeeper"    column="warehouseKeeper"    />
+        <result property="operator"    column="operator"    />
+        <result property="notes"    column="notes"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectAwCsmtdmtlsstinwlviewVo">
+        select warehouseEntryID, warehousingDate, creator, acceptedBy, warehouseKeeper, operator, notes, status from aw_CsmtdmtlsstinwLView
+    </sql>
+
+    <select id="selectAwCsmtdmtlsstinwlviewList" parameterType="AwCsmtdmtlsstinwlview" resultMap="AwCsmtdmtlsstinwlviewResult">
+        <include refid="selectAwCsmtdmtlsstinwlviewVo"/>
+        <where>  
+            <if test="warehouseEntryID != null  and warehouseEntryID != ''"> and warehouseEntryID = #{warehouseEntryID}</if>
+            <if test="warehousingDate != null "> and warehousingDate = #{warehousingDate}</if>
+            <if test="creator != null  and creator != ''"> and creator = #{creator}</if>
+            <if test="acceptedBy != null  and acceptedBy != ''"> and acceptedBy = #{acceptedBy}</if>
+            <if test="warehouseKeeper != null  and warehouseKeeper != ''"> and warehouseKeeper = #{warehouseKeeper}</if>
+            <if test="operator != null  and operator != ''"> and operator = #{operator}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectAwCsmtdmtlsstinwlviewByWarehouseEntryID" parameterType="String" resultMap="AwCsmtdmtlsstinwlviewResult">
+        <include refid="selectAwCsmtdmtlsstinwlviewVo"/>
+        where warehouseEntryID = #{warehouseEntryID}
+    </select>
+        
+    <insert id="insertAwCsmtdmtlsstinwlview" parameterType="AwCsmtdmtlsstinwlview">
+        insert into aw_CsmtdmtlsstinwLView
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="warehouseEntryID != null and warehouseEntryID != ''">warehouseEntryID,</if>
+            <if test="warehousingDate != null">warehousingDate,</if>
+            <if test="creator != null">creator,</if>
+            <if test="acceptedBy != null">acceptedBy,</if>
+            <if test="warehouseKeeper != null">warehouseKeeper,</if>
+            <if test="operator != null">operator,</if>
+            <if test="notes != null">notes,</if>
+            <if test="status != null and status != ''">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="warehouseEntryID != null and warehouseEntryID != ''">#{warehouseEntryID},</if>
+            <if test="warehousingDate != null">#{warehousingDate},</if>
+            <if test="creator != null">#{creator},</if>
+            <if test="acceptedBy != null">#{acceptedBy},</if>
+            <if test="warehouseKeeper != null">#{warehouseKeeper},</if>
+            <if test="operator != null">#{operator},</if>
+            <if test="notes != null">#{notes},</if>
+            <if test="status != null and status != ''">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwCsmtdmtlsstinwlview" parameterType="AwCsmtdmtlsstinwlview">
+        update aw_CsmtdmtlsstinwLView
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="warehousingDate != null">warehousingDate = #{warehousingDate},</if>
+            <if test="creator != null">creator = #{creator},</if>
+            <if test="acceptedBy != null">acceptedBy = #{acceptedBy},</if>
+            <if test="warehouseKeeper != null">warehouseKeeper = #{warehouseKeeper},</if>
+            <if test="operator != null">operator = #{operator},</if>
+            <if test="notes != null">notes = #{notes},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+        </trim>
+        where warehouseEntryID = #{warehouseEntryID}
+    </update>
+
+    <delete id="deleteAwCsmtdmtlsstinwlviewByWarehouseEntryID" parameterType="String">
+        delete from aw_CsmtdmtlsstinwLView where warehouseEntryID = #{warehouseEntryID}
+    </delete>
+
+    <delete id="deleteAwCsmtdmtlsstinwlviewByWarehouseEntryIDs" parameterType="String">
+        delete from aw_CsmtdmtlsstinwLView where warehouseEntryID in 
+        <foreach item="warehouseEntryID" collection="array" open="(" separator="," close=")">
+            #{warehouseEntryID}
+        </foreach>
+    </delete>
+</mapper>

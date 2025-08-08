@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awise.order.mapper.AwPurchaserequisitionMapper">
+    
+    <resultMap type="AwPurchaserequisition" id="AwPurchaserequisitionResult">
+        <result property="subscribeID"    column="subscribeID"    />
+        <result property="requisitioner"    column="requisitioner"    />
+        <result property="subscriptionDate"    column="subscriptionDate"    />
+        <result property="approver"    column="approver"    />
+        <result property="note"    column="note"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectAwPurchaserequisitionVo">
+        select subscribeID, requisitioner, subscriptionDate, approver, note, status from aw_PurchaseRequisition
+    </sql>
+
+    <select id="selectAwPurchaserequisitionList" parameterType="AwPurchaserequisition" resultMap="AwPurchaserequisitionResult">
+        <include refid="selectAwPurchaserequisitionVo"/>
+        <where>  
+            <if test="requisitioner != null  and requisitioner != ''"> and requisitioner = #{requisitioner}</if>
+            <if test="subscriptionDate != null "> and subscriptionDate = #{subscriptionDate}</if>
+            <if test="approver != null  and approver != ''"> and approver = #{approver}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectAwPurchaserequisitionBySubscribeID" parameterType="String" resultMap="AwPurchaserequisitionResult">
+        <include refid="selectAwPurchaserequisitionVo"/>
+        where subscribeID = #{subscribeID}
+    </select>
+        
+    <insert id="insertAwPurchaserequisition" parameterType="AwPurchaserequisition">
+        insert into aw_PurchaseRequisition
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="subscribeID != null">subscribeID,</if>
+            <if test="requisitioner != null and requisitioner != ''">requisitioner,</if>
+            <if test="subscriptionDate != null">subscriptionDate,</if>
+            <if test="approver != null">approver,</if>
+            <if test="note != null">note,</if>
+            <if test="status != null and status != ''">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="subscribeID != null">#{subscribeID},</if>
+            <if test="requisitioner != null and requisitioner != ''">#{requisitioner},</if>
+            <if test="subscriptionDate != null">#{subscriptionDate},</if>
+            <if test="approver != null">#{approver},</if>
+            <if test="note != null">#{note},</if>
+            <if test="status != null and status != ''">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAwPurchaserequisition" parameterType="AwPurchaserequisition">
+        update aw_PurchaseRequisition
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="requisitioner != null and requisitioner != ''">requisitioner = #{requisitioner},</if>
+            <if test="subscriptionDate != null">subscriptionDate = #{subscriptionDate},</if>
+            <if test="approver != null">approver = #{approver},</if>
+            <if test="note != null">note = #{note},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+        </trim>
+        where subscribeID = #{subscribeID}
+    </update>
+
+    <delete id="deleteAwPurchaserequisitionBySubscribeID" parameterType="String">
+        delete from aw_PurchaseRequisition where subscribeID = #{subscribeID}
+    </delete>
+
+    <delete id="deleteAwPurchaserequisitionBySubscribeIDs" parameterType="String">
+        delete from aw_PurchaseRequisition where subscribeID in
+        <foreach item="subscribeID" collection="array" open="(" separator="," close=")">
+            #{subscribeID}
+        </foreach>
+    </delete>
+</mapper>

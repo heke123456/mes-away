@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/away-admin/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/away-admin/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/away-common/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/away-common/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/away-framework/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/away-framework/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/away-generator/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/away-generator/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/away-quartz/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/away-quartz/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/away-system/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/away-system/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/awise-comprehensive/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/awise-comprehensive/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/awise-file/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/awise-file/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/awise-finance/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/awise-finance/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/awise-order/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/awise-order/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/awise-produce/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/awise-produce/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/awise-qrcode/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/awise-qrcode/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/awise-quality/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/awise-quality/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/awise-storage/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/awise-storage/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/awise-visualize/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/awise-visualize/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/visualize/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/visualize/src/main/resources" charset="UTF-8" />
+  </component>
+</project>
